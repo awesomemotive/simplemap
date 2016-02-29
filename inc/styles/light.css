@@ -1,0 +1,237 @@
+/*
+Theme Name: Light
+*/
+
+#simplemap {
+border: 1px solid #999;
+color: #000;
+}
+
+#simplemap img {
+background: none !important;
+padding: none !important;
+max-width: none !important;
+max-height: none !important;
+border: none !important;
+}
+
+#simplemap a {
+color: #00c;
+background: none;
+text-decoration: none;
+}
+
+#simplemap a:hover {
+background: none;
+text-decoration: underline;
+}
+
+#powered_by_simplemap {
+font-size: 0.75em;
+text-align: right;
+color: #999;
+}
+
+#powered_by_simplemap a {
+color: #999;
+text-decoration: underline;
+}
+
+#powered_by_simplemap a:hover {
+text-decoration: none;
+}
+
+#searchForm {
+text-align: left;
+}
+
+#searchForm input#addressInput {
+width: 250px;
+}
+
+#searchForm input#addressSubmit {
+width: auto;
+}
+
+#searchForm select {
+width: auto;
+}
+
+#searchForm p {
+margin: 10px auto;
+}
+
+#map_search label {
+float: left;
+}
+
+#map_search .float_text_left {
+float: left;
+padding-right: 5px;
+}
+
+#simplemap-updating {
+display:none;
+background:#fff;
+color:#000;
+vertical-align:middle;
+text-align:center;
+}
+
+#simplemap-updating img {
+vertical-align:middle;
+text-align:center;
+}
+
+.markertext {
+font-size: 0.9em;
+line-height: 1.2em;
+color: #000;
+}
+
+.markertext .bubble_category {
+font-size: 0.6em;
+font-style: italic;
+}
+
+.markertext a {
+color: #00c;
+text-decoration: underline;
+}
+
+.markertext h3 {
+margin-top: 0 !important;
+text-align: left !important;
+line-height: 1.2em !important;
+}
+
+.markertext .search-term {
+background: #ff6;
+}
+
+div#results {
+padding-bottom: 20px;
+}
+
+div.result {
+margin: 0;
+padding: 10px 5px;
+font-size: 0.9em;
+line-height: 1.2em;
+border-bottom: 1px solid #ccc;
+}
+
+div.result small {
+font-size: 0.7em;
+color: #999;
+}
+
+div.result:hover {
+background: #ebf0f1;
+}
+
+div.result address {
+font-style: normal;
+}
+
+div.result h3 {
+margin: 0 0 5px;
+font-size: 1.5em;
+text-transform: none;
+}
+
+div.result img {
+border: none;
+}
+
+div.result .search-term {
+background: #ff6;
+color: #000;
+}
+
+div.result div.result_name {
+width: 100%;
+}
+
+div.result div.result_address {
+float: left;
+width: 40%;
+}
+
+div.result div.result_phone {
+float: left;
+width: 30%;
+height: 3em;
+}
+
+div.result div.result_links {
+float: left;
+display: table-cell;
+width: 30%;
+text-align: right;
+vertical-align: bottom;
+}
+
+div.result div.result_links div {
+clear: right;
+margin-bottom: 3px;
+}
+
+div.result div.special {
+float: right;
+height: 20px;
+margin: 0;
+padding-left: 20px;
+line-height: 20px;
+text-align: left;
+font-style: italic;
+background: url( ../images/star.png ) no-repeat left center;
+}
+
+.location_search_title, .location_search_distance_cell, .location_search_taxonomy_cell {
+font-weight:bold;
+vertical-align:top;
+}
+
+.no-linebreak {
+white-space:nowrap;
+}
+
+.sm-single-location-default-template {
+padding:3px;
+}
+
+.sm-single-map {
+float:left;
+width:105px;
+}
+
+.sm-single-location-data {
+margin-left:105px;
+}
+
+.sm-single-location-data-ul {
+list-style-type:none;
+padding-left:0;
+margin-left:0;
+}
+
+.infoBox {
+	background-color: #fff;
+}
+.infoBox:after {
+	position: relative;
+	top: 20px;
+	left: 60px;
+	border-top: 0px;
+	border-left: 0px;
+	padding: 0px;
+	content: '';
+	overflow: hidden;
+	display: block;
+	width: 0;
+	height: 0;
+	border-left: 20px solid rgba(0, 0, 0, 0);
+	border-right: 20px solid rgba(0, 0, 0, 0);
+	border-top: 20px solid #FFF;
+}

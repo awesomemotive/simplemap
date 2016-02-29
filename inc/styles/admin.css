@@ -1,0 +1,179 @@
+#simplemap img {
+	background: none !important;
+	padding: none !important;
+	max-width: none !important;
+	max-height: none !important;
+	border: none !important;
+}
+
+body.toplevel_page_simplemap-simplemap small, body.simplemap_page_Add-Location small, body.simplemap_page_Manage-Database small, body.simplemap_page_Manage-Categories small, body.simplemap_page_Import-Export small {
+	color: #777;
+}
+
+select option span.hidden {
+	display: none !important;
+	visibility: hidden !important;
+}
+
+.inline-editor {
+	background: #ffffe0 !important;
+}
+
+.button-red {
+	border-color: #900 !important;
+	font-weight: bold;
+	color: #fff !important;
+	background: #c00 url( ../images/button-red-grad.png ) repeat-x scroll left top;
+	text-shadow: rgba(0,0,0,0.3) 0 -1px 0;
+}
+
+.button-red:active {
+	background: #c00 url( ../images/button-red-grad-active.png ) repeat-x scroll left top !important;
+}
+
+span.disabled-text {
+	font: italic 13px Georgia;
+	float: right;
+	color: #555;
+}
+
+span.title, label span.title {
+	display: inline-block;
+	width: 5em;
+}
+
+span.title.title_long, label.long span.title.title_long {
+	width: 10em;
+}
+
+input.fix_width, select.fix_width, textarea.fix_width {
+	width: 180px;
+}
+
+input.full_width, select.full_width, textarea.full_width {
+	width: 70%;
+}
+
+.disabled {
+	color: #999;
+}
+
+span.hidden {
+	display: none;
+}
+
+span#ala {
+	padding-left: 10px;
+}
+
+.postbox .sub {
+	color: rgb(119, 119, 119);
+	font-family: Georgia, 'Times New Roman', 'Bitstream Charter', Times, serif;
+	font-size: 13px;
+	font-style: italic;
+	padding: 5px 10px 15px;
+	margin: 0;
+}
+
+.postbox h3 {
+	cursor: default !important;
+}
+
+form.inabox {
+	padding: 10px;
+	background: #ffffe0;
+	border: 1px solid #e6db55;
+	-moz-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+form.inabox label {
+	font-weight: bold;
+}
+
+.radio-thumbnail {
+	float: left;
+	text-align: center;
+	margin: 1px;
+	padding: 10px;
+}
+
+.radio-thumbnail:hover {
+	margin: 0;
+	background-color: #eaf2fa;
+	border: 1px solid #93d8e2;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.radio-thumbnail-current {
+	margin: 0;
+	background-color: #ffffe0;
+	border: 1px solid #e6db55;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	border-radius: 4px;
+}
+
+table.server-tests {
+	border-collapse: collapse;
+}
+
+table.server-tests td {
+	padding: 2px;
+	border: 1px solid #999;
+	font-size: 0.8em;
+}
+
+.sm-toolbar {
+	width: 97%;
+	margin-top: 25px;
+}
+
+.sm-toolbar td {
+	vertical-align: middle;
+	padding: 0 10px;
+}
+
+.sm-toolbar td.sm-page-title {
+	vertical-align: top;
+}
+
+.sm-toolbar td.sm-page-title h2 {
+	margin: 0;
+}
+
+.sm-toolbar-item {
+	width: 100px;
+	text-align: center;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	border-radius: 4px;
+	border: 1px solid #f9f9f9;
+}
+
+.sm-toolbar-item:hover {
+	background-color: #eaf2fa;
+	border-color: #93d8e2;
+}
+
+.sm-toolbar-item a {
+	text-decoration: none;
+	font: bold italic 1.1em Georgia;
+}
+
+.sm-toolbar-item form {
+	margin: 0;
+}
+
+#sm-location-premium-support h3 {
+	background: #fff url( ../images/blue-grad.png ) top left repeat-x;
+	color:#fff;
+	text-shadow:0 1px 0 #000;
+}
