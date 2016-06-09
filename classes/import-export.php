@@ -3,7 +3,7 @@ if ( !class_exists( 'SM_Import_Export' ) ){
 	class SM_Import_Export{
 		
 		// update options of form submission
-		function sm_import_export() {
+		function __construct() {
 			//add_action( 'admin_init', array( &$this, 'import_csv' ) );
 			add_action( 'admin_init', array( &$this, 'export_csv' ) );
 			add_action( 'admin_init', array( &$this, 'export_legacy_csv' ) );

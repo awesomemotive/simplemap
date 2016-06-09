@@ -3,7 +3,7 @@ if ( !class_exists( 'SM_Options' ) ) {
 	class SM_Options{
 
 		// update options of form submission
-		function sm_options() {
+		function __construct() {
 			add_action( 'admin_init', array( &$this, 'update_options' ) );
 		}
 

@@ -3,7 +3,7 @@ if ( !class_exists( 'SM_Admin' ) ){
 	class SM_Admin{
 		
 		// Init the admin menu and pages
-		function sm_admin(){
+		function __construct(){
 			add_action( 'admin_menu', array( &$this, 'menu_shuffle' ), 20 );
 			add_action( 'admin_head', array( &$this, 'load_admin_scripts' ) );
 		}
