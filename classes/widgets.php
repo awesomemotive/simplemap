@@ -9,7 +9,7 @@ add_action( 'widgets_init', 'simplemap_init_widgets' );
 class SM_Search_Widget extends WP_Widget {
 
 	// Define Widget
-	function SM_Search_Widget() {
+	function __construct() {
 		$widget_ops = array( 'classname' => 'sm_search_widget', 'description' => __( "Adds a customizable search widget to your site" ) );
 		$this->__Construct('sm_search_widget', __('SimpleMap Search'), $widget_ops);
 	}

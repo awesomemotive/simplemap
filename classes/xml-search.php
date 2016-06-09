@@ -2,7 +2,7 @@
 if ( !class_exists( 'SM_XML_Search' ) ){
 	class SM_XML_Search{
 		// Register hook to perform the search
-		function sm_xml_search() {
+		function __construct() {
 			add_action( 'template_redirect', array( &$this, 'init_search' ) );
 		}
 

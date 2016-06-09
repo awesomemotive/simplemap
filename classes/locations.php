@@ -2,7 +2,7 @@
 if ( !class_exists( 'SM_Locations' ) ) {
 	class SM_Locations {
 		
-		function sm_locations(){
+		function __construct(){
 			// Register my locations on init hook
 			add_action( 'init', array( &$this, 'register_locations' ) );
 			add_action( 'init', array( &$this, 'register_location_taxonomies' ) );

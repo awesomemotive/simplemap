@@ -7,7 +7,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 		var $plugin_domain = 'SimpleMap';
 		
 		// Initialize the plugin
-		function Simple_Map() {
+		function __construct() {
 			
 			$plugin_dir = basename( SIMPLEMAP_PATH );
 			load_plugin_textdomain( $this->plugin_domain, 'wp-content/plugins/' . $plugin_dir . '/lang', $plugin_dir . '/lang' );
