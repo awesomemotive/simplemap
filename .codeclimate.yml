@@ -1,0 +1,52 @@
+engines:
+  phpcodesniffer:
+    enabled: true
+    config:
+      standard: "WordPress-Extra"
+  csslint:
+    enabled: true
+#  duplication:
+#    enabled: true
+#    config:
+#      languages:
+#      - javascript
+#      - php
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+    checks:
+      TODO:
+        enabled: false
+#  phpmd:
+#    enabled: true
+    # ... CONFIG CONTENT ...
+#    checks:
+#      Controversial/CamelCaseClassName:
+#        enabled: false
+#      Controversial/CamelCasePropertyName:
+#        enabled: false
+#      Controversial/CamelCaseMethodName:
+#        enabled: false
+#      Controversial/CamelCaseParameterName:
+#        enabled: false
+#      Controversial/CamelCaseVariableName:
+#        enabled: false
+ratings:
+  paths:
+  - "**.css"
+  - "**.js"
+  - "**.php"
+exclude_paths:
+- "sitemap.xsl"
+- "i18n/"
+- "bin/"
+- "tests/"
+- "**.dist"
+- "**.xml"
+- "images/"
+- "modules/images"
+- "inc/aioseop_UTF8.php"
+- "inc/extlib/"
+- "readme.txt"
+- "README.md"
