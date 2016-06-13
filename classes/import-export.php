@@ -21,7 +21,7 @@ function export_csv() {
 		$locations = query_posts( array(
 			'post_status'    => 'publish',
 			'post_type'      => 'sm-location',
-			'posts_per_page' => - 1
+			'posts_per_page' => - 1,
 		) );
 		// Include CSV library
 		require_once( SIMPLEMAP_PATH . '/classes/parsecsv.lib.php' );
@@ -44,7 +44,7 @@ function export_csv() {
 				'special'     => esc_attr( get_post_meta( $location->ID, 'location_special', true ) ),
 				'lat'         => esc_attr( get_post_meta( $location->ID, 'location_lat', true ) ),
 				'lng'         => esc_attr( get_post_meta( $location->ID, 'location_lng', true ) ),
-				'dateUpdated' => esc_attr( $location->post_modified )
+				'dateUpdated' => esc_attr( $location->post_modified ),
 			);
 
 			foreach ( $taxonomies as $tax ) {
@@ -111,7 +111,7 @@ function export_legacy_csv() {
 					'special'     => esc_attr( $location->special ),
 					'lat'         => esc_attr( $location->lat ),
 					'lng'         => esc_attr( $location->lng ),
-					'dateUpdated' => esc_attr( $location->dateUpdated )
+					'dateUpdated' => esc_attr( $location->dateUpdated ),
 				);
 
 			}
@@ -134,7 +134,7 @@ function export_legacy_csv() {
 				'special',
 				'lat',
 				'lng',
-				'dateUpdated'
+				'dateUpdated',
 			) );
 			die();
 
@@ -329,7 +329,7 @@ if ( isset( $_POST['sm-action'] ) && 'import-csv' == $_POST['sm-action'] && isse
 												$to_insert += array( $key => '' );
 												$to_insert[ $key ] = implode( ',', array_filter( array(
 													$to_insert[ $key ],
-													$to_insert[ $old_key ]
+													$to_insert[ $old_key ],
 												) ) );
 												unset( $to_insert[ $old_key ] );
 											}
