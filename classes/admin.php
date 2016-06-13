@@ -7,21 +7,22 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 
 		/**
 		 * SM_Admin constructor.
+		 *
+		 * Init the admin menu and pages.
 		 */
 		public function __construct() {
-			// Init the admin menu and pages
 			add_action( 'admin_menu', array( &$this, 'menu_shuffle' ), 20 );
 			add_action( 'admin_head', array( &$this, 'load_admin_scripts' ) );
 		}
 
 		public function menu_shuffle() {
-			// Remove Menu added by WordPress UI and add my own as a subpage
+			// Remove Menu added by WordPress UI and add my own as a subpage.
 			global $menu, $simple_map, $sm_options, $sm_help, $sm_import_export;
 
-			// Get options
+			// Get options.
 			$options = $simple_map->get_options();
 
-			// loop through menu and find the one I need to disable
+			// loop through menu and find the one I need to disable.
 			foreach ( $menu as $key => $value ) {
 				if ( in_array( 'edit.php?post_type=sm-location', $value ) ) {
 					unset( $menu[ $key ] );
@@ -53,7 +54,7 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 		}
 
 		public function load_admin_scripts() {
-			// Print admin scripts
+			// Print admin scripts.
 			global $current_screen;
 
 			#### GENERAL OPTIONS PAGE ####
