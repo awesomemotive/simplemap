@@ -88,7 +88,7 @@ function export_legacy_csv() {
 
 				$catnames = '';
 
-				// Do Cats
+				// Do Cats		
 				if ( isset( $location->category ) && 0 != $location->category ) {
 					if ( isset( $cats[ $location->category ] ) ) {
 						$catnames = $cats[ $location->category ]->name;
@@ -642,7 +642,7 @@ if ( isset( $_POST['sm-action'] ) && 'import-csv' == $_POST['sm-action'] && isse
 				// Toolbar
 				$simple_map->show_toolbar( $sm_page_title );
 
-				// Messages
+				// Messages			 
 				if ( isset( $_GET['sm-msg'] ) && '2' == $_GET['sm-msg'] ) {
 					echo '<div class="updated fade"><p>' . __( 'Legacy SimpleMap settings deleted.', 'SimpleMap' ) . '</p></div>';
 				}
