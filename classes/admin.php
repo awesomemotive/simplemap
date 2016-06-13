@@ -39,7 +39,7 @@ if ( !class_exists( 'SM_Admin' ) ){
 			global $current_screen;
 			
 			#### GENERAL OPTIONS PAGE ####
-			if ( 'toplevel_page_simplemap' == $current_screen->id ) :
+			if ( 'toplevel_page_simplemap' === $current_screen->id ) :
 				?>
 				<script type="text/javascript">
 				jQuery(document).ready(function($) {
