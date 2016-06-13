@@ -42,3 +42,5 @@ exclude_paths:
 - "inc/images/"
 - "readme.txt"
 - "README.md"
+- "LICENSE"
+- "GNU-GPL.txt"
