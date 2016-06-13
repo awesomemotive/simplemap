@@ -2,7 +2,7 @@
 if ( ! class_exists( 'SM_Locations' ) ) {
 class SM_Locations {
 
-function __construct() {
+public function __construct() {
 	// Register my locations on init hook.
 	add_action( 'init', array( &$this, 'register_locations' ) );
 	add_action( 'init', array( &$this, 'register_location_taxonomies' ) );
@@ -29,8 +29,10 @@ function __construct() {
 
 }
 
+
+public function register_locations() {
 // Register locations post type.
-function register_locations() {
+
 	global $simple_map;
 
 	$args    = array();
@@ -67,7 +69,6 @@ function register_locations() {
 		)
 	);
 
-	// Register it.
 	register_post_type( 'sm-location', $args );
 }
 
@@ -185,7 +186,7 @@ if ( ! url_has_ftps_for_item( $simplemap_ps ) ) :
 else :
 
 ?>
-<p class='howto aligncenter'><?php printf( __( 'Your premium support license for %s is valid until %s', 'SimpleMap' ), get_ftps_site( $simplemap_ps ), date( "F d, Y", get_ftps_exp_date( $simplemap_ps ) ) ); ?></p>
+<p class='howto aligncenter'><?php printf( __( 'Your premium support license for %s is valid until %s', 'SimpleMap' ), get_ftps_site( $simplemap_ps ), date( 'F d, Y', get_ftps_exp_date( $simplemap_ps ) ) ); ?></p>
 <ul style='margin-left:25px;list-style-type:disc'>
 	<li><a href="#" id="simplemap-pss"><?php _e( 'Launch Premium Support widget', 'SimpleMap' ); ?></a></li>
 	<li><a target='_blank'
@@ -212,20 +213,20 @@ else :
 		$options = $simple_map->get_options();
 
 		// Location data.
-		$location_address  = get_post_meta( $post->ID, 'location_address', true ) ? get_post_meta( $post->ID, 'location_address', true ) : '';
-		$location_address2 = get_post_meta( $post->ID, 'location_address2', true ) ? get_post_meta( $post->ID, 'location_address2', true ) : '';
-		$location_city     = get_post_meta( $post->ID, 'location_city', true ) ? get_post_meta( $post->ID, 'location_city', true ) : '';
-		$location_state    = get_post_meta( $post->ID, 'location_state', true ) ? get_post_meta( $post->ID, 'location_state', true ) : $options['default_state'];
-		$location_zip      = get_post_meta( $post->ID, 'location_zip', true ) ? get_post_meta( $post->ID, 'location_zip', true ) : '';
-		$location_country  = get_post_meta( $post->ID, 'location_country', true ) ? get_post_meta( $post->ID, 'location_country', true ) : $options['default_country'];
-		$location_lat      = get_post_meta( $post->ID, 'location_lat', true ) ? get_post_meta( $post->ID, 'location_lat', true ) : '';
-		$location_lng      = get_post_meta( $post->ID, 'location_lng', true ) ? get_post_meta( $post->ID, 'location_lng', true ) : '';
+		$location_address  = get_post_meta( $post->ID, 'location_address', true ) ?: '';
+		$location_address2 = get_post_meta( $post->ID, 'location_address2', true ) ?: '';
+		$location_city     = get_post_meta( $post->ID, 'location_city', true ) ?: '';
+		$location_state    = get_post_meta( $post->ID, 'location_state', true ) ?: $options['default_state'];
+		$location_zip      = get_post_meta( $post->ID, 'location_zip', true ) ?: '';
+		$location_country  = get_post_meta( $post->ID, 'location_country', true ) ?: $options['default_country'];
+		$location_lat      = get_post_meta( $post->ID, 'location_lat', true ) ?: '';
+		$location_lng      = get_post_meta( $post->ID, 'location_lng', true ) ?: '';
 
 		?>
 		<p class="sub"><?php _e( 'You must enter either an address or a latitude/longitude. If you enter both, the address will not be geocoded and your latitude/longitude values will remain intact.', 'SimpleMap' ); ?></p>
 
 		<div class='hidden updated below-h2' id='js-geo-encode-msg'>
-			<p><?php echo __( "Your Server's IP is over the geocode threshold set by Google so we had fallback to a Javascript function. <span id='sm_js_update_lat_lng_result'></span>", "SimpleMap" ); ?></p>
+			<p><?php echo __( "Your Server's IP is over the geocode threshold set by Google so we had fallback to a Javascript function. <span id='sm_js_update_lat_lng_result'></span>", 'SimpleMap' ); ?></p>
 		</div>
 
 		<div class="table">
@@ -305,11 +306,11 @@ else :
 		global $simple_map;
 		$options = $simple_map->get_options();
 
-		$location_phone   = get_post_meta( $post->ID, 'location_phone', true ) ? get_post_meta( $post->ID, 'location_phone', true ) : '';
-		$location_fax     = get_post_meta( $post->ID, 'location_fax', true ) ? get_post_meta( $post->ID, 'location_fax', true ) : '';
-		$location_url     = get_post_meta( $post->ID, 'location_url', true ) ? get_post_meta( $post->ID, 'location_url', true ) : '';
-		$location_email   = get_post_meta( $post->ID, 'location_email', true ) ? get_post_meta( $post->ID, 'location_email', true ) : '';
-		$location_special = get_post_meta( $post->ID, 'location_special', true ) ? get_post_meta( $post->ID, 'location_special', true ) : '';
+		$location_phone   = get_post_meta( $post->ID, 'location_phone', true ) ?: '';
+		$location_fax     = get_post_meta( $post->ID, 'location_fax', true ) ?: '';
+		$location_url     = get_post_meta( $post->ID, 'location_url', true ) ?: '';
+		$location_email   = get_post_meta( $post->ID, 'location_email', true ) ?: '';
+		$location_special = get_post_meta( $post->ID, 'location_special', true ) ?: '';
 		?>
 		<div class="table">
 
@@ -368,15 +369,15 @@ else :
 		global $simple_map;
 		$options = $simple_map->get_options();
 
-		// Location data.
-		$location_address  = get_post_meta( $post->ID, 'location_address', true ) ? get_post_meta( $post->ID, 'location_address', true ) : '';
-		$location_address2 = get_post_meta( $post->ID, 'location_address2', true ) ? get_post_meta( $post->ID, 'location_address2', true ) : '';
-		$location_city     = get_post_meta( $post->ID, 'location_city', true ) ? get_post_meta( $post->ID, 'location_city', true ) : '';
-		$location_state    = get_post_meta( $post->ID, 'location_state', true ) ? get_post_meta( $post->ID, 'location_state', true ) : $options['default_state'];
-		$location_zip      = get_post_meta( $post->ID, 'location_zip', true ) ? get_post_meta( $post->ID, 'location_zip', true ) : '';
-		$location_country  = get_post_meta( $post->ID, 'location_country', true ) ? get_post_meta( $post->ID, 'location_country', true ) : $options['default_country'];
-		$location_lat      = get_post_meta( $post->ID, 'location_lat', true ) ? get_post_meta( $post->ID, 'location_lat', true ) : '';
-		$location_lng      = get_post_meta( $post->ID, 'location_lng', true ) ? get_post_meta( $post->ID, 'location_lng', true ) : '';
+		// Location data. Do we use these?
+		$location_address  = get_post_meta( $post->ID, 'location_address', true ) ?: '';
+		$location_address2 = get_post_meta( $post->ID, 'location_address2', true ) ?: '';
+		$location_city     = get_post_meta( $post->ID, 'location_city', true ) ?: '';
+		$location_state    = get_post_meta( $post->ID, 'location_state', true ) ?: $options['default_state'];
+		$location_zip      = get_post_meta( $post->ID, 'location_zip', true ) ?: '';
+		$location_country  = get_post_meta( $post->ID, 'location_country', true ) ?: $options['default_country'];
+		$location_lat      = get_post_meta( $post->ID, 'location_lat', true ) ?: '';
+		$location_lng      = get_post_meta( $post->ID, 'location_lng', true ) ?: '';
 
 		?>
 		<p class='howto'>Drag the marker to fine tune your location's placement on the map</p>
@@ -410,11 +411,11 @@ else :
 
 		$postid = (int) $_GET['sm-drag-drop-location-js'];
 
-		$drag_drop_lat  = get_post_meta( $postid, 'location_lat', true ) ? get_post_meta( $postid, 'location_lat', true ) : '40.730885';
-		$drag_drop_lng  = get_post_meta( $postid, 'location_lng', true ) ? get_post_meta( $postid, 'location_lng', true ) : '-73.997383';
+		$drag_drop_lat  = get_post_meta( $postid, 'location_lat', true ) ?: '40.730885';
+		$drag_drop_lng  = get_post_meta( $postid, 'location_lng', true ) ?: '-73.997383';
 		$drag_drop_zoom = ( $drag_drop_lat == '40.730885' ) ? 2 : 17;
 
-		header( "Content-type: application/x-javascript" );
+		header( 'Content-type: application/x-javascript' );
 
 		?>
 		var map;
@@ -630,19 +631,19 @@ else :
 		//$api_key = ( isset( $options['api_key'] ) && !empty( $options['api_key'] ) ) ? $options['api_key'] : '';
 
 		// Grab old data.
-		$location_address  = get_post_meta( $post, 'location_address', true ) ? get_post_meta( $post, 'location_address', true ) : ' ';
-		$location_address2 = get_post_meta( $post, 'location_address2', true ) ? get_post_meta( $post, 'location_address2', true ) : ' ';
-		$location_city     = get_post_meta( $post, 'location_city', true ) ? get_post_meta( $post, 'location_city', true ) : ' ';
-		$location_state    = get_post_meta( $post, 'location_state', true ) ? get_post_meta( $post, 'location_state', true ) : $options['default_state'];
-		$location_zip      = get_post_meta( $post, 'location_zip', true ) ? get_post_meta( $post, 'location_zip', true ) : ' ';
-		$location_country  = get_post_meta( $post, 'location_country', true ) ? get_post_meta( $post, 'location_country', true ) : $options['default_country'];
-		$location_lat      = get_post_meta( $post, 'location_lat', true ) ? get_post_meta( $post, 'location_lat', true ) : ' ';
-		$location_lng      = get_post_meta( $post, 'location_lng', true ) ? get_post_meta( $post, 'location_lng', true ) : ' ';
-		$location_phone    = get_post_meta( $post, 'location_phone', true ) ? get_post_meta( $post, 'location_phone', true ) : ' ';
-		$location_fax      = get_post_meta( $post, 'location_fax', true ) ? get_post_meta( $post, 'location_fax', true ) : ' ';
-		$location_url      = get_post_meta( $post, 'location_url', true ) ? get_post_meta( $post, 'location_url', true ) : ' ';
-		$location_email    = get_post_meta( $post, 'location_email', true ) ? get_post_meta( $post, 'location_email', true ) : ' ';
-		$location_special  = get_post_meta( $post, 'location_special', true ) ? get_post_meta( $post, 'location_special', true ) : ' ';
+		$location_address  = get_post_meta( $post, 'location_address', true ) ?: ' ';
+		$location_address2 = get_post_meta( $post, 'location_address2', true ) ?: ' ';
+		$location_city     = get_post_meta( $post, 'location_city', true ) ?: ' ';
+		$location_state    = get_post_meta( $post, 'location_state', true ) ?: $options['default_state'];
+		$location_zip      = get_post_meta( $post, 'location_zip', true ) ?: ' ';
+		$location_country  = get_post_meta( $post, 'location_country', true ) ?: $options['default_country'];
+		$location_lat      = get_post_meta( $post, 'location_lat', true ) ?: ' ';
+		$location_lng      = get_post_meta( $post, 'location_lng', true ) ?: ' ';
+		$location_phone    = get_post_meta( $post, 'location_phone', true ) ?: ' ';
+		$location_fax      = get_post_meta( $post, 'location_fax', true ) ?: ' ';
+		$location_url      = get_post_meta( $post, 'location_url', true ) ?: ' ';
+		$location_email    = get_post_meta( $post, 'location_email', true ) ?: ' ';
+		$location_special  = get_post_meta( $post, 'location_special', true ) ?: ' ';
 		// If adding new field that has a default (like state and country above), you must modify the update section below accordingly!
 
 		// Grab new data.
@@ -772,7 +773,7 @@ else :
 
 		// If we're missing a var, return false.
 		if ( empty( $_POST['sm_lat'] ) || empty( $_POST['sm_lng'] ) || empty( $_POST['sm_id'] ) ) {
-			die( __( "It doesn't look like that worked either. Please try again later.", "SimpleMap" ) );
+			die( __( "It doesn't look like that worked either. Please try again later.", 'SimpleMap' ) );
 		}
 
 		// Save original lat for roleback if lng update fails.
@@ -780,15 +781,15 @@ else :
 
 		// Update or return false.
 		if ( ! update_post_meta( absint( $_POST['sm_id'] ), 'location_lat', esc_attr( $_POST['sm_lat'] ) ) ) {
-			die( __( "It doesn't look like that worked either. Please try again later.", "SimpleMap" ) );
+			die( __( "It doesn't look like that worked either. Please try again later.", 'SimpleMap' ) );
 		}
 		if ( ! update_post_meta( absint( $_POST['sm_id'] ), 'location_lng', esc_attr( $_POST['sm_lng'] ) ) ) {
 			update_post_meta( absint( $_POST['sm_id'] ), 'location_lat', esc_attr( $orig_lat ) );
-			die( __( "It doesn't look like that worked either. Please try again later.", "SimpleMap" ) );
+			die( __( "It doesn't look like that worked either. Please try again later.", 'SimpleMap' ) );
 		}
 
 		// If we made it here, we're golden.
-		die( __( "It looks like that worked!", "SimpleMap" ) );
+		die( __( 'It looks like that worked!', 'SimpleMap' ) );
 
 	}
 
@@ -810,7 +811,7 @@ else :
 		global $current_screen;
 
 		if ( is_object( $current_screen ) && 'edit-sm-location' == $current_screen->id ) {
-			$output = "<select ide='post_parent' name='post_parent'><option value='0'>" . __( 'Main Page (no parent)' ) . "</option></select>";
+			$output = "<select ide='post_parent' name='post_parent'><option value='0'>" . __( 'Main Page (no parent)' ) . '</option></select>';
 		}
 
 		return $output;
@@ -819,7 +820,7 @@ else :
 	function flush_cache_data( $id = 0 ) {
 		// Flushes location cached data.
 
-		if ( 'sm-location' == get_post_type( $id ) || 'force' == $id ) {
+		if ( 'force' == $id || 'sm-location' == get_post_type( $id )  ) {
 			delete_transient( 'simplemap-queries-cache' );
 		}
 
