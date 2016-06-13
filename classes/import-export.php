@@ -60,7 +60,7 @@ function export_csv() {
 
 		if ( ! empty( $content ) ) {
 			$csv = new smParseCSV();
-			$csv->output( true, 'simplemap.csv', $content, array_keys( reset( $content ) ) );
+			$csv->output( 'simplemap.csv', $content, array_keys( reset( $content ) ) );
 			die();
 		}
 	}
@@ -117,7 +117,7 @@ function export_legacy_csv() {
 			}
 
 			$csv = new smParseCSV();
-			$csv->output( true, 'simplemap.csv', $content, array(
+			$csv->output( 'simplemap.csv', $content, array(
 				'name',
 				'address',
 				'address2',
@@ -140,7 +140,7 @@ function export_legacy_csv() {
 
 		} else {
 			$csv = new smParseCSV();
-			$csv->output( true, 'simplemap.csv', array( array( 'You have no locations in your legacy database' ) ) );
+			$csv->output( 'simplemap.csv', array( array( 'You have no locations in your legacy database' ) ) );
 			die();
 		}
 	}
