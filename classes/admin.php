@@ -1,7 +1,13 @@
 <?php
 if ( ! class_exists( 'SM_Admin' ) ) {
+	/**
+	 * Class SM_Admin
+	 */
 	class SM_Admin {
 
+		/**
+		 * SM_Admin constructor.
+		 */
 		public function __construct() {
 			// Init the admin menu and pages
 			add_action( 'admin_menu', array( &$this, 'menu_shuffle' ), 20 );
@@ -23,11 +29,11 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 			}
 			add_menu_page( __( 'SimpleMap Options', 'SimpleMap' ), 'SimpleMap', apply_filters( 'sm-admin-permissions-sm-options', 'publish_posts' ), 'simplemap', array(
 				&$sm_options,
-				'print_page'
+				'print_page',
 			), SIMPLEMAP_URL . '/inc/images/icon.png' );
 			add_submenu_page( 'simplemap', __( 'SimpleMap: General Options', 'SimpleMap' ), __( 'General Options', 'SimpleMap' ), apply_filters( 'sm-admin-permissions-sm-options', 'manage_options' ), 'simplemap', array(
 				&$sm_options,
-				'print_page'
+				'print_page',
 			) );
 			add_submenu_page( 'simplemap', __( 'SimpleMap: Add Location', 'SimpleMap' ), __( 'Add Location', 'SimpleMap' ), apply_filters( 'sm-admin-permissions-sm-add-locations', 'publish_posts' ), 'post-new.php?post_type=sm-location' );
 			add_submenu_page( 'simplemap', __( 'SimpleMap: Edit Locations', 'SimpleMap' ), __( 'Edit Locations', 'SimpleMap' ), apply_filters( 'sm-admin-permissions-sm-edit-locations', 'publish_posts' ), 'edit.php?post_type=sm-location' );
@@ -38,11 +44,11 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 
 			add_submenu_page( 'simplemap', __( 'SimpleMap: Import / Export CSV', 'SimpleMap' ), __( 'Import / Export CSV', 'SimpleMap' ), 'publish_posts', 'simplemap-import-export', array(
 				&$sm_import_export,
-				'print_page'
+				'print_page',
 			) );
 			add_submenu_page( 'simplemap', __( 'SimpleMap: Premium Support', 'SimpleMap' ), __( 'Premium Support', 'SimpleMap' ), 'publish_posts', 'simplemap-help', array(
 				&$sm_help,
-				'print_page'
+				'print_page',
 			) );
 		}
 
