@@ -93,7 +93,6 @@ if ( class_exists( 'SM_Locations' ) && ( ! isset( $sm_locations ) || ! is_object
 }
 
 if ( is_admin() ) {
-	register_activation_hook( SIMPLEMAP_FILE, array( 'SM_Admin', 'on_activate' ) );
 
 	include_once( 'classes/admin.php' );
 	include_once( 'classes/options-general.php' );
@@ -168,4 +167,3 @@ $config = array(
 if ( class_exists( 'FT_Premium_Support_Client' ) && ( ! isset( $simplemap_ps ) || ! is_object( $simplemap_ps ) ) ) {
 	$simplemap_ps = new FT_Premium_Support_Client( $config );
 }
-?>

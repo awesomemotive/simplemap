@@ -2,14 +2,14 @@
 if ( ! class_exists( 'SM_Admin' ) ) {
 	class SM_Admin {
 
-		// Init the admin menu and pages
-		function __construct() {
+		public function __construct() {
+			// Init the admin menu and pages
 			add_action( 'admin_menu', array( &$this, 'menu_shuffle' ), 20 );
 			add_action( 'admin_head', array( &$this, 'load_admin_scripts' ) );
 		}
 
-		// Remove Menu added by WordPress UI and add my own as a subpage
-		function menu_shuffle() {
+		public function menu_shuffle() {
+			// Remove Menu added by WordPress UI and add my own as a subpage
 			global $menu, $simple_map, $sm_options, $sm_help, $sm_import_export;
 
 			// Get options
@@ -46,8 +46,8 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 			) );
 		}
 
-		// Print admin scripts
-		function load_admin_scripts() {
+		public function load_admin_scripts() {
+			// Print admin scripts
 			global $current_screen;
 
 			#### GENERAL OPTIONS PAGE ####
@@ -120,17 +120,5 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 				<?php
 			endif;
 		}
-
-		function on_activate() {
-			//$current = get_site_transient( 'update_plugins' );
-			//if ( !isset( $current->checked[SIMPLEMAP_FILE] ) ) {
-			return; // <--- Remove to enable
-			$options = get_option( 'SimpleMap_options' );
-			if ( empty( $options ) ) {
-				$options = array( 'auto_locate' => 'html5' );
-				update_option( 'SimpleMap_options', $options );
-			}
-		}
 	}
 }
-?>
