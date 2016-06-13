@@ -44,3 +44,4 @@ exclude_paths:
 - "README.md"
 - "LICENSE"
 - "GNU-GPL.txt"
+- "parsecsv.lib.php"
