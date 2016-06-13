@@ -3,24 +3,24 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 class SM_Locations {
 
 function __construct() {
-	// Register my locations on init hook
+	// Register my locations on init hook.
 	add_action( 'init', array( &$this, 'register_locations' ) );
 	add_action( 'init', array( &$this, 'register_location_taxonomies' ) );
 
-	// Queue my JS
+	// Queue my JS.
 	add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_location_add_edit_js' ) );
 	add_action( 'init', array( &$this, 'location_add_edit_js' ) );
 
-	// Save post meta
+	// Save post meta.
 	add_action( 'save_post', array( &$this, 'save_post_meta' ) );
 	add_action( 'wp_ajax_ajax_save_lat_lng', array( &$this, 'ajax_save_lat_lng' ) );
 
-	// Limit pages called for dropdown parent selector in quick edit
+	// Limit pages called for dropdown parent selector in quick edit.
 	add_filter( 'parse_request', array( &$this, 'limit_edit_query' ) );
 	add_filter( 'quick_edit_dropdown_pages_args', array( &$this, 'limit_wp_dropdown_pages' ) );
 	add_filter( 'wp_dropdown_pages', array( &$this, 'modify_empty_wp_dropdown_pages' ) );
 
-	// Flush cache on manual location updates
+	// Flush cache on manual location updates.
 	add_action( 'save_post', array( &$this, 'flush_cache_data' ) );
 	add_action( 'trash_post', array( &$this, 'flush_cache_data' ) );
 	add_action( 'untrash_post', array( &$this, 'flush_cache_data' ) );
@@ -29,7 +29,7 @@ function __construct() {
 
 }
 
-// Register locations post type
+// Register locations post type.
 function register_locations() {
 	global $simple_map;
 
@@ -67,11 +67,11 @@ function register_locations() {
 		)
 	);
 
-	// Register it
+	// Register it.
 	register_post_type( 'sm-location', $args );
 }
 
-// Register custom taxonomies for locations
+// Register custom taxonomies for locations.
 function register_location_taxonomies() {
 	global $simple_map;
 	$options = $simple_map->get_options();
@@ -81,7 +81,7 @@ function register_location_taxonomies() {
 	}
 }
 
-// Register custom taxonomy for locations
+// Register custom taxonomy for locations.
 function register_location_taxonomy( $taxonomy, $tax_info ) {
 	if ( taxonomy_exists( $taxonomy ) ) {
 		return;
@@ -118,7 +118,7 @@ function register_location_taxonomy( $taxonomy, $tax_info ) {
 	register_taxonomy( $taxonomy, 'sm-location', $args );
 }
 
-// Add call back for meta box
+// Add call back for meta box.
 function location_meta_cb() {
 	add_meta_box( 'sm-location-premium-support', __( 'Premium Support', 'SimpleMap' ), array(
 		&$this,
@@ -138,7 +138,7 @@ function location_meta_cb() {
 	), 'sm-location', 'side' );
 }
 
-// Add premium support box
+// Add premium support box.
 function premium_support() {
 
 global $simplemap_ps, $current_user;
@@ -147,18 +147,16 @@ wp_get_current_user();
 $status_key = md5( 'ft_premium_support_' . $simplemap_ps->product_id . '_' . sanitize_title_with_dashes( $simplemap_ps->site_url ) . '_' . sanitize_title_with_dashes( $simplemap_ps->server_url ) );
 $sso_key    = md5( 'ft_premium_sso_' . $current_user->ID . '_' . $simplemap_ps->product_id . '_' . sanitize_title_with_dashes( $simplemap_ps->site_url ) . '_' . sanitize_title_with_dashes( $simplemap_ps->server_url ) );
 
-// Set status from transient if not set via global
+// Set status from transient if not set via global.
 if ( '' == $simplemap_ps->ps_status && '' != get_transient( $status_key ) ) {
 	$simplemap_ps->ps_status = get_transient( $status_key );
 }
 
-// Set sso key from transient if not set via global
+// Set sso key from transient if not set via global.
 if ( '' == $simplemap_ps->sso_status && '' != get_transient( $sso_key ) ) {
 	$simplemap_ps->sso_status = get_transient( $sso_key );
 }
 
-
-//echo "<pre>";print_r( $simplemap_ps );echo "</pre>";
 if ( ! url_has_ftps_for_item( $simplemap_ps ) ) :
 
 	?>
@@ -206,12 +204,14 @@ else :
 	endif;
 	}
 
-	// Geographic Location Information
+
 	function geo_location( $post ) {
+		// Geographic Location Information.
+
 		global $simple_map, $hook_suffix;
 		$options = $simple_map->get_options();
 
-		// Location data
+		// Location data.
 		$location_address  = get_post_meta( $post->ID, 'location_address', true ) ? get_post_meta( $post->ID, 'location_address', true ) : '';
 		$location_address2 = get_post_meta( $post->ID, 'location_address2', true ) ? get_post_meta( $post->ID, 'location_address2', true ) : '';
 		$location_city     = get_post_meta( $post->ID, 'location_city', true ) ? get_post_meta( $post->ID, 'location_city', true ) : '';
@@ -299,8 +299,9 @@ else :
 		<?php
 	}
 
-	// Additional Information
 	function additional_information( $post ) {
+		// Additional Information.
+
 		global $simple_map;
 		$options = $simple_map->get_options();
 
@@ -361,12 +362,13 @@ else :
 		<?php
 	}
 
-	// This function contains the little map with the marker
 	function location_drag_drop( $post ) {
+		// This function contains the little map with the marker.
+
 		global $simple_map;
 		$options = $simple_map->get_options();
 
-		// Location data
+		// Location data.
 		$location_address  = get_post_meta( $post->ID, 'location_address', true ) ? get_post_meta( $post->ID, 'location_address', true ) : '';
 		$location_address2 = get_post_meta( $post->ID, 'location_address2', true ) ? get_post_meta( $post->ID, 'location_address2', true ) : '';
 		$location_city     = get_post_meta( $post->ID, 'location_city', true ) ? get_post_meta( $post->ID, 'location_city', true ) : '';
@@ -382,8 +384,9 @@ else :
 		<?php
 	}
 
-	// Enqueues the JS I need.
 	function enqueue_location_add_edit_js() {
+		// Enqueues the JS I need.
+
 		global $current_screen, $post;
 
 		if ( ! is_admin() || 'sm-location' != $current_screen->id ) {
@@ -394,8 +397,9 @@ else :
 
 	}
 
-	// Javascript for add / edit location page
 	function location_add_edit_js() {
+		// Javascript for add / edit location page
+
 		global $current_screen, $simple_map;
 
 		$options = $simple_map->get_options();
@@ -412,11 +416,6 @@ else :
 
 		header( "Content-type: application/x-javascript" );
 
-		/*
-		if ( '' == $options['api_key'] ) {
-			die( "alert( '" . esc_js( __( "You will need to enter your API key in general options before your addresses will be coded properly.", 'SimpleMap' ) ) . "');" );
-		}
-		*/
 		?>
 		var map;
 		var geocoder;
@@ -446,7 +445,7 @@ else :
 		geocoder = new google.maps.Geocoder();
 
 		<?php
-		// If PHP Geocode failed, do the ajax update
+		// If PHP Geocode failed, do the ajax update.
 		if ( $sm_js_update = get_post_meta( $postid, 'sm-needs-js-geocode', true ) ) {
 			$location_address_data = get_post_custom( $postid );
 			?>
@@ -615,11 +614,12 @@ else :
 		die();
 	}
 
-	// This function saves the geo data as well as the additional info
 	function save_post_meta( $post ) {
+		// This function saves the geo data as well as the additional info.
+
 		global $simple_map, $current_screen;
 
-		// Bail if we're not editing a location
+		// Bail if we're not editing a location.
 		if ( ! is_object( $current_screen ) || 'sm-location' != $current_screen->id || 'sm-location' != $current_screen->post_type ) {
 			return;
 		}
@@ -629,7 +629,7 @@ else :
 
 		//$api_key = ( isset( $options['api_key'] ) && !empty( $options['api_key'] ) ) ? $options['api_key'] : '';
 
-		// Grab old data
+		// Grab old data.
 		$location_address  = get_post_meta( $post, 'location_address', true ) ? get_post_meta( $post, 'location_address', true ) : ' ';
 		$location_address2 = get_post_meta( $post, 'location_address2', true ) ? get_post_meta( $post, 'location_address2', true ) : ' ';
 		$location_city     = get_post_meta( $post, 'location_city', true ) ? get_post_meta( $post, 'location_city', true ) : ' ';
@@ -645,7 +645,7 @@ else :
 		$location_special  = get_post_meta( $post, 'location_special', true ) ? get_post_meta( $post, 'location_special', true ) : ' ';
 		// If adding new field that has a default (like state and country above), you must modify the update section below accordingly!
 
-		// Grab new data
+		// Grab new data.
 		$new_address  = isset( $_POST['location_address'] ) ? $_POST['location_address'] : '';
 		$new_address2 = isset( $_POST['location_address2'] ) ? $_POST['location_address2'] : '';
 		$new_city     = isset( $_POST['location_city'] ) ? $_POST['location_city'] : '';
@@ -660,7 +660,7 @@ else :
 		$new_email    = isset( $_POST['location_email'] ) ? $_POST['location_email'] : '';
 		$new_special  = isset( $_POST['location_special'] ) ? $_POST['location_special'] : '';
 
-		// Update
+		// Update.
 		if ( $location_address != $new_address ) {
 			update_post_meta( $post, 'location_address', $new_address );
 		}
@@ -702,7 +702,7 @@ else :
 		}
 
 
-		// Lets not geocode on auto-draft
+		// Lets not geocode on auto-draft.
 		if ( 'auto-draft' == $post_object->post_status ) {
 			return;
 		}
@@ -739,8 +739,9 @@ else :
 		}
 	}
 
-	// Filter the main query run at top of edit.php
 	function limit_edit_query( $query ) {
+		// Filter the main query run at top of edit.php.
+
 		global $current_screen, $wpdb;
 
 		if ( is_object( $current_screen ) && 'edit-sm-location' == $current_screen->id ) {
@@ -756,8 +757,9 @@ else :
 		return $query;
 	}
 
-	// Prints the excessive locations message
 	function print_excessive_locations_message() {
+		// Prints the excessive locations message.
+
 		?>
 		<div id="message" class="error">
 			<p><?php _e( '<strong>Warning</strong>: You have more than 10,000 locations in your database. We have limited the list here to 1,000. You may <strong>use the search field to access locations beyond the first 1,000</strong>.', 'SimpleMap' ); ?></p>
@@ -765,18 +767,18 @@ else :
 		<?php
 	}
 
-	// Saves lat / lng data via ajax
 	function ajax_save_lat_lng() {
+		// Saves lat / lng data via ajax.
 
-		// If we're missing a var, return false
+		// If we're missing a var, return false.
 		if ( empty( $_POST['sm_lat'] ) || empty( $_POST['sm_lng'] ) || empty( $_POST['sm_id'] ) ) {
 			die( __( "It doesn't look like that worked either. Please try again later.", "SimpleMap" ) );
 		}
 
-		// Save original lat for roleback if lng update fails
+		// Save original lat for roleback if lng update fails.
 		$orig_lat = get_post_meta( absint( $_POST['sm_id'] ), 'location_lat', esc_attr( $_POST['sm_lat'], true ) );
 
-		// Update or return false
+		// Update or return false.
 		if ( ! update_post_meta( absint( $_POST['sm_id'] ), 'location_lat', esc_attr( $_POST['sm_lat'] ) ) ) {
 			die( __( "It doesn't look like that worked either. Please try again later.", "SimpleMap" ) );
 		}
@@ -785,13 +787,14 @@ else :
 			die( __( "It doesn't look like that worked either. Please try again later.", "SimpleMap" ) );
 		}
 
-		// If we made it here, we're golden
+		// If we made it here, we're golden.
 		die( __( "It looks like that worked!", "SimpleMap" ) );
 
 	}
 
-	// Filter get page dropdown if we have excessive locations
 	function limit_wp_dropdown_pages( $args ) {
+		// Filter get page dropdown if we have excessive locations.
+
 		global $current_screen;
 
 		if ( is_object( $current_screen ) && 'edit-sm-location' == $current_screen->id ) {
@@ -801,8 +804,9 @@ else :
 		return $args;
 	}
 
-	// Related to limit_wp_dropdown_pages. Now fill in what I erased above with fake data
 	function modify_empty_wp_dropdown_pages( $output ) {
+		// Related to limit_wp_dropdown_pages. Now fill in what I erased above with fake data.
+
 		global $current_screen;
 
 		if ( is_object( $current_screen ) && 'edit-sm-location' == $current_screen->id ) {
@@ -812,8 +816,8 @@ else :
 		return $output;
 	}
 
-	// Flushes location cached data
 	function flush_cache_data( $id = 0 ) {
+		// Flushes location cached data.
 
 		if ( 'sm-location' == get_post_type( $id ) || 'force' == $id ) {
 			delete_transient( 'simplemap-queries-cache' );
@@ -824,4 +828,3 @@ else :
 
 	}
 	}
-	?>
