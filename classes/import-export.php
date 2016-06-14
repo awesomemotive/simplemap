@@ -549,7 +549,7 @@ if ( isset( $_POST['sm-action'] ) && 'import-csv' == $_POST['sm-action'] && isse
 												}
 											} else {
 												for ( $i = 0; $i <= 50; $i ++ ) {
-													$numb = rand( 1, $row_count - 1 );
+													$numb = mt_rand( 1, $row_count - 1 );
 													?>
 													<tr><?php
 													foreach ( $csv->data[ $numb ] as $td => $tdv ) {
@@ -760,7 +760,7 @@ if ( isset( $_POST['sm-action'] ) && 'import-csv' == $_POST['sm-action'] && isse
 
 									<h3 style='color:#fff;text-shadow:0 1px 0 #000;background: #fff url( <?php echo SIMPLEMAP_URL; ?>/inc/images/blue-grad.png ) top left repeat-x;'><?php _e( 'Premium Support and Features', 'SimpleMap' ); ?></h3>
 
-									<div class="inside" style='padding: 0pt 10px 10px;'>
+									<div class="inside" style='padding: 0 10px 10px;'>
 
 										<?php
 										// Check for premium support status
