@@ -1,6 +1,6 @@
 <?php
 
-if ( ! class_exists( 'SM_Import_Export' ) ){
+if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 /**
  * Class SM_Import_Export
@@ -617,7 +617,7 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' === $_POST['sm
 
 			public function print_page() {
 			// Prints the options page
-			
+
 			if ( isset( $_POST['sm-action'] ) && 'import-csv' === $_POST['sm-action'] ) {
 				$step = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
 
