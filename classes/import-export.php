@@ -1,7 +1,14 @@
 <?php
 if ( ! class_exists( 'SM_Import_Export' ) ){
+
+/**
+ * Class SM_Import_Export
+ */
 class SM_Import_Export{
 
+/**
+ * SM_Import_Export constructor.
+ */
 function __construct() {
 	// update options of form submission
 	//add_action( 'admin_init', array( &$this, 'import_csv' ) );
@@ -13,7 +20,7 @@ function __construct() {
 function export_csv() {
 	// Exports a CSV file to WordPress
 
-	if ( isset( $_POST['sm-action'] ) && 'export-csv' == $_POST['sm-action'] ) {
+	if ( isset( $_POST['sm-action'] ) && 'export-csv' === $_POST['sm-action'] ) {
 		// Grab locations
 		$content = array();
 		set_time_limit( 0 );
@@ -68,7 +75,7 @@ function export_csv() {
 function export_legacy_csv() {
 	// Exports a LEGACY SimpleMap CSV file to WordPress
 
-	if ( isset( $_GET['sm-action'] ) && 'export-legacy-csv' == $_GET['sm-action'] ) {
+	if ( isset( $_GET['sm-action'] ) && 'export-legacy-csv' === $_GET['sm-action'] ) {
 
 		// Include CSV library
 		include_once( SIMPLEMAP_PATH . '/classes/parsecsv.lib.php' );
@@ -148,7 +155,7 @@ function delete_legacy_tables() {
 	global $wpdb, $simple_map;
 
 	// Confirm we have both permisssion to do this and we have intent to do this.
-	if ( isset( $_GET['sm-action'] ) && 'delete-legacy-simplemap' == $_GET['sm-action'] && current_user_can( 'manage_options' ) && check_admin_referer( 'delete-legacy-simplemap' ) ) {
+	if ( isset( $_GET['sm-action'] ) && 'delete-legacy-simplemap' === $_GET['sm-action'] && current_user_can( 'manage_options' ) && check_admin_referer( 'delete-legacy-simplemap' ) ) {
 
 			$drop_sm   = 'DROP TABLE `' . $wpdb->prefix . 'simple_map`;';
 			$drop_cats = 'DROP TABLE `' . $wpdb->prefix . 'simple_map_cats`;';
@@ -169,6 +176,11 @@ function delete_legacy_tables() {
 }
 
 // All location data
+/**
+ * @param array $init
+ *
+ * @return array|mixed|null|void
+ */
 function get_location_data_types( array $init = array() ) {
 	static $types = null;
 
@@ -223,7 +235,7 @@ global $simple_map, $sm_locations, $current_user, $blog_id;
 // Define Importing Constant
 define( 'WP_IMPORTING', true );
 
-if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' == $_POST['sm-action'] && 2 == $_POST['step'] ) {
+if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' === $_POST['sm-action'] && 2 == $_POST['step'] ) {
 ?>
 <div class="wrap">
 
@@ -578,6 +590,12 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' == $_POST['sm-
 			}
 
 			// This function creates a select box of all my data types to assign to this column
+			/**
+			 * @param $col
+			 * @param $title
+			 *
+			 * @return string
+			 */
 			function column_select( $col, $title ) {
 				$select = "<select name='col_" . esc_attr( $col ) . "'>";
 
@@ -595,7 +613,7 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' == $_POST['sm-
 
 			// Prints the options page
 			function print_page() {
-			if ( isset( $_POST['sm-action'] ) && 'import-csv' == $_POST['sm-action'] ) {
+			if ( isset( $_POST['sm-action'] ) && 'import-csv' === $_POST['sm-action'] ) {
 				$step = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
 
 				// Check for uploaded file with no errors.
