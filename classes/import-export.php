@@ -2,16 +2,17 @@
 if ( ! class_exists( 'SM_Import_Export' ) ){
 class SM_Import_Export{
 
-// update options of form submission
 function __construct() {
+	// update options of form submission
 	//add_action( 'admin_init', array( &$this, 'import_csv' ) );
 	add_action( 'admin_init', array( &$this, 'export_csv' ) );
 	add_action( 'admin_init', array( &$this, 'export_legacy_csv' ) );
 	add_action( 'admin_init', array( &$this, 'delete_legacy_tables' ) );
 }
 
-// Exports a CSV file to WordPress
 function export_csv() {
+	// Exports a CSV file to WordPress
+
 	global $simple_map, $sm_locations;
 
 	if ( isset( $_POST['sm-action'] ) && 'export-csv' == $_POST['sm-action'] ) {
@@ -66,8 +67,9 @@ function export_csv() {
 	}
 }
 
-// Exports a LEGACY SimpleMap CSV file to WordPress
 function export_legacy_csv() {
+	// Exports a LEGACY SimpleMap CSV file to WordPress
+
 	global $simple_map, $sm_locations, $wpdb;
 
 	if ( isset( $_GET['sm-action'] ) && 'export-legacy-csv' == $_GET['sm-action'] ) {
@@ -76,23 +78,21 @@ function export_legacy_csv() {
 		include_once( SIMPLEMAP_PATH . '/classes/parsecsv.lib.php' );
 
 		// Grab Categories
-		if ( $categories = $wpdb->get_results( "SELECT * FROM `" . $wpdb->prefix . "simple_map_cats`" ) ) {
+		if ( $categories = $wpdb->get_results( 'SELECT * FROM `' . $wpdb->prefix . 'simple_map_cats`' ) ) {
 			foreach ( $categories as $key => $value ) {
 				$cats[ $value->id ] = $value;
 			}
 		}
 		// Grab locations
-		if ( $locations = $wpdb->get_results( "SELECT * FROM `" . $wpdb->prefix . "simple_map`" ) ) {
+		if ( $locations = $wpdb->get_results( 'SELECT * FROM `' . $wpdb->prefix . 'simple_map`' ) ) {
 
 			foreach ( $locations as $key => $location ) {
 
 				$catnames = '';
 
 				// Do Cats		
-				if ( isset( $location->category ) && 0 != $location->category ) {
-					if ( isset( $cats[ $location->category ] ) ) {
-						$catnames = $cats[ $location->category ]->name;
-					}
+				if ( isset( $location->category ) && 0 != $location->category && isset( $cats[ $location->category ] ) ) {
+					$catnames = $cats[ $location->category ]->name;
 				}
 				$content[] = array(
 					'name'        => esc_attr( $location->name ),
@@ -147,14 +147,12 @@ function export_legacy_csv() {
 
 }
 
-// Deletes legacy tables
 function delete_legacy_tables() {
+	// Deletes legacy tables
 	global $wpdb, $simple_map;
 
-	if ( isset( $_GET['sm-action'] ) && 'delete-legacy-simplemap' == $_GET['sm-action'] ) {
-
-		// Confirm we have both permisssion to do this and we have intent to do this.
-		if ( current_user_can( 'manage_options' ) && check_admin_referer( 'delete-legacy-simplemap' ) ) {
+	// Confirm we have both permisssion to do this and we have intent to do this.
+	if ( isset( $_GET['sm-action'] ) && 'delete-legacy-simplemap' == $_GET['sm-action'] && current_user_can( 'manage_options' ) && check_admin_referer( 'delete-legacy-simplemap' ) ) {
 
 			$drop_sm   = 'DROP TABLE `' . $wpdb->prefix . 'simple_map`;';
 			$drop_cats = 'DROP TABLE `' . $wpdb->prefix . 'simple_map_cats`;';
@@ -168,7 +166,6 @@ function delete_legacy_tables() {
 			} else {
 				wp_redirect( admin_url( 'admin.php?page=simplemap-import-export&sm-msg=2' ) );
 				die();
-			}
 		}
 
 	}
@@ -437,20 +434,18 @@ if ( isset( $_POST['sm-action'] ) && 'import-csv' == $_POST['sm-action'] && isse
 															}
 
 															// This is just a failsafe. It also gives us access to vars the WP API created rather than from the CSV
-															if ( ! is_wp_error( $term_id ) && $term = get_term( (int) $term_id, $taxonomy ) ) {
-																if ( ! is_wp_error( $term ) ) {
+															if ( ! is_wp_error( $term_id ) && $term = get_term( (int) $term_id, $taxonomy ) && ! is_wp_error( $term ) ) {
 																	// Associate (last var appends term to rather than replaces existing terms)
 																	wp_set_object_terms( $id, $term->name, $taxonomy, true );
 																	unset( $term );
-																}
 															}
 														}
 													}
 												}
 
-												echo "<li>" . sprintf( esc_attr( $to_insert['name'] ) . __( ' was successfully %simported', 'SimpleMap' ), $geocoded ) . "</li>";
+												echo '<li>' . sprintf( esc_attr( $to_insert['name'] ) . __( ' was successfully %simported', 'SimpleMap' ), $geocoded ) . '</li>';
 											} else {
-												echo "<li>" . esc_attr( $to_insert['name'] ) . __( ' failed to import properly', 'SimpleMap' ) . "</li>";
+												echo '<li>' . esc_attr( $to_insert['name'] ) . __( ' failed to import properly', 'SimpleMap' ) . '</li>';
 											}
 
 											unset( $to_insert );
@@ -458,8 +453,8 @@ if ( isset( $_POST['sm-action'] ) && 'import-csv' == $_POST['sm-action'] && isse
 										}
 									}
 
-									echo "</ul>";
-									echo "<h2>" . sprintf( __( 'View them <a href="%s">here</a>', 'SimpleMap' ), admin_url( 'edit.php?post_type=sm-location' ) ) . "</h2>";
+									echo '</ul>';
+									echo '<h2>' . sprintf( __( 'View them <a href="%s">here</a>', 'SimpleMap' ), admin_url( 'edit.php?post_type=sm-location' ) ) . '</h2>';
 								}
 
 								// Import is finished, delete csv and redirect to edit locaitons page
@@ -535,7 +530,7 @@ if ( isset( $_POST['sm-action'] ) && 'import-csv' == $_POST['sm-action'] && isse
 														<?php
 														$this->get_location_data_types( current( $csv->data ) );
 														foreach ( $csv->titles as $col => $title ) {
-															echo "<td>" . $this->column_select( $col, $title ) . "</td>";
+															echo '<td>' . $this->column_select( $col, $title ) . '</td>';
 														}
 														?>
 											</form>
@@ -595,10 +590,10 @@ if ( isset( $_POST['sm-action'] ) && 'import-csv' == $_POST['sm-action'] && isse
 
 
 				foreach ( $this->get_location_data_types() as $type => $label ) {
-					$select .= "<option value='" . $type . "' " . selected( trim( $type ), trim( $title ), false ) . " >" . $label . "</option>";
+					$select .= "<option value='" . $type . "' " . selected( trim( $type ), trim( $title ), false ) . ' >' . $label . '</option>';
 				}
 
-				$select .= "</select>";
+				$select .= '</select>';
 
 				return $select;
 			}
@@ -642,7 +637,7 @@ if ( isset( $_POST['sm-action'] ) && 'import-csv' == $_POST['sm-action'] && isse
 				// Toolbar
 				$simple_map->show_toolbar( $sm_page_title );
 
-				// Messages			 
+				// Messages
 				if ( isset( $_GET['sm-msg'] ) && '2' == $_GET['sm-msg'] ) {
 					echo '<div class="updated fade"><p>' . __( 'Legacy SimpleMap settings deleted.', 'SimpleMap' ) . '</p></div>';
 				}
@@ -706,7 +701,7 @@ if ( isset( $_POST['sm-action'] ) && 'import-csv' == $_POST['sm-action'] && isse
 												<?php
 												// Warn them if the simplemap path is not writable
 												if ( ! is_writable( WP_PLUGIN_DIR ) ) {
-													echo "<br />" . __( sprintf( 'Please make the following directory <a href="%s">writable by WordPress</a>: %s', 'http://codex.wordpress.org/Changing_File_Permissions#Permission_Scheme_for_WordPress', '<code>' . WP_PLUGIN_DIR . '</code>' ), 'SimpleMap' );
+													echo '<br />' . __( sprintf( 'Please make the following directory <a href="%s">writable by WordPress</a>: %s', 'http://codex.wordpress.org/Changing_File_Permissions#Permission_Scheme_for_WordPress', '<code>' . WP_PLUGIN_DIR . '</code>' ), 'SimpleMap' );
 												}
 												?>
 
@@ -798,7 +793,7 @@ if ( isset( $_POST['sm-action'] ) && 'import-csv' == $_POST['sm-action'] && isse
 											</ul>
 										<?php else : ?>
 
-											<p class='howto'><?php printf( "Your premium support for <code>%s</code> was purchased on <code>%s</code> by <code>%s</code> (%s). It will remain valid for this URL until <code>%s</code>.", get_ftps_site( $simplemap_ps ), date( "F d, Y", get_ftps_purchase_date( $simplemap_ps ) ), get_ftps_name( $simplemap_ps ), get_ftps_email( $simplemap_ps ), date( "F d, Y", get_ftps_exp_date( $simplemap_ps ) ) ); ?></p>
+											<p class='howto'><?php printf( 'Your premium support for <code>%s</code> was purchased on <code>%s</code> by <code>%s</code> (%s). It will remain valid for this URL until <code>%s</code>.', get_ftps_site( $simplemap_ps ), date( 'F d, Y', get_ftps_purchase_date( $simplemap_ps ) ), get_ftps_name( $simplemap_ps ), get_ftps_email( $simplemap_ps ), date( 'F d, Y', get_ftps_exp_date( $simplemap_ps ) ) ); ?></p>
 											<p><a href='#'
 											      id='premium_help'><?php _e( 'Launch Premium Support widget', 'SimpleMap' ); ?></a>
 												| <a target="blank"

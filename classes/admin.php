@@ -22,7 +22,7 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 			// Get options.
 			$options = $simple_map->get_options();
 
-			// loop through menu and find the one we need to disable.
+			// Loop through menu and find the one we need to disable.
 			foreach ( $menu as $key => $value ) {
 				if ( in_array( 'edit.php?post_type=sm-location', $value, true ) ) {
 					unset( $menu[ $key ] );
@@ -57,7 +57,7 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 			// Print admin scripts.
 			global $current_screen;
 
-			#### GENERAL OPTIONS PAGE ####
+			// General options page.
 			if ( 'toplevel_page_simplemap' === $current_screen->id ) :
 				?>
 				<script type="text/javascript">
