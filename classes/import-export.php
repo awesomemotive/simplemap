@@ -1,4 +1,5 @@
 <?php
+
 if ( ! class_exists( 'SM_Import_Export' ) ){
 
 /**
@@ -10,18 +11,18 @@ class SM_Import_Export{
  * SM_Import_Export constructor.
  */
 function __construct() {
-	// update options of form submission
-	//add_action( 'admin_init', array( &$this, 'import_csv' ) );
+	// Update options of form submission.
+
 	add_action( 'admin_init', array( &$this, 'export_csv' ) );
 	add_action( 'admin_init', array( &$this, 'export_legacy_csv' ) );
 	add_action( 'admin_init', array( &$this, 'delete_legacy_tables' ) );
 }
 
 function export_csv() {
-	// Exports a CSV file to WordPress
+	// Exports a CSV file to WordPress.
 
 	if ( isset( $_POST['sm-action'] ) && 'export-csv' === $_POST['sm-action'] ) {
-		// Grab locations
+		// Grab locations.
 		$content = array();
 		set_time_limit( 0 );
 		$locations = query_posts( array(
@@ -29,7 +30,7 @@ function export_csv() {
 			'post_type'      => 'sm-location',
 			'posts_per_page' => - 1,
 		) );
-		// Include CSV library
+		// Include CSV library.
 		require_once( SIMPLEMAP_PATH . '/classes/parsecsv.lib.php' );
 		$taxonomies = get_object_taxonomies( 'sm-location' );
 
@@ -73,27 +74,27 @@ function export_csv() {
 }
 
 function export_legacy_csv() {
-	// Exports a LEGACY SimpleMap CSV file to WordPress
+	// Exports a LEGACY SimpleMap CSV file to WordPress.
 
 	if ( isset( $_GET['sm-action'] ) && 'export-legacy-csv' === $_GET['sm-action'] ) {
 
-		// Include CSV library
+		// Include CSV library.
 		include_once( SIMPLEMAP_PATH . '/classes/parsecsv.lib.php' );
 
-		// Grab Categories
+		// Grab Categories.
 		if ( $categories = $wpdb->get_results( 'SELECT * FROM `' . $wpdb->prefix . 'simple_map_cats`' ) ) {
 			foreach ( $categories as $key => $value ) {
 				$cats[ $value->id ] = $value;
 			}
 		}
-		// Grab locations
+		// Grab locations.
 		if ( $locations = $wpdb->get_results( 'SELECT * FROM `' . $wpdb->prefix . 'simple_map`' ) ) {
 
 			foreach ( $locations as $key => $location ) {
 
 				$catnames = '';
 
-				// Do Cats		
+				// Do Cats.
 				if ( isset( $location->category, $cats[ $location->category ] ) && 0 != $location->category ) {
 					$catnames = $cats[ $location->category ]->name;
 				}
@@ -151,7 +152,7 @@ function export_legacy_csv() {
 }
 
 function delete_legacy_tables() {
-	// Deletes legacy tables
+	// Deletes legacy tables.
 	global $wpdb, $simple_map;
 
 	// Confirm we have both permisssion to do this and we have intent to do this.
@@ -175,8 +176,10 @@ function delete_legacy_tables() {
 
 }
 
-// All location data
 /**
+ *
+ * All location data.
+ *
  * @param array $init
  *
  * @return array|mixed|null|void
@@ -228,11 +231,11 @@ function get_location_data_types( array $init = array() ) {
 	return $types;
 }
 
-// Imports a CSV file to WordPress
+// Imports a CSV file to WordPress.
 function import_csv() {
 global $simple_map, $sm_locations, $current_user, $blog_id;
 
-// Define Importing Constant
+// Define Importing Constant.
 define( 'WP_IMPORTING', true );
 
 if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' === $_POST['sm-action'] && 2 == $_POST['step'] ) {
@@ -240,10 +243,10 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' === $_POST['sm
 <div class="wrap">
 
 	<?php
-	// Title
+	// Title.
 	$sm_page_title = apply_filters( 'sm-import-export-page-title', 'SimpleMap: Import. Step One' );
 
-	// Toolbar
+	// Toolbar.
 	$simple_map->show_toolbar( $sm_page_title );
 	?>
 
@@ -263,7 +266,7 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' === $_POST['sm
 
 							<?php
 
-							// Include CSV library
+							// Include CSV library.
 							require_once( SIMPLEMAP_PATH . '/classes/parsecsv.lib.php' );
 
 							$file_location = WP_PLUGIN_DIR . '/sm-temp-csv-' . $blog_id . '.csv';
@@ -294,7 +297,7 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' === $_POST['sm
 										if ( substr( $key, 0, 7 ) === 'tax_sm-' ) {
 											$taxonomy           = substr( $key, 4 );
 											$taxes[ $taxonomy ] = $key;
-										} // Allow legacy taxonomy column names
+										} // Allow legacy taxonomy column names.
 										elseif ( array_search( $key, $taxes ) ) {
 											$taxonomy = $key;
 										}
@@ -315,10 +318,10 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' === $_POST['sm
 										// Give me 20 seconds for each location. That should be more than enough time.
 										set_time_limit( 20 );
 
-										// Convert assoc to int array since I can't trust the headings from the user
+										// Convert assoc to int array since I can't trust the headings from the user.
 										$location = array_values( $location );
 
-										// Use the information the user gave me via select boxes to map columns to correct attributes
+										// Use the information the user gave me via select boxes to map columns to correct attributes.
 										foreach ( $columns as $key => $column ) {
 											if ( isset( $location[ $column ] ) ) {
 												$to_insert[ $key ] = trim( $location[ $column ] );
@@ -341,12 +344,12 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' === $_POST['sm
 											}
 										}
 
-										// Prep and insert
+										// Prep and insert.
 										if ( isset( $to_insert ) ) {
 											$options  = $simple_map->get_options();
 											$geocoded = '';
 
-											// Maybe geo encode
+											// Maybe geo encode.
 											if ( empty( $to_insert['lat'] ) || empty( $to_insert['lng'] ) ) {
 												if ( $geo = $simple_map->geocode_location( $to_insert['address'], $to_insert['city'], $to_insert['state'], $to_insert['zip'], $to_insert['country'], '' ) ) {
 													$geocoded = __( 'geocoded and ', 'SimpleMap' );
@@ -361,10 +364,10 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' === $_POST['sm
 												}
 											}
 
-											// Prevent dup names before getting to wp_unique_slug function
+											// Prevent dup names before getting to wp_unique_slug function.
 											$clean_name = sanitize_title( $to_insert['name'] );
 
-											// Start by check to see if this post's name has been used before
+											// Start by check to see if this post's name has been used before.
 											if ( isset( $post_names[ $clean_name ] ) ) {
 
 												// Set the int to the value of the post_name key (this is set the first time we import a post with this title).
@@ -375,24 +378,24 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' === $_POST['sm
 													$post_names_int ++;
 												}
 
-												// Set the new unique slug
+												// Set the new unique slug.
 												$unique_title = $clean_name . '-' . $post_names_int;
 
-												// Add the post_name to the post attributes array we're about to insert
+												// Add the post_name to the post attributes array we're about to insert.
 												$vars['post_name'] = $unique_title;
 
-												// Update the original slug for this title with the new int
+												// Update the original slug for this title with the new int.
 												$post_names[ $clean_name ] = $post_names[ $unique_title ] = $post_names_int;
 											} else {
 												// If we made it here, its the first time we're inserting a post with this title (this import anyway).
-												// Add it to the post attributes array we're about to send to wp_insert_post
+												// Add it to the post attributes array we're about to send to wp_insert_post.
 												$vars['post_name'] = $clean_name;
 
-												// Log this title as used in the post_names array with an int of 1
+												// Log this title as used in the post_names array with an int of 1.
 												$post_names[ $clean_name ] = 1;
 											}
 
-											// Prep for WordPress function
+											// Prep for WordPress function.
 											wp_get_current_user();
 											$vars['post_title']   = $to_insert['name'];
 											$vars['post_author']  = $current_user->ID;
@@ -400,7 +403,7 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' === $_POST['sm
 											$vars['post_status']  = 'publish';
 											$vars['post_content'] = $to_insert['description'];
 
-											// Insert into WordPress post table
+											// Insert into WordPress post table.
 											if ( $id = wp_insert_post( $vars ) ) {
 												update_post_meta( $id, 'location_address', $to_insert['address'] );
 												update_post_meta( $id, 'location_address2', $to_insert['address2'] );
