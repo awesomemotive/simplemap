@@ -458,9 +458,7 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' == $_POST['sm-
 								}
 
 								// Import is finished, delete csv and redirect to edit locaitons page
-								if ( file_exists( $file_location ) ) {
 									unlink( $file_location );
-								}
 							}
 							?>
 						</div>
