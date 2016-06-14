@@ -68,8 +68,6 @@ function export_csv() {
 function export_legacy_csv() {
 	// Exports a LEGACY SimpleMap CSV file to WordPress
 
-	global $simple_map, $sm_locations, $wpdb;
-
 	if ( isset( $_GET['sm-action'] ) && 'export-legacy-csv' == $_GET['sm-action'] ) {
 
 		// Include CSV library
