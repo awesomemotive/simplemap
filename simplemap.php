@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: SimpleMap
-Version: 2.4.8
+Version: 2.4.9-dev
 Plugin URI: http://simplemap-plugin.com/
 Author: Michael Torbert
 Author URI: http://fullthrottledevelopment.com/
@@ -18,7 +18,7 @@ if ( version_compare( $wp_version, "2.8", "<" ) ) {
 #### CONSTANTS ####
 
 // Plugin Version Number
-define( 'SIMPLEMAP_VERSION', '2.4.8' );
+define( 'SIMPLEMAP_VERSION', '2.4.9-dev' );
 
 if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
 	define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
@@ -158,11 +158,11 @@ $config = array(
 		'simplemap_page_simplemap-help',
 		'toplevel_page_simplemap',
 		'simplemap_page_simplemap-import-export',
-		'sm-location'
+		'sm-location',
 	),
 	'plugin_basename'         => plugin_basename( SIMPLEMAP_PATH . '/simplemap.php' ),
 	'plugin_slug'             => 'simplemap',
-	'learn_more_link'         => 'http://simplemap-plugin.com/premium-support/'
+	'learn_more_link'         => 'http://simplemap-plugin.com/premium-support/',
 );
 if ( class_exists( 'FT_Premium_Support_Client' ) && ( ! isset( $simplemap_ps ) || ! is_object( $simplemap_ps ) ) ) {
 	$simplemap_ps = new FT_Premium_Support_Client( $config );
