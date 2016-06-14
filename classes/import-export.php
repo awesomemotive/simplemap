@@ -10,7 +10,7 @@ class SM_Import_Export{
 /**
  * SM_Import_Export constructor.
  */
-function __construct() {
+public function __construct() {
 	// Update options of form submission.
 
 	add_action( 'admin_init', array( &$this, 'export_csv' ) );
@@ -18,7 +18,7 @@ function __construct() {
 	add_action( 'admin_init', array( &$this, 'delete_legacy_tables' ) );
 }
 
-function export_csv() {
+public function export_csv() {
 	// Exports a CSV file to WordPress.
 
 	if ( isset( $_POST['sm-action'] ) && 'export-csv' === $_POST['sm-action'] ) {
@@ -73,7 +73,7 @@ function export_csv() {
 	}
 }
 
-function export_legacy_csv() {
+public function export_legacy_csv() {
 	// Exports a LEGACY SimpleMap CSV file to WordPress.
 
 	if ( isset( $_GET['sm-action'] ) && 'export-legacy-csv' === $_GET['sm-action'] ) {
@@ -151,7 +151,7 @@ function export_legacy_csv() {
 
 }
 
-function delete_legacy_tables() {
+public function delete_legacy_tables() {
 	// Deletes legacy tables.
 	global $wpdb, $simple_map;
 
@@ -184,7 +184,7 @@ function delete_legacy_tables() {
  *
  * @return array|mixed|null|void
  */
-function get_location_data_types( array $init = array() ) {
+public function get_location_data_types( array $init = array() ) {
 	static $types = null;
 
 	if ( empty( $types ) ) {
@@ -232,7 +232,7 @@ function get_location_data_types( array $init = array() ) {
 }
 
 // Imports a CSV file to WordPress.
-function import_csv() {
+public function import_csv() {
 global $simple_map, $sm_locations, $current_user, $blog_id;
 
 // Define Importing Constant.
@@ -482,8 +482,9 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' === $_POST['sm
 		}
 		}
 
+		public function do_csv_preview() {
 		// Generates the CSV Preview
-		function do_csv_preview() {
+
 		global $simple_map, $blog_id;
 		$options = $simple_map->get_options();
 
@@ -599,7 +600,7 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' === $_POST['sm
 			 *
 			 * @return string
 			 */
-			function column_select( $col, $title ) {
+			public function column_select( $col, $title ) {
 				$select = "<select name='col_" . esc_attr( $col ) . "'>";
 
 				$select .= "<option value='-1' >Don't Import</option>";
@@ -614,8 +615,9 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' === $_POST['sm
 				return $select;
 			}
 
+			public function print_page() {
 			// Prints the options page
-			function print_page() {
+			
 			if ( isset( $_POST['sm-action'] ) && 'import-csv' === $_POST['sm-action'] ) {
 				$step = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
 
