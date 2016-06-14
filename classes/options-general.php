@@ -49,7 +49,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 					}
 
 					// Delete Options
-					if ( get_option( 'SimpleMap_options' ) && empty( $_GET['locations-only'] ) ) {
+					if ( empty( $_GET['locations-only'] ) && get_option( 'SimpleMap_options' ) ) {
 						delete_option( 'SimpleMap_options' );
 					}
 
@@ -354,6 +354,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 													<tr valign="top">
 
 														<?php
+														//TODO What the heck is this?? -Michael
 														if ( true ) {
 															$disabled_api = false;
 															$api_how_to   = __( 'Type in an address, state, or zip to geocode the default location.', 'SimpleMap' );
@@ -568,7 +569,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																echo '<label for="taxonomies_' . $safe . '"><input type="checkbox" name="taxonomies[' . $taxonomy . '][active]" id="taxonomies_' . $safe . '" ' . checked( $active, true, false ) . ' /> ' . __( 'Enable ' . $label . ' taxonomies?', 'SimpleMap' ) . '</label>';
 																echo '<br />';
 																if ( $active && ! isset( $standard_taxonomies[ $taxonomy ] ) ) {
-																	echo '<div style="margin: 5px 0px 5px 15px; padding: 5px; border: 1px solid #ccc;">';
+																	echo '<div style="margin: 5px 0 5px 15px; padding: 5px; border: 1px solid #ccc;">';
 																	echo '<label for="taxonomies_' . $safe . '_singular">' . __( 'Singular Form', 'SimpleMap' );
 																	echo ': <input type="text" name="taxonomies[' . $taxonomy . '][singular]" id="taxonomies_' . $safe . '_singular" value="' . esc_attr( $tax_info['singular'] ) . '" /></label>';
 																	echo '<br />';
@@ -658,7 +659,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 										<h3 style='color:#fff;text-shadow:0 1px 0 #000;background: #fff url( <?php echo SIMPLEMAP_URL; ?>/inc/images/blue-grad.png ) top left repeat-x;'><?php _e( 'Premium Support and Features', 'SimpleMap' ); ?></h3>
 
-										<div class="inside" style='padding: 0pt 10px 10px;'>
+										<div class="inside" style='padding: 0 10px 10px;'>
 
 											<?php
 											// Check for premium support status
