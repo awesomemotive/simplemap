@@ -9,10 +9,11 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 		/**
 		 * SM_Import_Export constructor.
+		 *
+		 * Update options of form submission.
+		 *
 		 */
 		public function __construct() {
-			// Update options of form submission.
-
 			add_action( 'admin_init', array( &$this, 'export_csv' ) );
 			add_action( 'admin_init', array( &$this, 'export_legacy_csv' ) );
 			add_action( 'admin_init', array( &$this, 'delete_legacy_tables' ) );
@@ -668,13 +669,13 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 				echo '<div class="wrap">';
 
-// Title
+				// Title
 				$sm_page_title = apply_filters( 'sm-import-export-page-title', 'SimpleMap: Import/Export CSV' );
 
-// Toolbar
+				// Toolbar
 				$simple_map->show_toolbar( $sm_page_title );
 
-// Messages
+				// Messages
 				if ( isset( $_GET['sm-msg'] ) && '2' == $_GET['sm-msg'] ) {
 					echo '<div class="updated fade"><p>' . __( 'Legacy SimpleMap settings deleted.', 'SimpleMap' ) . '</p></div>';
 				}
@@ -802,11 +803,12 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 </div> 
 </div> ';
 
-			?>	<div class='postbox-container' style = 'width:49%;' >
+				?>
+				<div class='postbox-container' style='width:49%;'>
 
-	<div id = 'side-sortables' class='meta-box-sortables ui-sortable' >
+				<div id='side-sortables' class='meta-box-sortables ui-sortable'>
 
-		<?php do_action( 'sm-import-export-side-sortables-top' ); ?>
+				<?php do_action( 'sm-import-export-side-sortables-top' ); ?>
 
 				<!-- #### PREMIUM SUPPORT #### -->
 
@@ -892,9 +894,9 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 				<?php endif; ?>
 
-<?php do_action( 'sm-import-export-side-sortables-bottom' );
+				<?php do_action( 'sm-import-export-side-sortables-bottom' );
 
-echo '
+				echo '
 
 	</div>
 
@@ -906,7 +908,7 @@ echo '
 </div> <!-- wrap -->';
 
 
-}
+			}
 		}
 	}
 }
