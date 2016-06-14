@@ -218,7 +218,7 @@ function get_location_data_types( $init = array() ) {
 
 // Imports a CSV file to WordPress
 function import_csv() {
-global $simple_map, $sm_locations, $wpdb, $current_user, $blog_id;
+global $simple_map, $sm_locations, $current_user, $blog_id;
 
 // Define Importing Constant
 define( 'WP_IMPORTING', true );
