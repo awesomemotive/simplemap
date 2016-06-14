@@ -54,9 +54,7 @@ if ( ! class_exists( 'FT_Premium_Support_Client' ) ) {
 				} else {
 					delete_option( 'external_updates-' . $this->plugin_slug );
 				}
-
 			}
-
 		}
 
 		// Inits the client if we're on the support page or receiving a request from the server
@@ -77,7 +75,6 @@ if ( ! class_exists( 'FT_Premium_Support_Client' ) ) {
 			} elseif ( in_array( $current_screen->id, $this->plugin_support_page_ids ) ) {
 				$this->init_premium_support();
 			}
-
 		}
 
 		// This function inits premium support process
@@ -186,21 +183,18 @@ if ( ! class_exists( 'FT_Premium_Support_Client' ) ) {
 					add_action( 'admin_notices', array( $this, 'renew_soon' ) );
 				}
 			}
-
 		}
 
 		function support_expired() {
-			$link = ( $this->paypal_button ) ? esc_url( $this->paypal_button ) : 'http://simplemap-plugin.com';
-			echo "<div class='update-nag'>" . sprintf( __( "<strong style='color:red;'>Your license for SimpleMap has expired!</strong><br />You need to renew your license now for continued support and upgrades: <a href='%s' target='_blank'>Renew my license now</a>." ), $link ) . "</div>";
+			$link = $this->paypal_button ? esc_url( $this->paypal_button ) : 'http://simplemap-plugin.com';
+			echo "<div class='update-nag'>" . sprintf( __( "<strong style='color:red;'>Your license for SimpleMap has expired!</strong><br />You need to renew your license now for continued support and upgrades: <a href='%s' target='_blank'>Renew my license now</a>." ), $link ) . '</div>';
 		}
 
 		function renew_soon() {
-			$link = ( $this->paypal_button ) ? esc_url( $this->paypal_button ) : 'http://simplemap-plugin.com';
-			echo "<div class='update-nag'>" . sprintf( __( "<strong style='color:red;'>SimpleMap is expiring soon!</strong><br />You will need to renew your license for continued support and upgrades: <a href='%s' target='_blank'>Renew my license now</a>." ), $link ) . "</div>";
+			$link = $this->paypal_button ? esc_url( $this->paypal_button ) : 'http://simplemap-plugin.com';
+			echo "<div class='update-nag'>" . sprintf( __( "<strong style='color:red;'>SimpleMap is expiring soon!</strong><br />You will need to renew your license for continued support and upgrades: <a href='%s' target='_blank'>Renew my license now</a>." ), $link ) . '</div>';
 		}
-
 	}
-
 }
 
 if ( ! class_exists( 'FT_Premium_Support_PluginUpdate_Checker' ) ) :
@@ -281,7 +275,7 @@ if ( ! class_exists( 'FT_Premium_Support_PluginUpdate_Checker' ) ) :
 				//Trigger the check via Cron
 				add_filter( 'cron_schedules', array( &$this, '_addCustomSchedule' ) );
 
-				if ( ! wp_next_scheduled( $cronHook ) && ! defined( 'WP_INSTALLING' ) ) {
+				if ( ! defined( 'WP_INSTALLING' ) && ! wp_next_scheduled( $cronHook ) ) {
 
 					$scheduleName = 'every' . $this->checkPeriod . 'hours';
 					wp_schedule_event( time(), $scheduleName, $cronHook );
@@ -337,7 +331,7 @@ if ( ! class_exists( 'FT_Premium_Support_PluginUpdate_Checker' ) ) :
 			$options = array(
 				'timeout' => 10, //seconds
 				'headers' => array(
-					'Accept' => 'application/json'
+					'Accept' => 'application/json',
 				),
 			);
 
@@ -415,7 +409,7 @@ if ( ! class_exists( 'FT_Premium_Support_PluginUpdate_Checker' ) ) :
 			$state = get_option( $this->optionName );
 
 			if ( empty( $state ) ) {
-				$state                 = new StdClass;
+				$state                 = new stdClass;
 				$state->lastCheck      = 0;
 				$state->checkedVersion = '';
 				$state->update         = null;
@@ -630,7 +624,7 @@ if ( ! class_exists( 'FT_Premium_Support_PluginInfo' ) ) :
 		 * @return object
 		 */
 		function toWpFormat() {
-			$info = new StdClass;
+			$info = new stdClass;
 
 			//The custom update API is built so that many fields have the same name and format
 			//as those returned by the native WordPress.org API. These can be assigned directly.
@@ -743,7 +737,7 @@ if ( ! class_exists( 'FT_Premium_Support_PluginUpdate' ) ):
 		 */
 		function toWpFormat() {
 
-			$update = new StdClass;
+			$update = new stdClass;
 
 			$update->id          = $this->id;
 			$update->slug        = $this->slug;
@@ -871,5 +865,3 @@ function get_ftps_name( &$ps_object ) {
 
 	return false;
 }
-
-?>
