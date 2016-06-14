@@ -202,8 +202,9 @@ padding:3px;
 }
 
 .sm-single-map {
-float:left;
-width:105px;
+float: left;
+width: auto;
+margin-right: 5px;
 }
 
 .sm-single-location-data {
@@ -216,22 +217,39 @@ padding-left:0;
 margin-left:0;
 }
 
-.infoBox {
-	background-color: #fff;
+.result-template-2 .icon {
+	float: left;
+	width: 80px;
 }
-.infoBox:after {
-	position: relative;
-	top: 20px;
-	left: 60px;
-	border-top: 0px;
-	border-left: 0px;
-	padding: 0px;
-	content: '';
-	overflow: hidden;
-	display: block;
-	width: 0;
-	height: 0;
-	border-left: 20px solid rgba(0, 0, 0, 0);
-	border-right: 20px solid rgba(0, 0, 0, 0);
-	border-top: 20px solid #FFF;
+.result-template-2 .icon img {
+	width: 75px;
+	height: 75px;
+}
+.result-template-2 .info {
+	float: left;
+}
+.result-template-2 a, .result-template-2 .link, .result-template-2 a:link, .result-template-2 a:hover, .result-template-2 a:active, .result-template-2 a:visited {
+	text-decoration: none;
+}
+.result-template-2 .extra {
+	float: right;
+	width: 155px;
+}
+
+#results .result-template-2 .special {
+background: url( ../images/star.png ) no-repeat left center;
+float:none;
+}
+#pagenums > a.prev:before, #pagenums > a.next:before {
+	color: #000;
+}
+#pagenums > a.prev, #pagenums > a.next {
+	color: transparent;
+	display: inline-block;
+}
+#pagenums > a.prev:before {
+	content: ' <<';
+}
+#pagenums > a.next:before {
+	content: ' >>';
 }

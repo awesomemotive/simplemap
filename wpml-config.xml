@@ -1,0 +1,32 @@
+<wpml-config>
+	<custom-fields>
+		<custom-field action="copy">location_address</custom-field>
+		<custom-field action="copy">location_address2</custom-field>
+		<custom-field action="copy">location_city</custom-field>
+		<custom-field action="copy">location_zip</custom-field>
+		<custom-field action="copy">location_state</custom-field>
+		<custom-field action="copy">location_country</custom-field>
+		<custom-field action="copy">location_lat</custom-field>
+		<custom-field action="copy">location_lng</custom-field>
+		<custom-field action="copy">location_phone</custom-field>
+		<custom-field action="copy">location_fax</custom-field>
+		<custom-field action="copy">location_email</custom-field>
+		<custom-field action="copy">location_url</custom-field>
+		<custom-field action="copy">location_special</custom-field>
+	</custom-fields>
+	<custom-types>
+		<custom-type translate="1">sm-location</custom-type>
+	</custom-types>
+	<taxonomies>
+		<taxonomy translate="1">sm-category</taxonomy>
+		<taxonomy translate="1">sm-tag</taxonomy>
+		<taxonomy translate="1">sm-day</taxonomy>
+		<taxonomy translate="1">sm-time</taxonomy>
+	</taxonomies>
+	<admin-texts>
+		<key name="SimpleMap_options">
+			<key name="special_text" />
+		</key>
+	</admin-texts>
+</wpml-config>
+

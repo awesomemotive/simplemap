@@ -37,7 +37,6 @@ if ( !class_exists( 'Simple_Map' ) ) {
 			add_filter( 'sm_tag-text', array( &$this, 'backwards_compat_tags_text' ) );
 			add_filter( 'sm_day-text', array( &$this, 'backwards_compat_days_text' ) );
 			add_filter( 'sm_time-text', array( &$this, 'backwards_compat_times_text' ) );
-            
 		}
 
 		// This function generates the code to display the map
@@ -52,6 +51,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 			$to_display = '';
 
 			$to_display .= $this->location_search_form( $atts );
+			$to_display .= '<a id="map_top"></a>';
 
 			if ( $powered_by )
 				$to_display .= '<div id="powered_by_simplemap">' . sprintf( __( 'Powered by %s SimpleMap', 'SimpleMap' ), '<a href="http://simplemap-plugin.com/" target="_blank">' ) . '</a></div>';
@@ -72,6 +72,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 			$to_display .= '<div id="simplemap-updating" style="'. $sm_updating_div_size. '"><img src="' . $sm_updating_img_src . '" alt="' . __( 'Loading new locations', 'SimpleMap' ) . '" /></div>';
 
 			$to_display .= '<div id="simplemap" style="' . $hidemap . 'width: ' . $map_width . '; height: ' . $map_height . ';"></div>';
+			$to_display .= apply_filters( 'sm-before-results-div', '' );
 			$to_display .= '<div id="results" style="' . $hidelist . 'width: ' . $map_width . ';"></div>';
 			$to_display .= '<script type="text/javascript">';
 			$to_display .= '(function($) { ';
@@ -94,26 +95,26 @@ if ( !class_exists( 'Simple_Map' ) ) {
 				var shortcode_zoom_level = "' . esc_js( $zoom_level ) . '";
 				var map_type = "' . esc_js( $map_type ) . '";
 				var shortcode_autoload = "' . esc_js( $autoload ) . '";
+				shortcode_sort = "' . esc_js( $sort ) . '";
 				var auto_locate = "' . esc_js( $options['auto_locate'] ) . '";
 				var sm_autolocate_complete = false;
 				geocoder = new google.maps.Geocoder();
 
 				if ( !' . absint( $is_sm_search ) . ' && auto_locate == "ip" ) {
-					// alternatively, freegeoip.net/json/
-					jQuery.getJSON( "http://www.telize.com/geoip/?callback=?", function(location) {
+					jQuery.getJSON( "http://freegeoip.net/json/?callback=?", function(location) {
 						lat = location.latitude;
 						lng = location.longitude;
 
-                    	if ( document.getElementById("location_search_city_field") ) {
+						if ( document.getElementById("location_search_city_field") ) {
 							document.getElementById("location_search_city_field").value = location.city;
 						}
-	                    if ( document.getElementById("location_search_country_field") ) {
+						if ( document.getElementById("location_search_country_field") ) {
 							document.getElementById("location_search_country_field").value = location.country_code;
 						}
-        	            if ( document.getElementById("location_search_state_field") ) {
+						if ( document.getElementById("location_search_state_field") ) {
 							document.getElementById("location_search_state_field").value = location.region_code;
 						}
-			    if ( document.getElementById("location_search_zip_field") && typeof location.zipcode != "undefined" && location.zipcode != "undefined" ) {
+						if ( document.getElementById("location_search_zip_field") ) {
 							document.getElementById("location_search_zip_field").value = location.zipcode;
 						}
 						if ( document.getElementById("location_search_default_lat" ) ) {
@@ -125,7 +126,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 						' . $do_search_function . '
 						searchLocations( 1 );
 					}).error(function() {
-					 	' . $do_search_function . '
+						' . $do_search_function . '
 						searchLocations( ' . absint( $is_sm_search ) . ' );
 					});
 				}
@@ -197,7 +198,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 
 			// Form onsubmit, action, and method values
 			$on_submit = apply_filters( 'sm-location-search-onsubmit', ' onsubmit="searchLocations( 1 ); return false; "', $post->ID );
-			$action = apply_filters( 'sm-locaiton-search-action', get_permalink(), $post->ID );
+			$action = apply_filters( 'sm-location-search-action', get_permalink(), $post->ID );
 			$method = apply_filters( 'sm-location-search-method', 'post', $post->ID );			
 
 			// Form Field Values
@@ -206,8 +207,10 @@ if ( !class_exists( 'Simple_Map' ) ) {
 			$state_value 		= isset( $_REQUEST['location_search_state'] ) ? $_REQUEST['location_search_state'] : '';
 			$zip_value 			= get_query_var( 'location_search_zip' );
 			$country_value 		= get_query_var( 'location_search_country' );
+			$location_name_value 	= get_query_var( 'location_search_location_name' );
 			$radius_value	 	= isset( $_REQUEST['location_search_distance'] ) ? $_REQUEST['location_search_distance'] : $radius;
 			$limit_value		= isset( $_REQUEST['location_search_limit'] ) ? $_REQUEST['location_search_limit'] : $limit;
+			$featured_items		= $featured_items;
 			$is_sm_search		= isset( $_REQUEST['location_is_search_results'] ) ? 1 : 0;
 
 			// Normal Field inputs
@@ -215,7 +218,27 @@ if ( !class_exists( 'Simple_Map' ) ) {
 			$ffi['city']		= array( 'label' => apply_filters( 'sm-search-label-city', __( 'City: ', 'SimpleMap' ), $post ), 'input' => '<input type="text"  id="location_search_city_field" name="location_search_city" value="' . esc_attr( $city_value ) . '" />' );
 			$ffi['state']		= array( 'label' => apply_filters( 'sm-search-label-state', __( 'State: ', 'SimpleMap' ), $post ), 'input' => '<input type="text" id="location_search_state_field" name="location_search_state" value="' . esc_attr( $state_value ) . '" />' );
 			$ffi['zip']			= array( 'label' => apply_filters( 'sm-search-label-zip', __( 'Zip: ', 'SimpleMap' ), $post ), 'input' => '<input type="text" id="location_search_zip_field" name="location_search_zip" value="' . esc_attr( $zip_value ) . '" />' );
-			$ffi['country']		= array( 'label' => apply_filters( 'sm-search-label-country', __( 'Country: ', 'SimpleMap' ), $post ), 'input' => '<input type="text" id="location_search_country_field" name="location_search_country" value="' . esc_attr( $country_value ) . '" />' );
+//			$ffi['country']		= array( 'label' => apply_filters( 'sm-search-label-country', __( 'Country: ', 'SimpleMap' ), $post ), 'input' => '<input type="text" id="location_search_country_field" name="location_search_country" value="' . esc_attr( $country_value ) . '" />' );
+			global $wpdb;
+			$results = $wpdb->get_col( "SELECT DISTINCT pm.meta_value FROM {$wpdb->posts} p, {$wpdb->postmeta} pm WHERE p.post_status = 'publish' AND p.post_type = 'sm-location' AND pm.meta_key = 'location_country' AND pm.meta_value != '' ORDER BY pm.meta_value" );
+			$country_field = '';
+			
+			if ( !empty( $results ) && count( $results ) > 1 ) {
+				$countries = $this->get_country_options();
+				$country_field = '<select id="location_search_country_field" name="location_search_country">';
+				foreach( $results as $r ) {
+					$selected = '';
+					if ( $r == $options['default_country'] ) $selected = " SELECTED";
+					$country_field .= '<option value="' . $r . '"' . $selected . '>' . $countries[$r] . '</option>';
+				}
+				$country_field .= '</select>';
+			} else {
+				$country_field = '<input type="text" id="location_search_country_field" name="location_search_country" value="' . esc_attr( $country_value ) . '" />';				
+			}
+
+			$ffi['country']		= array( 'label' => apply_filters( 'sm-search-label-country', __( 'Country: ', 'SimpleMap' ), $post ), 'input' => $country_field );
+			
+			$ffi['location_name']	= array( 'label' => apply_filters( 'sm-search-label-location-name', __( 'Location: ', 'SimpleMap' ), $post ), 'input' => '<input type="text" id="location_search_location_name_field" name="location_search_location_name" value="' . esc_attr( $location_name_value ) . '" />' );
 			$ffi['empty']		= array( 'label' => '', 'input' => '' );
 			$ffi['submit']		= array( 'label' => '', 'input' => '<input type="submit" value="' . apply_filters( 'sm-search-label-search', __('Search', 'SimpleMap'), $post ) . '" id="location_search_submit_field" class="submit" />' );
 			$ffi['distance']	= $this->add_distance_field( $radius_value, $units );
@@ -239,7 +262,6 @@ if ( !class_exists( 'Simple_Map' ) ) {
 			$hidesearch = $hide_search ? " style='display:none;' " : '';
 
 			$location_search  = '<div id="map_search" >';
-			$location_search .= '<a id="map_top"></a>';
 			$location_search .= '<form ' . $on_submit . ' name="location_search_form" id="location_search_form" action="' . $action . '" method="' . $method . '">';
 
 			$location_search .= '<table class="location_search"' . $hidesearch . '>';
@@ -394,9 +416,16 @@ if ( !class_exists( 'Simple_Map' ) ) {
 
 			// Hidden value for limit
 			$location_search .= "<input type='hidden' id='location_search_limit' value='" . $limit_value . "' />";
+			$location_search .= "<input type='hidden' id='location_search_featured_items' value='" . $featured_items . "' />";
 
 			// Hidden value set to true if we got here via search
 			$location_search .= "<input type='hidden' id='location_is_search_results' name='sm-location-search' value='" . $is_sm_search . "' />";
+			
+			$location_search .= "<input type='hidden' id='pageindex' value='1' />";
+			
+			$location_search .= '<div style="width:100%;">';
+			$location_search .= '<div id="pagenums" style="float:left;"></div>';
+			$location_search .= '</div><p style="clear:both;" />';
 
 			$location_search .= '</form>';
 			$location_search .= '</div>'; // close map_search div
@@ -554,8 +583,9 @@ if ( !class_exists( 'Simple_Map' ) ) {
 			}
 
 			// Frontend only
-			if ( ! is_admin() && is_object( $post ) || apply_filters( 'sm-force-frontend-js', '__return_false' ) ) {
+			if ( ( ! is_admin() && !empty( $post ) && is_object( $post ) ) || apply_filters( 'sm-force-frontend-js', '__return_false' ) ) {
 				// Bail if we're not showing on all pages and this isn't a map page
+				if ( empty( $post ) ) return false;
 				if ( ! in_array( $post->ID, explode( ',', $options['map_pages'] ) ) && ! in_array( 0, explode( ',', $options['map_pages'] ) ) )
 					return false;
 
@@ -569,7 +599,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 				wp_enqueue_style( 'simplemap-map-style', $style_url );
 
 				// Scripts
-				wp_enqueue_script( 'simplemap-master-js', get_home_url() . '?simplemap-master-js=1&smpid=' . $post->ID, array( 'jquery' ) );
+				wp_enqueue_script( 'simplemap-master-js', apply_filters( 'sm-site-url', get_site_url() ) . '?simplemap-master-js=1&smpid=' . $post->ID, array( 'jquery' ) );
 
 				// Google API v3 does not need a key
 				$url_params = array(
@@ -594,7 +624,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 
 				// SimpleMap General options
 				if ( isset( $_GET['page'] ) && 'simplemap' == $_GET['page'] )
-					wp_enqueue_script( 'simplemap-general-options-js', get_home_url() . '/?simplemap-general-options-js', array( 'jquery' ) );
+					wp_enqueue_script( 'simplemap-general-options-js', apply_filters( 'sm-site-url', get_site_url() ) . '/?simplemap-general-options-js', array( 'jquery' ) );
 
 				// Google API v3 does not need a key
 				$url_params = array(
@@ -680,13 +710,18 @@ if ( !class_exists( 'Simple_Map' ) ) {
 			var noresults_text			= '<?php echo apply_filters( 'sm-no-results-found-text', __( 'No results found.', 'SimpleMap' ) ); ?>';
 			var default_domain 			= '<?php echo esc_js( $options['default_domain'] ); ?>';
 			var address_format 			= '<?php echo esc_js( $options['address_format'] ); ?>';
-			var siteurl					= '<?php echo esc_js( get_home_url() ); ?>';
+			var siteurl					= '<?php echo esc_js( apply_filters( 'sm-site-url', get_site_url() ) ); ?>';
 			var map;
 			var geocoder;
 			var autoload				= '<?php echo esc_js( $options['autoload'] ); ?>';
 			var auto_locate				= '<?php echo esc_js( $options['auto_locate'] ); ?>';
+			var shortcode_sort			= '';
 			var markersArray = [];
 			var infowindowsArray = [];
+			var specialTextAdded = false;
+			var standardTextAdded = false;
+			var featured_markers = [];
+			var other_markers = [];
 
 			function clearInfoWindows() {
 				if (infowindowsArray) {
@@ -708,7 +743,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 			function load_simplemap( lat, lng, aspid, ascid, asma, shortcode_zoom_level, map_type, shortcode_autoload ) {
 
 				zoom_level = shortcode_zoom_level;
-                autoload = shortcode_autoload;
+				autoload = shortcode_autoload;
 				<?php 
 				/*
 				if ( '' == $options['api_key'] ) {
@@ -859,6 +894,9 @@ if ( !class_exists( 'Simple_Map' ) ) {
 				searchData.state	= '';
 				searchData.zip		= '';
 				searchData.country	= '';
+				searchData.radius	= default_radius;
+				searchData.location_name	= '';
+				searchData.sort		= '';
 
 				if ( null != document.getElementById('location_search_address_field') ) {
 					searchData.address = document.getElementById('location_search_address_field').value;
@@ -884,9 +922,14 @@ if ( !class_exists( 'Simple_Map' ) ) {
 					searchData.radius = document.getElementById('location_search_distance_field').value;
 				}
 
+				if ( null != document.getElementById('location_search_location_name_field') ) {
+					searchData.location_name = document.getElementById('location_search_location_name_field').value;
+				}
+
 				searchData.lat			= document.getElementById('location_search_default_lat').value;
 				searchData.lng			= document.getElementById('location_search_default_lng').value;
 				searchData.limit		= document.getElementById('location_search_limit').value; 
+				searchData.featured_items	= document.getElementById('location_search_featured_items').value; 
 				searchData.searching	= document.getElementById('location_is_search_results').value;
 
 				// Do SimpleMap Taxonomies
@@ -921,33 +964,31 @@ if ( !class_exists( 'Simple_Map' ) ) {
 				}
 				?>
 
-				var query = '';
+				var query = [];
 				var start = 0;
  
 				if ( searchData.address && searchData.address != '' ) {
-					query += searchData.address + ', ';
+					query.push( searchData.address );
 				}
 
 				if ( searchData.city && searchData.city != '' ) {
-					query += searchData.city + ', ';
+					query.push( searchData.city );
 				}
 
 				if ( searchData.state && searchData.state != '' ) {
-					query += searchData.state + ', ';
+					query.push( searchData.state );
 				}
 
 				if ( searchData.zip && searchData.zip != '' ) {
-					query += searchData.zip + ', ';
+					query.push( searchData.zip );
 				}
 
 				if ( searchData.country && searchData.country != '' ) {
-					query += searchData.country + ', ';
+					query.push( searchData.country );
 				}
 
 				// Query
-				if ( query != null ) {
-					query = query.slice(0, -2);
-				}
+				query = query.join( ', ' );
 
 				if ( searchData.limit == '' || searchData.limit == null ) {
 					searchData.limit = 0;
@@ -1009,10 +1050,11 @@ if ( !class_exists( 'Simple_Map' ) ) {
 							if ( 'all' == autoload && is_search != 1 ) {
 								searchData.radius = 0;
 								searchData.limit = 0;
+								searchData.sort = shortcode_sort;
 							}
 
 							if (! searchData.center) {
-								searchData.center = new GLatLng( 44.9799654, -93.2638361 );
+								searchData.center = new google.maps.LatLng( 44.9799654, -93.2638361 );
 							}
 							searchData.query_type = 'all';
 							searchData.mapLock = 'unlock';
@@ -1025,34 +1067,29 @@ if ( !class_exists( 'Simple_Map' ) ) {
 			}
 
 			function searchLocationsNear(searchData) {
-				// Radius
-				if ( searchData.radius != null && searchData.radius != '' ) {
-					searchData.radius = parseInt( searchData.radius );
+				standardTextAdded = specialTextAdded = false;
+				featured_markers = [];
+				other_markers = [];
 
-					if ( units == 'km' ) {
-						searchData.radius = parseInt( searchData.radius ) / 1.609344;
-					}
-				} else if ( autoload == 'all' ) {
-					searchData.radius = 0;
-				} else {
-					if ( units == 'mi' ) {
-						searchData.radius = parseInt( default_radius );
-					} else if ( units == 'km' ) {
-						searchData.radius = parseInt( default_radius ) / 1.609344;
-					}
+				// Radius
+				searchData.radius = parseInt( searchData.radius );
+				if ( units == 'km' ) {
+					searchData.radius /= 1.609344;
 				}
 
 				// Build search URL
 				<?php 
+				$js_tax_string = '';
 				if ( $taxonomies = $this->get_sm_taxonomies( 'array', '', true ) ) {
-					$js_tax_string = '';
 					foreach( $taxonomies as $taxonomy ) {
 						$js_tax_string .= "'&$taxonomy=' + searchData.taxes.$taxonomy + ";
 					}
 				}
 				?>
 
-				var searchUrl = siteurl + '/?sm-xml-search=1&lat=' + searchData.center.lat() + '&lng=' + searchData.center.lng() + '&radius=' + searchData.radius + '&namequery=' + searchData.homeAddress + '&query_type=' + searchData.query_type  + '&limit=' + searchData.limit + <?php echo $js_tax_string; ?>'&address=' + searchData.address + '&city=' + searchData.city + '&state=' + searchData.state + '&zip=' + searchData.zip + '&pid=<?php echo esc_js( absint( $_GET['smpid'] ) ); ?>';
+				var searchUrl = siteurl + '/?sm-xml-search=1&lat=' + searchData.center.lat() + '&lng=' + searchData.center.lng() + '&radius=' + searchData.radius + '&namequery=' + searchData.homeAddress + '&query_type=' + searchData.query_type  + '&limit=' + searchData.limit + <?php echo $js_tax_string; ?>'&address=' + searchData.address + '&city=' + searchData.city + '&state=' + searchData.state + '&zip=' + searchData.zip + '&pid=<?php echo esc_js( absint( $_GET['smpid'] ) ); ?>&sort=' + searchData.sort + '&location_name=' + searchData.location_name + '&units=' + units  + '&pageindex=' + document.getElementById('pageindex').value;
+
+				<?php do_action( 'sm-set-search-url' ); ?>
 
 				<?php if ( apply_filters( 'sm-use-updating-image', true ) ) : ?>
 				// Display Updating Message and hide search results
@@ -1076,13 +1113,76 @@ if ( !class_exists( 'Simple_Map' ) ) {
 
 					var results = document.getElementById('results');
 					results.innerHTML = '';
+					jQuery("#map_top").html("");
 
-					var markers = jQuery( eval( data ) );
+					var markers = jQuery( data );
 					if (markers.length == 0) {
 						results.innerHTML = '<h3>' + noresults_text + '</h3>';
 						map.setCenter( searchData.center );
 						return;
 					}
+					
+					<?php do_action( 'sm_set_results_text' ); ?>
+
+<?php				if ( apply_filters( 'sm-paginate-search-results', $options['map_pagination'] ) ) { 
+						$posts_per_page = (int)apply_filters( 'sm-posts-per-page', 10 );
+						if ( $posts_per_page >= 0 ) {
+							?>
+							if ( ( "0" in markers ) && ( "RecordCount" in markers[0] ) ) {
+								var pageCount = markers[0].RecordCount;
+								var pageLinks = 'Pages: ';
+								var max = pageCount / <?php echo $posts_per_page; ?>;
+								max = Math.floor(max);
+								if ( pageCount % <?php echo $posts_per_page; ?> != 0 ) max++;
+								var curPage = jQuery("#pageindex").val() || 0;
+								curPage = Number( curPage );
+								var page = 0;								
+						
+						<?php	if ( !empty( $options['map_page_list'] ) ) { ?>	
+								for( i = 1; i <= max; i++ ) {
+									pageLinks += '<a href="#">' + i + '</a> ';
+								}
+						<?php	} ?>
+						
+						<?php	if ( !empty( $options['map_page_arrows'] ) ) { ?>	
+								if ( ( curPage > 1 ) && ( max > 1 ) ) {
+									page = curPage - 1;
+									pageLinks += '<a href="#" class="prev">' + page + '</a> ';
+								}
+								
+								<?php	if ( empty( $options['map_page_list'] ) ) { ?>	
+									pageLinks += '<a href="#">' + curPage + '</a> ';
+								<?php	} ?>
+								if ( ( curPage < max ) && ( max > 1 ) ) {
+									page = curPage + 1;
+									pageLinks += '<a href="#" class="next">' + page + '</a> ';
+								}
+						<?php	} ?>	
+
+								jQuery("#pagenums").html(pageLinks);
+								jQuery("#pagenums > a").click(function() {
+									jQuery("#pageindex").val(jQuery(this).html());
+									searchLocations(1);
+									return false;
+								});
+								jQuery("#location_search_zip_field").change(function() {
+									jQuery("#pageindex").val(1);
+									jQuery("#pagenums").html("");				
+								});
+							}
+<?php					}
+					}     ?>
+									
+					markers.each( function () {
+						var locationData = this;
+						if (locationData.special == '1' && (searchData.featured_items == -1 || featured_markers.length < searchData.featured_items)) {
+							featured_markers.push(locationData);
+						}
+						else {
+							other_markers.push(locationData);
+						}
+					});
+					markers = jQuery(featured_markers.concat(other_markers));
 
 					var bounds = new google.maps.LatLngBounds();
 					markers.each( function () {
@@ -1097,7 +1197,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 						bounds.extend(locationData.point);
 					});
 
-					// Make centeral marker on search
+					// Make central marker on search
 					if ( 'search' == searchData.source && <?php echo apply_filters( 'sm-show-search-marker-image', 'true' ); ?>) {
 						var searchMarkerOptions = {};
 						searchMarkerOptions.map = map;
@@ -1140,11 +1240,11 @@ if ( !class_exists( 'Simple_Map' ) ) {
 						// If initial load of map, zoom to default settings
 						map.setZoom(parseInt(zoom_level));
 					}
-                    
-					// Paranoia - fix container sizing bug -- pdb
-					google.maps.event.addListener(map, "idle", function(){
-						google.maps.event.trigger(map, 'resize');
-					});
+					
+                    // Paranoia - fix container sizing bug -- pdb
+                    google.maps.event.addListener(map, "idle", function(){
+                            google.maps.event.trigger(map, 'resize');
+                    });
 				});
 			}
 
@@ -1164,8 +1264,8 @@ if ( !class_exists( 'Simple_Map' ) ) {
 				// Init tax heights
 				locationData.taxonomyheights = [];
 
-				// Allow plugin users to define Maker Options (including custom images)
 				var markerOptions = {};
+				// Allow plugin users to define Marker Options (including custom images)
 				if ( 'function' == typeof window.simplemapCustomMarkers ) {
 					markerOptions = simplemapCustomMarkers( locationData );
 				}
@@ -1178,14 +1278,14 @@ if ( !class_exists( 'Simple_Map' ) ) {
 				markerOptions.map = map;
 				markerOptions.position = locationData.point;
 				var marker = new google.maps.Marker( markerOptions );
-				marker.title = locationData.name;
+				marker.title = locationData.post_title;
 				markersArray.push(marker);
 
 				var mapwidth;
 				var mapheight;
 				var maxbubblewidth;
 				var maxbubbleheight;
-				
+
 				mapwidth = document.getElementById("simplemap");
 				if ( typeof mapwidth != 'undefined' ) {
 					mapwidth = mapwidth.offsetWidth;
@@ -1196,7 +1296,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 						mapwidth = 400;
 					}
 				}
-				
+
 				mapheight = document.getElementById("simplemap");
 				if ( typeof mapheight != 'undefined' ) {
 					mapheight = mapheight.offsetHeight;
@@ -1210,9 +1310,8 @@ if ( !class_exists( 'Simple_Map' ) ) {
 				maxbubblewidth = Math.round(mapwidth / 1.5);
 				maxbubbleheight = Math.round(mapheight / 2.2);
 
-				var fontsize = 12;
-				var lineheight = 12;
-
+				var fontsize = 16;
+				var lineheight = 16;
 				if (locationData.taxes.sm_category && locationData.taxes.sm_category != '' ) {
 					var titleheight = 3 + Math.floor((locationData.name.length + locationData.taxes.sm_category.length) * fontsize / (maxbubblewidth * 1.5));
 				} else {
@@ -1243,20 +1342,15 @@ if ( !class_exists( 'Simple_Map' ) ) {
 				var totalheight = titleheight + addressheight;
 				for (jstax in locationData.taxes) {
 					if ( 'sm_category' != jstax ) {
-						totalheight += locationData.taxonomyheights[jstax];
+						if ( !isNaN( locationData.taxonomyheights[jstax] ) ) totalheight += locationData.taxonomyheights[jstax];
 					}
 				}
-				totalheight = (totalheight + 1) * fontsize;
+				totalheight = (totalheight + 2 ) * fontsize;
 
-				if (totalheight > maxbubbleheight) {
-					totalheight = maxbubbleheight;
-				}
-				
 				if ( isNaN( totalheight ) || totalheight > maxbubbleheight ) {
 					totalheight = maxbubbleheight;
 				}
-
-				var html = '<div class="markertext" style="background-color:#fff;padding:10px;max-width: ' + maxbubblewidth + 'px; height: ' + totalheight + 'px; overflow-y: auto; overflow-x: hidden;">';
+				var html = '<div class="markertext" style="max-width: ' + maxbubblewidth + 'px; height: ' + totalheight + 'px; overflow-y: auto; overflow-x: hidden;">';
 				html += '<h3 style="margin-top: 0; padding-top: 0; border-top: none;">';
 
 				if ( '' != locationData.permalink ) {
@@ -1274,7 +1368,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 
 				html += '</h3>';
 
-				html += '<p class="buble_address">' + locationData.address;
+				html += '<p class="bubble_address">' + locationData.address;
 				if (locationData.address2 != '') {
 					html += '<br />' + locationData.address2;
 				}
@@ -1364,16 +1458,10 @@ if ( !class_exists( 'Simple_Map' ) ) {
 				}
 
 				html += '	</div>';
-/**
- * @name InfoBox
- * @version 1.1.13 [March 19, 2014]
- * @author Gary Little (inspired by proof-of-concept code from Pamela Fox of Google)
- * @copyright Copyright 2010 Gary Little [gary at luxcentral.com]
- */
-eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('7 8(a){a=a||{};r.s.1R.2k(2,3d);2.Q=a.1v||"";2.1H=a.1B||J;2.S=a.1G||0;2.H=a.1z||1h r.s.1Y(0,0);2.B=a.U||1h r.s.2E(0,0);2.15=a.13||t;2.1p=a.1t||"2h";2.1m=a.F||{};2.1E=a.1C||"3g";2.P=a.1j||"3b://38.r.33/2Y/2T/2N/1r.2K";3(a.1j===""){2.P=""}2.1f=a.1x||1h r.s.1Y(1,1);3(q a.A==="p"){3(q a.18==="p"){a.A=L}v{a.A=!a.18}}2.w=!a.A;2.17=a.1n||J;2.1I=a.2g||"2e";2.16=a.1l||J;2.4=t;2.z=t;2.14=t;2.V=t;2.E=t;2.R=t}8.9=1h r.s.1R();8.9.25=7(){5 i;5 f;5 a;5 d=2;5 c=7(e){e.20=L;3(e.1i){e.1i()}};5 b=7(e){e.30=J;3(e.1Z){e.1Z()}3(!d.16){c(e)}};3(!2.4){2.4=1e.2S("2Q");2.1d();3(q 2.Q.1u==="p"){2.4.O=2.G()+2.Q}v{2.4.O=2.G();2.4.1a(2.Q)}2.2J()[2.1I].1a(2.4);2.1w();3(2.4.6.D){2.R=L}v{3(2.S!==0&&2.4.Z>2.S){2.4.6.D=2.S;2.4.6.2D="2A";2.R=L}v{a=2.1P();2.4.6.D=(2.4.Z-a.W-a.11)+"12";2.R=J}}2.1F(2.1H);3(!2.16){2.E=[];f=["2t","1O","2q","2p","1M","2o","2n","2m","2l"];1o(i=0;i<f.1L;i++){2.E.1K(r.s.u.19(2.4,f[i],c))}2.E.1K(r.s.u.19(2.4,"1O",7(e){2.6.1J="2j"}))}2.V=r.s.u.19(2.4,"2i",b);r.s.u.T(2,"2f")}};8.9.G=7(){5 a="";3(2.P!==""){a="<2d";a+=" 2c=\'"+2.P+"\'";a+=" 2b=11";a+=" 6=\'";a+=" U: 2a;";a+=" 1J: 29;";a+=" 28: "+2.1E+";";a+="\'>"}K a};8.9.1w=7(){5 a;3(2.P!==""){a=2.4.3n;2.z=r.s.u.19(a,"1M",2.27())}v{2.z=t}};8.9.27=7(){5 a=2;K 7(e){e.20=L;3(e.1i){e.1i()}r.s.u.T(a,"3m");a.1r()}};8.9.1F=7(d){5 m;5 n;5 e=0,I=0;3(!d){m=2.1D();3(m 3l r.s.3k){3(!m.26().3h(2.B)){m.3f(2.B)}n=m.26();5 a=m.3e();5 h=a.Z;5 f=a.24;5 k=2.H.D;5 l=2.H.1k;5 g=2.4.Z;5 b=2.4.24;5 i=2.1f.D;5 j=2.1f.1k;5 o=2.23().3c(2.B);3(o.x<(-k+i)){e=o.x+k-i}v 3((o.x+g+k+i)>h){e=o.x+g+k+i-h}3(2.17){3(o.y<(-l+j+b)){I=o.y+l-j-b}v 3((o.y+l+j)>f){I=o.y+l+j-f}}v{3(o.y<(-l+j)){I=o.y+l-j}v 3((o.y+b+l+j)>f){I=o.y+b+l+j-f}}3(!(e===0&&I===0)){5 c=m.3a();m.39(e,I)}}}};8.9.1d=7(){5 i,F;3(2.4){2.4.37=2.1p;2.4.6.36="";F=2.1m;1o(i 35 F){3(F.34(i)){2.4.6[i]=F[i]}}2.4.6.32="31(0)";3(q 2.4.6.X!=="p"&&2.4.6.X!==""){2.4.6.2Z="\\"2X:2W.2V.2U(2R="+(2.4.6.X*1X)+")\\"";2.4.6.2P="2O(X="+(2.4.6.X*1X)+")"}2.4.6.U="2M";2.4.6.M=\'1c\';3(2.15!==t){2.4.6.13=2.15}}};8.9.1P=7(){5 c;5 a={1b:0,1g:0,W:0,11:0};5 b=2.4;3(1e.1s&&1e.1s.1W){c=b.2L.1s.1W(b,"");3(c){a.1b=C(c.1V,10)||0;a.1g=C(c.1U,10)||0;a.W=C(c.1T,10)||0;a.11=C(c.1S,10)||0}}v 3(1e.2I.N){3(b.N){a.1b=C(b.N.1V,10)||0;a.1g=C(b.N.1U,10)||0;a.W=C(b.N.1T,10)||0;a.11=C(b.N.1S,10)||0}}K a};8.9.2H=7(){3(2.4){2.4.2G.2F(2.4);2.4=t}};8.9.1y=7(){2.25();5 a=2.23().2C(2.B);2.4.6.W=(a.x+2.H.D)+"12";3(2.17){2.4.6.1g=-(a.y+2.H.1k)+"12"}v{2.4.6.1b=(a.y+2.H.1k)+"12"}3(2.w){2.4.6.M="1c"}v{2.4.6.M="A"}};8.9.2B=7(a){3(q a.1t!=="p"){2.1p=a.1t;2.1d()}3(q a.F!=="p"){2.1m=a.F;2.1d()}3(q a.1v!=="p"){2.1Q(a.1v)}3(q a.1B!=="p"){2.1H=a.1B}3(q a.1G!=="p"){2.S=a.1G}3(q a.1z!=="p"){2.H=a.1z}3(q a.1n!=="p"){2.17=a.1n}3(q a.U!=="p"){2.1q(a.U)}3(q a.13!=="p"){2.22(a.13)}3(q a.1C!=="p"){2.1E=a.1C}3(q a.1j!=="p"){2.P=a.1j}3(q a.1x!=="p"){2.1f=a.1x}3(q a.18!=="p"){2.w=a.18}3(q a.A!=="p"){2.w=!a.A}3(q a.1l!=="p"){2.16=a.1l}3(2.4){2.1y()}};8.9.1Q=7(a){2.Q=a;3(2.4){3(2.z){r.s.u.Y(2.z);2.z=t}3(!2.R){2.4.6.D=""}3(q a.1u==="p"){2.4.O=2.G()+a}v{2.4.O=2.G();2.4.1a(a)}3(!2.R){2.4.6.D=2.4.Z+"12";3(q a.1u==="p"){2.4.O=2.G()+a}v{2.4.O=2.G();2.4.1a(a)}}2.1w()}r.s.u.T(2,"2z")};8.9.1q=7(a){2.B=a;3(2.4){2.1y()}r.s.u.T(2,"21")};8.9.22=7(a){2.15=a;3(2.4){2.4.6.13=a}r.s.u.T(2,"2y")};8.9.2x=7(a){2.w=!a;3(2.4){2.4.6.M=(2.w?"1c":"A")}};8.9.2w=7(){K 2.Q};8.9.1A=7(){K 2.B};8.9.2v=7(){K 2.15};8.9.2u=7(){5 a;3((q 2.1D()==="p")||(2.1D()===t)){a=J}v{a=!2.w}K a};8.9.3i=7(){2.w=J;3(2.4){2.4.6.M="A"}};8.9.3j=7(){2.w=L;3(2.4){2.4.6.M="1c"}};8.9.2s=7(c,b){5 a=2;3(b){2.B=b.1A();2.14=r.s.u.2r(b,"21",7(){a.1q(2.1A())})}2.1N(c);3(2.4){2.1F()}};8.9.1r=7(){5 i;3(2.z){r.s.u.Y(2.z);2.z=t}3(2.E){1o(i=0;i<2.E.1L;i++){r.s.u.Y(2.E[i])}2.E=t}3(2.14){r.s.u.Y(2.14);2.14=t}3(2.V){r.s.u.Y(2.V);2.V=t}2.1N(t)};',62,210,'||this|if|div_|var|style|function|InfoBox|prototype||||||||||||||||undefined|typeof|google|maps|null|event|else|isHidden_|||closeListener_|visible|position_|parseInt|width|eventListeners_|boxStyle|getCloseBoxImg_|pixelOffset_|yOffset|false|return|true|visibility|currentStyle|innerHTML|closeBoxURL_|content_|fixedWidthSet_|maxWidth_|trigger|position|contextListener_|left|opacity|removeListener|offsetWidth||right|px|zIndex|moveListener_|zIndex_|enableEventPropagation_|alignBottom_|isHidden|addDomListener|appendChild|top|hidden|setBoxStyle_|document|infoBoxClearance_|bottom|new|stopPropagation|closeBoxURL|height|enableEventPropagation|boxStyle_|alignBottom|for|boxClass_|setPosition|close|defaultView|boxClass|nodeType|content|addClickHandler_|infoBoxClearance|draw|pixelOffset|getPosition|disableAutoPan|closeBoxMargin|getMap|closeBoxMargin_|panBox_|maxWidth|disableAutoPan_|pane_|cursor|push|length|click|setMap|mouseover|getBoxWidths_|setContent|OverlayView|borderRightWidth|borderLeftWidth|borderBottomWidth|borderTopWidth|getComputedStyle|100|Size|preventDefault|cancelBubble|position_changed|setZIndex|getProjection|offsetHeight|createInfoBoxDiv_|getBounds|getCloseClickHandler_|margin|pointer|relative|align|src|img|floatPane|domready|pane|infoBox|contextmenu|default|apply|touchmove|touchend|touchstart|dblclick|mouseup|mouseout|addListener|open|mousedown|getVisible|getZIndex|getContent|setVisible|zindex_changed|content_changed|auto|setOptions|fromLatLngToDivPixel|overflow|LatLng|removeChild|parentNode|onRemove|documentElement|getPanes|gif|ownerDocument|absolute|mapfiles|alpha|filter|div|Opacity|createElement|en_us|Alpha|Microsoft|DXImageTransform|progid|intl|MsFilter|returnValue|translateZ|WebkitTransform|com|hasOwnProperty|in|cssText|className|www|panBy|getCenter|http|fromLatLngToContainerPixel|arguments|getDiv|setCenter|2px|contains|show|hide|Map|instanceof|closeclick|firstChild'.split('|'),0,{}));
 
 				google.maps.event.addListener(marker, 'click', function() {
 					clearInfoWindows();
+
 					var infowidth = 0;
 					if ( maxbubblewidth <= 100 ) {
 						infowidth = document.getElementById("simplemap");
@@ -1386,31 +1474,11 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					}
 					if ( infowidth < maxbubblewidth ) infowidth = maxbubblewidth;
 					infowidth = parseInt(infowidth) + 'px';
-/*
+
 					var infowindow = new google.maps.InfoWindow({
 						maxWidth: infowidth,
 						content: html
-					});				
-*/
-
-					var infowindow = new InfoBox({
-						maxWidth: infowidth
-						,content: html
-		,disableAutoPan: false
-		,pixelOffset: new google.maps.Size(-80,-80)
-		,alignBottom: true
-		,zIndex: null
-		,boxStyle: { 
-		  opacity: 1.0
-		 ,fontSize:'11pt'
-		 }
-		,closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif"
-		,infoBoxClearance: new google.maps.Size(1, 1)
-		,isHidden: false
-		,pane: "floatPane"
-		,enableEventPropagation: true
-
-					});				
+					});
 					infowindow.open(map, marker);
 					infowindowsArray.push(infowindow);
 					window.location = '#map_top';
@@ -1419,11 +1487,46 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 				return marker;
 			}
 
-			function createSidebarEntry(marker, locationData, searchData) {
-				var div = document.createElement('div');
+			function createSidebarEntry(marker,locationData,searchData) {
+				
+				if ( locationData.resultDiv ) {
+					if ( !specialTextAdded && locationData.special ) {
+						html = '<?php do_action( 'sm_custom_insert_data_between_map_and_results', 'special' ); ?>' + locationData.resultDiv;
+						specialTextAdded = true;
+					} else if (featured_markers.length == searchData.featured_items && !standardTextAdded) {
+						html = '<?php do_action( 'sm_custom_insert_data_between_map_and_results', 'standard' ); ?>' + locationData.resultDiv;
+						standardTextAdded = true;
+					} else {
+						html = locationData.resultDiv;
+					}
 
-				// Beginning of result
-				var html = '<div id="location_' + locationData.postid + '" class="result">';
+					var div = document.createElement('div');
+					div.innerHTML = html;
+					div.style.cursor = 'pointer'; 
+					div.style.margin = 0;
+					google.maps.event.addDomListener(div, 'click', function() {
+						google.maps.event.trigger(marker, 'click');
+					});
+					return div;
+				} else {
+					return origCreateSidebarEntry(marker, locationData, searchData);
+				}
+			}
+			
+			function origCreateSidebarEntry(marker, locationData, searchData) {
+                                var div = document.createElement('div');
+                                var tax_class = '';
+                                if ( typeof locationData.taxes != "undefined" ) {
+                                        for (jstax in locationData.taxes) {
+                                                if ( locationData.taxes[jstax] != null && locationData.taxes[jstax] != '' ) {
+                                                        var value = locationData.taxes[jstax];
+                                                        value = value.replace( /,\s+/g, " " + jstax + "_");
+                                                        tax_class += ' ' + jstax + '_' + value;
+                                                }
+                                        }
+                                }
+                                // Beginning of result
+                                var html = '<div id="location_' + locationData.postid + '" class="result' + tax_class + '">';
 
 				// Flagged special
 				if (locationData.special == 1 && special_text != '') {
@@ -1450,6 +1553,11 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					}
 				}
 				html += '</h3></div>';
+
+				// Thumbnail
+				if (locationData.thumbnail) {
+					html += '<div class="sm-thumbnail">' + locationData.thumbnail + '</div>';
+				}
 
 				// Address
 				html += '<div class="result_address"><address>' + locationData.address;
@@ -1653,12 +1761,14 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					'default_state' => '',
 					'default_country' => 'US',
 					'default_language' => 'en',
+					'default_postcode_name' => 'zip',
 					'default_domain' => '.com',
 					'map_stylesheet' => 'inc/styles/light.css',
 					'units' => 'mi',
 					'autoload' => 'all',
 					'lock_default_location' => false,
 					'results_limit' => '20',
+					'featured_items' => '0',
 					'address_format' => 'town, province postalcode',
 					'powered_by' => 0,
 					'enable_permalinks' => 0,
@@ -2113,6 +2223,18 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			return apply_filters( 'sm-language-list', $language_list );
 		}
 
+
+		function get_postcode_options() {
+			$postcode_list = array(
+				'zip' => __('ZIP Code', 'SimpleMap'),
+				'postal' => __('Postal Code', 'SimpleMap'),
+				'post' => __('Postcode', 'SimpleMap'),
+				'pin' => __('PIN code', 'SimpleMap')
+			);
+
+			return apply_filters( 'sm-postcode-list', $postcode_list );
+		}
+
 		function get_auto_locate_options() {
 			$auto_locate_list = array(
 				'' => 'No Automatic Location',
@@ -2120,7 +2242,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 				'html5' => 'Use HTML5',
 			);
 
-			return apply_filters( 'sm-auto-locte-list', $auto_locate_list );
+			return apply_filters( 'sm-auto-locate-list', $auto_locate_list );
 		}
 
 		// Echo the toolbar
@@ -2252,11 +2374,11 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					$atts['hide_search'] = 1;
 			} 
 
-			// Set categories and tags to available equivelants 
-			$atts['avail_sm_category'] 	= $atts['sm_category'];
-			$atts['avail_sm_tag'] 		= $atts['sm_tag'];
-			$atts['avail_sm_day'] 		= $atts['sm_day'];
-			$atts['avail_sm_time'] 		= $atts['sm_time'];
+			// Set categories and tags to available equivalents 
+			if ( isset( $atts['sm_category'] ) )	$atts['avail_sm_category'] 	= $atts['sm_category'];
+			if ( isset( $atts['sm_tag'] ) )			$atts['avail_sm_tag'] 		= $atts['sm_tag'];
+			if ( isset( $atts['sm_day'] ) )			$atts['avail_sm_day'] 		= $atts['sm_day'];
+			if ( isset( $atts['sm_time'] ) )		$atts['avail_sm_time'] 		= $atts['sm_time'];
 
 			// Default lat / lng from shortcode?
 			if ( ! $atts['default_lat'] ) 
@@ -2293,6 +2415,10 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			//Make sure we have limit
 			if ( '' == $atts['limit'] )
 				$atts['limit'] = $options['results_limit'];
+
+			// Use featured_items default
+			if ( '' == $atts['featured_items'] )
+				$atts['featured_items'] = $options['featured_items'];
 
 			// Clean search_field_cols
 			if ( 0 === absint( $atts['search_form_cols'] ) )
@@ -2364,11 +2490,13 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 				'radius'					=> '',
 				'limit'						=> '',
 				'autoload'					=> '',
+				'sort'					=> '',
 				'zoom_level'				=> '',
 				'map_type'					=> '',
 				'powered_by'				=> '', 
-				'sm_day'					=> '',
-				'sm_time'					=> ''
+				'sm_day'				=> '',
+				'sm_time'				=> '',
+				'featured_items'			=> ''
 			);
 
 			return apply_filters( 'sm-default-shortcode-atts', $atts );

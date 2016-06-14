@@ -18,12 +18,16 @@ if ( !class_exists( 'SM_Import_Export' ) ){
 				// Grab locations
 				$content = array();
 				set_time_limit( 0 );
-				$locations = query_posts( array( 'post_status' => 'publish', 'post_type' => 'sm-location', 'posts_per_page' => -1 ) );
+				$location_offset = 0;
+				while ( $locations = query_posts( array( 'post_status' => 'publish', 'post_type' => 'sm-location', 'posts_per_page' => 200, 'offset' => $location_offset ) ) ) {
+					
 					// Include CSV library
 					require_once( SIMPLEMAP_PATH . '/classes/parsecsv.lib.php' );
+
 					$taxonomies = get_object_taxonomies( 'sm-location' );
 
 					foreach ( $locations as $key => $location ) {
+						$location_offset++;
 						$location_data = array(
 							'name' => esc_attr( $location->post_title ),
 							'address' => esc_attr( get_post_meta( $location->ID, 'location_address', true ) ),
@@ -53,6 +57,8 @@ if ( !class_exists( 'SM_Import_Export' ) ){
 
 						$content[] = $location_data;
 					}
+
+				}
 
 				if ( ! empty( $content ) ) {
 					$csv = new smParseCSV();
@@ -237,8 +243,9 @@ if ( !class_exists( 'SM_Import_Export' ) ){
 
 										// Include CSV library
 										require_once( SIMPLEMAP_PATH . '/classes/parsecsv.lib.php' );
-
-										$file_location = WP_PLUGIN_DIR . '/sm-temp-csv-' . $blog_id . '.csv';
+										
+										$upload_dir = wp_upload_dir();
+										$file_location = $upload_dir['path'] . '/sm-temp-csv-' . $blog_id . '.csv';
 
 										if ( file_exists( $file_location ) && $csv = new smParseCSV() ) {
 											$csv->auto( $file_location );
@@ -364,27 +371,27 @@ if ( !class_exists( 'SM_Import_Export' ) ){
 
 														// Prep for WordPress function
 														wp_get_current_user();
-														$vars['post_title'] = $to_insert['name'];
+														$vars['post_title'] = $wpdb->escape( $to_insert['name'] );
 														$vars['post_author'] = $current_user->ID;
 														$vars['post_type'] = 'sm-location';
 														$vars['post_status'] = 'publish';
-														$vars['post_content'] = $to_insert['description'];
+														$vars['post_content'] = $wpdb->escape( $to_insert['description'] );
 
 														// Insert into WordPress post table
 														if ( $id = wp_insert_post( $vars ) ) {
-															update_post_meta( $id, 'location_address', $to_insert['address'] );
-															update_post_meta( $id, 'location_address2', $to_insert['address2'] );
-															update_post_meta( $id, 'location_city', $to_insert['city'] );
-															update_post_meta( $id, 'location_state', $to_insert['state'] );
-															update_post_meta( $id, 'location_zip', $to_insert['zip'] );
-															update_post_meta( $id, 'location_country', $to_insert['country'] );
-															update_post_meta( $id, 'location_phone', $to_insert['phone'] );
-															update_post_meta( $id, 'location_fax', $to_insert['fax'] );
-															update_post_meta( $id, 'location_email', $to_insert['email'] );
-															update_post_meta( $id, 'location_url', $to_insert['url'] );
-															update_post_meta( $id, 'location_special', $to_insert['special'] );
-															update_post_meta( $id, 'location_lat', $to_insert['lat'] );
-															update_post_meta( $id, 'location_lng', $to_insert['lng'] );
+															update_post_meta( $id, 'location_address', $wpdb->escape( $to_insert['address'] ) );
+															update_post_meta( $id, 'location_address2', $wpdb->escape( $to_insert['address2'] ) );
+															update_post_meta( $id, 'location_city', $wpdb->escape( $to_insert['city'] ) );
+															update_post_meta( $id, 'location_state', $wpdb->escape( $to_insert['state'] ) );
+															update_post_meta( $id, 'location_zip', $wpdb->escape( $to_insert['zip'] ) );
+															update_post_meta( $id, 'location_country', $wpdb->escape( $to_insert['country'] ) );
+															update_post_meta( $id, 'location_phone', $wpdb->escape( $to_insert['phone'] ) );
+															update_post_meta( $id, 'location_fax', $wpdb->escape( $to_insert['fax'] ) );
+															update_post_meta( $id, 'location_email', $wpdb->escape( $to_insert['email'] ) );
+															update_post_meta( $id, 'location_url', $wpdb->escape( $to_insert['url'] ) );
+															update_post_meta( $id, 'location_special', $wpdb->escape( $to_insert['special'] ) );
+															update_post_meta( $id, 'location_lat', $wpdb->escape( $to_insert['lat'] ) );
+															update_post_meta( $id, 'location_lng', $wpdb->escape( $to_insert['lng'] ) );
 
 															foreach ( $taxes as $taxonomy => $tax_field ) {
 																if ( isset( $to_insert[$tax_field] ) ) {
@@ -496,7 +503,8 @@ if ( !class_exists( 'SM_Import_Export' ) ){
 										// Include CSV library
 										include_once( SIMPLEMAP_PATH . '/classes/parsecsv.lib.php' );
 
-										$file_location = WP_PLUGIN_DIR . '/sm-temp-csv-'. $blog_id . '.csv';
+										$upload_dir = wp_upload_dir();
+										$file_location = $upload_dir['path'] . '/sm-temp-csv-' . $blog_id . '.csv';
 										if ( move_uploaded_file( $_FILES['simplemap-csv-upload']['tmp_name'], $file_location ) ) {
 											if ( $csv = new smParseCSV( $file_location ) ) {
 												?>

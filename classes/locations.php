@@ -26,7 +26,11 @@ if ( !class_exists( 'SM_Locations' ) ) {
 			add_action( 'untrash_post', array( &$this, 'flush_cache_data' ) );
 			add_action( 'edit_post', array( &$this, 'flush_cache_data' ) );
 			add_action( 'delete_post', array( &$this, 'flush_cache_data' ) );
-
+			
+			if ( is_admin() && get_transient( 'sm_cpt_rewrite_flush' ) ) {
+				add_action( 'admin_init', 'flush_rewrite_rules' );
+				set_transient( 'sm_cpt_rewrite_flush', false );
+			}
 		}
 
 		// Register locations post type
@@ -53,7 +57,7 @@ if ( !class_exists( 'SM_Locations' ) ) {
 				'rewrite' => false,
 				'query_var' => 'sm-location',
 				'register_meta_box_cb' => array( &$this, 'location_meta_cb' ),
-				'supports' => array(),
+				'supports' => array( 'title', 'editor', 'thumbnail' ),
 				'labels' => array(
 					'name' => 'Locations',
 					'singular_name' => 'Location',
@@ -66,6 +70,8 @@ if ( !class_exists( 'SM_Locations' ) ) {
 					'not_found_in_trash' => 'No Locations found in trash',
 				)
 			);
+			
+			$args = apply_filters( 'sm-location-post-type-args', $args );
 
 			// Register it
 			register_post_type( 'sm-location', $args );
@@ -77,6 +83,7 @@ if ( !class_exists( 'SM_Locations' ) ) {
 			$options = $simple_map->get_options();
 
 			foreach ( $options['taxonomies'] as $taxonomy => $tax_info ) {
+				$tax_info = apply_filters( 'sm-location-taxonomy-args', $tax_info, $taxonomy );
 				$this->register_location_taxonomy( $taxonomy, $tax_info );
 			}
 		}
@@ -114,7 +121,7 @@ if ( !class_exists( 'SM_Locations' ) ) {
 				'rewrite' => false,
 				'show_tagcloud' => false
 			);
-			
+			$args = apply_filters( 'sm-location-taxonomy-args', $args, $taxonomy );
 			register_taxonomy( $taxonomy, 'sm-location', $args );
 		}
 
@@ -259,6 +266,7 @@ if ( !class_exists( 'SM_Locations' ) ) {
 					
 					</table>				
 				</div> <!-- table -->
+				<input type="hidden" name="sm-location-nonce" id="sm-location-nonce" value="<?php echo wp_create_nonce( plugin_basename( __FILE__ ) ); ?>" />
 				<div class="clear"></div>
 			<?php
 		}
@@ -273,9 +281,15 @@ if ( !class_exists( 'SM_Locations' ) ) {
 			$location_url 		= get_post_meta( $post->ID, 'location_url', true ) ? get_post_meta( $post->ID, 'location_url', true ) : '';
 			$location_email		= get_post_meta( $post->ID, 'location_email', true ) ? get_post_meta( $post->ID, 'location_email', true ) : '';
 			$location_special 	= get_post_meta( $post->ID, 'location_special', true ) ? get_post_meta( $post->ID, 'location_special', true ) : '';
+			
+			$additional_fields = apply_filters( 'sm-location-addl-fields', Array() );
+			if ( !empty( $additional_fields ) ) {
+				foreach( $additional_fields as $k => $v ) {
+					$$k = get_post_meta( $post->ID, $k, true );
+				}
+			}
 			?>
 			<div class="table">
-			
 			<table class="form-table">
 				 
 				<!-- Phone -->
@@ -311,6 +325,18 @@ if ( !class_exists( 'SM_Locations' ) ) {
 				</tr>
 				<?php } ?>
 			
+				<?php 
+				if ( !empty( $additional_fields ) ) {
+					foreach( $additional_fields as $k => $v ) {
+				?>
+				<tr valign="top">
+					<td><label for="<?php echo $k; ?>"><?php echo $v; ?></label></td>
+					<td><input type="text" name="<?php echo $k; ?>" id="<?php echo $k; ?>" size="30" value="<?php echo esc_attr( $$k ); ?>" />
+				</tr>
+				<?php
+					}
+				}
+				?>
 			</table>
 			
 			</div> <!-- table -->
@@ -577,7 +603,7 @@ if ( !class_exists( 'SM_Locations' ) ) {
 			global $simple_map, $current_screen;
 			
 			// Bail if we're not editing a location
-			if ( ! is_object( $current_screen ) || 'sm-location' != $current_screen->id || 'sm-location' != $current_screen->post_type )
+			if ( ! is_object( $current_screen ) || 'sm-location' != $current_screen->id || 'sm-location' != $current_screen->post_type || empty( $_POST ) || !wp_verify_nonce( $_POST['sm-location-nonce'], plugin_basename( __FILE__ ) ) )
 				return;
 			
 			$options = $simple_map->get_options();
@@ -629,8 +655,18 @@ if ( !class_exists( 'SM_Locations' ) ) {
 			if ( $location_fax != $new_fax ) update_post_meta( $post, 'location_fax', $new_fax );	
 			if ( $location_url != $new_url ) update_post_meta( $post, 'location_url', $new_url );	
 			if ( $location_email != $new_email ) update_post_meta( $post, 'location_email', $new_email );	
-			if ( $location_special != $new_special ) update_post_meta( $post, 'location_special', $new_special );	
+			if ( $location_special != $new_special ) update_post_meta( $post, 'location_special', $new_special );
 			
+			$additional_fields = apply_filters( 'sm-location-addl-fields', Array() );
+
+			if ( !empty( $additional_fields ) ) {
+				foreach( $additional_fields as $k => $v ) {
+					$$k = get_post_meta( $post->ID, $k, true );
+					${'new_' . $k} = isset( $_POST[$k] ) ? $_POST[$k] : '';
+					if ( $$k != ${'new_' . $k} ) update_post_meta( $post, $k, ${'new_' . $k} );	
+					
+				}
+			}			
 
 			// Lets not geocode on auto-draft
 			if ( 'auto-draft' == $post_object->post_status )

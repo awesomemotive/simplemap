@@ -74,17 +74,22 @@ if ( !class_exists( 'SM_Options' ) ) {
 				$new_options['zoom_level']				= ( isset( $_POST['zoom_level'] ) ) ? absint( $_POST['zoom_level'] ) : $options['zoom_level'] ;
 				$new_options['default_radius']			= ( ! empty( $_POST['default_radius'] ) ) ? absint( $_POST['default_radius'] ) : $options['default_radius'] ;
 				$new_options['map_type']				= ( ! empty( $_POST['map_type'] ) ) ? $_POST['map_type'] : $options['map_type'];
-				$new_options['special_text']			= ( isset( $_POST['special_text'] ) ) ? $_POST['special_text'] : $options['special_text'];
+				$new_options['special_text']			= ( isset( $_POST['special_text'] ) ) ? stripslashes( $_POST['special_text'] ) : $options['special_text'];
 				$new_options['default_state']			= ( ! empty( $_POST['default_state'] ) ) ? $_POST['default_state'] : $options['default_state'];
 				$new_options['default_country']			= ( ! empty( $_POST['default_country'] ) ) ? esc_attr( $_POST['default_country'] ) : $options['default_country'];
 				$new_options['default_language']		= ( ! empty( $_POST['default_language'] ) ) ? esc_attr( $_POST['default_language'] ) : $options['default_language'];
+				$new_options['default_postcode_name']		= ( ! empty( $_POST['default_postcode_name'] ) ) ? esc_attr( $_POST['default_postcode_name'] ) : $options['default_postcode_name'];
 				$new_options['default_domain']			= ( ! empty( $_POST['default_domain'] ) ) ? $_POST['default_domain'] : $options['default_domain'];
 				$new_options['address_format']			= ( ! empty( $_POST['address_format'] ) ) ? $_POST['address_format'] : $options['address_format'];
 				$new_options['map_stylesheet']			= ( ! empty( $_POST['map_stylesheet'] ) ) ? $_POST['map_stylesheet'] : $options['map_stylesheet'];
 				$new_options['units']					= ( ! empty( $_POST['units'] ) ) ? $_POST['units'] : $options['units'];
 				$new_options['results_limit']			= ( isset( $_POST['results_limit'] ) ) ? absint( $_POST['results_limit'] ) : $options['results_limit'];
+				$new_options['featured_items']			= ( isset( $_POST['featured_items'] ) ) ? intval( $_POST['featured_items'] ) : $options['featured_items'];
 				$new_options['autoload']				= ( ! empty( $_POST['autoload'] ) ) ? $_POST['autoload'] : $options['autoload'];
 				$new_options['map_pages']				= ( isset( $_POST['map_pages'] ) ) ? $_POST['map_pages'] : $options['map_pages'];
+				$new_options['map_pagination']			= ( isset( $_POST['map_pagination'] ) ) ? 1 : 0;
+				$new_options['map_page_list']			= ( isset( $_POST['map_page_list'] ) ) ? 1 : 0;
+				$new_options['map_page_arrows']			= ( isset( $_POST['map_page_arrows'] ) ) ? 1 : 0;
 				$new_options['lock_default_location']	= ( ! empty( $_POST['lock_default_location'] ) ) ? true : $options['lock_default_location'];
 				$new_options['powered_by']				= ( isset( $_POST['powered_by'] ) && 'on' == $_POST['powered_by'] ) ? 1 : 0;
 				$new_options['enable_permalinks'] 		= ( isset( $_POST['enable_permalinks'] ) && 'on' == $_POST['enable_permalinks'] ) ? 1 : 0;
@@ -99,14 +104,14 @@ if ( !class_exists( 'SM_Options' ) ) {
 				foreach ( $new_options['taxonomies'] as $taxonomy => $tax_info ) {
 					if ( isset( $_POST['taxonomies'][$taxonomy]['active'] ) ) {
 						$new_tax_options = $_POST['taxonomies'][$taxonomy];
-						unset($new_tax_options['active']);
+						unset( $new_tax_options['active'] );
 						//echo 'UPDATE(' . $taxonomy . ' - ' . json_encode( array_diff_assoc( array_filter( $new_tax_options ), $tax_info ) ) . ')' . PHP_EOL;
 						$new_options['taxonomies'][$taxonomy] = array_filter( $new_tax_options ) + $tax_info;
-						unset($_POST['taxonomies'][$taxonomy]);
+						unset( $_POST['taxonomies'][$taxonomy] );
 					}
 					else {
 						//echo 'DISABLE(' . $taxonomy . ')' . PHP_EOL;
-						unset($new_options['taxonomies'][$taxonomy]);
+						unset( $new_options['taxonomies'][$taxonomy] );
 					}
 				}
 
@@ -241,6 +246,19 @@ if ( !class_exists( 'SM_Options' ) ) {
 															<?php
 															foreach ( $simple_map->get_language_options() as $key => $value ) {
 																echo "<option value='" . $key . "' " . selected( $default_language, $key, false ) . ">" . $value . "</option>\n";
+															}
+															?>
+														</select>
+													</td>
+												</tr>
+												
+												<tr valign="top">
+													<td width="150"><label for="default_postcode_name"><?php _e( 'Default Postal Code Name', 'SimpleMap' ); ?></label></td>
+													<td>
+														<select name="default_postcode_name" id="default_postcode_name">
+															<?php
+															foreach ( $simple_map->get_postcode_options() as $key => $value ) {
+																echo "<option value='" . $key . "' " . selected( $default_postcode_name, $key, false ) . ">" . $value . "</option>\n";
 															}
 															?>
 														</select>
@@ -411,7 +429,22 @@ if ( !class_exists( 'SM_Options' ) ) {
 												<tr valign="top">
 													<td><label for="special_text"><?php _e( 'Special Location Label', 'SimpleMap' ); ?></label></td>
 													<td>
-														<input type="text" name="special_text" id="special_text" size="30" value="<?php echo esc_attr( $special_text ); ?>" />
+														<input type="text" name="special_text" id="special_text" size="30" value='<?php echo esc_attr( $special_text ); ?>' />
+													</td>
+												</tr>
+												
+												<tr valign="top">
+													<td><label for="featured_items"><?php _e( 'Number of Special Locations to Prioritize', 'SimpleMap' ); ?></label></td>
+													<td>
+														<select name="featured_items" id="featured_items">
+															<?php
+															for ( $i = 0; $i <= 5; $i++ ) {
+																echo "<option value='" . esc_attr( $i ) . "' " . selected( $featured_items, $i, false ) . ">" . esc_attr( $i ) . "</option>\n";
+															}
+															?>
+															<option value="-1" <?php selected( $featured_items, -1 ); ?>>All</option>
+														</select><br />
+														<small><span class='howto'><?php _e( 'This is the limit on how many Special Locations rise to the top of the search results.', 'SimpleMap' ); ?></span></small>
 													</td>
 												</tr>
 												
@@ -422,7 +455,30 @@ if ( !class_exists( 'SM_Options' ) ) {
 														<small><em><?php _e( 'Enter the IDs of the pages/posts the map will appear on, separated by commas. The map scripts will only be loaded on those pages. Leave blank or enter 0 to load the scripts on all pages.', 'SimpleMap' ); ?></em></small>
 													</td>
 												</tr>
-											
+												
+												<tr valign="top">
+													<td><label for="map_pagination"><?php _e( 'Map Pagination', 'SimpleMap' ); ?></label></td>
+													<td>
+														<input type="checkbox" name="map_pagination" id="map_pagination" size="30" <?php if ( !empty ( $map_pagination ) ) echo " CHECKED"; ?> /><br />
+														<small><em><?php _e( 'Check this box to enable pagination.', 'SimpleMap' ); ?></em></small>
+													</td>
+												</tr>
+												
+												<tr valign="top">
+													<td><label for="map_page_list"><?php _e( 'Show Full Page List', 'SimpleMap' ); ?></label></td>
+													<td>
+														<input type="checkbox" name="map_page_list" id="map_page_list" size="30" <?php if ( !empty ( $map_page_list ) ) echo " CHECKED"; ?> /><br />
+														<small><em><?php _e( 'Check this box to show all the page numbers.', 'SimpleMap' ); ?></em></small>
+													</td>
+												</tr>
+												
+												<tr valign="top">
+													<td><label for="map_page_arrows"><?php _e( 'Show Forward / Back Buttons', 'SimpleMap' ); ?></label></td>
+													<td>
+														<input type="checkbox" name="map_page_arrows" id="map_page_arrows" size="30" <?php if ( !empty ( $map_page_arrows ) ) echo " CHECKED"; ?> /><br />
+														<small><em><?php _e( 'Check this box to show prev / next page navigation arrows.', 'SimpleMap' ); ?></em></small>
+													</td>
+												</tr>
 											</table>
 											
 										</div> <!-- table -->

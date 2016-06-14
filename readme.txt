@@ -1,11 +1,11 @@
 === SimpleMap Store Locator ===
 
-Contributors: hallsofmontezuma, fullthrottledevelopment
+Contributors: blepoxp, fullthrottledevelopment
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DTJBYXGQFSW64
 Tags: map, maps, store locator, database, locations, stores, Google maps, locator
 Requires at least: 2.8
-Tested up to: 4.4
-Stable tag: 2.4.8
+Tested up to: 3.3
+Stable tag: 2.4.4
 
 SimpleMap is an easy-to-use international store locator plugin that uses Google Maps to display information directly on your WordPress site.
 
@@ -82,12 +82,9 @@ Please visit [the SimpleMap forums at WordPress.org](http://wordpress.org/tags/s
 
 == Changelog ==
 
-= 2.4.6 =
-* Bugfix release for Google API changes
-* Fixed display of marker bubble
-
 = 2.4.5 =
-* Compatibility fixes for WordPress 3.5
+* Fix 2.4.4 bug that broke export
+
 = 2.4.4 =
 * Added filters to menu item permissions
 * Don't display map updating image if map is hidden
@@ -98,7 +95,7 @@ Please visit [the SimpleMap forums at WordPress.org](http://wordpress.org/tags/s
 * Passing current WordPress post/page ID to search script
 * Fixed bug that created memory errors when large amount of locations were deleted at once
 * Fixed bug that created memory errors on medium size DBs during export. Still need to refactor for large exports
-* Change locations from hierarchical to non-hierarchical to avoid poor WP query
+* Change locations from heirarchical to non-hierarchical to avoid poor WP query
 * Fixed error that prevented permalink map from rendering in IE
 
 = 2.4.3 =

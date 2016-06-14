@@ -29,10 +29,10 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 		 *
 		 * @since 2.4
 		*/
-		function __construct() {
+		function __construct( $atts = array() ) {
 
 			// Lets load the map with some defaults. This should be overwritten by calling the method directly
-			$this->set_map_atts();
+			$this->set_map_atts( $atts );
 
             // Prints the iframe
             if ( isset( $_GET['sm_map_iframe'] ) ) {
@@ -82,21 +82,25 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
             // Do atts for iframes
             if ( isset( $_GET['sm_map_iframe'] ) ) {
                 // Set atts from GET vars
-                if ( ! empty( $_GET['map_width'] ) )
+                if ( isset( $_GET['map_width'] ) )
                     $atts['map_width'] = $_GET['map_width'];
-                if ( ! empty( $_GET['map_height'] ) )
+                if ( isset( $_GET['map_height'] ) )
                     $atts['map_height'] = $_GET['map_height'];
-                if ( ! empty( $_GET['pan_control'] ) )
+		if ( isset( $_GET['draggable'] ) )
+		    $atts['draggable'] = $_GET['draggable'];
+		if ( isset( $_GET['scrollwheel'] ) )
+		    $atts['scrollwheel'] = $_GET['scrollwheel'];
+                if ( isset( $_GET['pan_control'] ) )
                     $atts['panControl'] = $_GET['pan_control'];
-                if ( ! empty( $_GET['zoom_control'] ) )
+                if ( isset( $_GET['zoom_control'] ) )
                     $atts['zoomControl'] = $_GET['zoom_control'];
-                if ( ! empty( $_GET['scale_control'] ) )
+                if ( isset( $_GET['scale_control'] ) )
                     $atts['scaleControl'] = $_GET['scale_control'];
-                if ( ! empty( $_GET['street_view_control'] ) )
+                if ( isset( $_GET['street_view_control'] ) )
                     $atts['streetViewControl'] = $_GET['street_view_control'];
-                if ( ! empty( $_GET['map_type_control'] ) )
+                if ( isset( $_GET['map_type_control'] ) )
                     $atts['mapTypeControl'] = $_GET['map_type_control'];
-                if ( ! empty( $_GET['map_type'] ) )
+                if ( isset( $_GET['map_type'] ) )
                     $atts['mapType'] = $_GET['map_type'];
                 if ( empty( $_GET['default_lat'] ) )
                     $atts['default_lat'] = get_post_meta( $locations[0], 'location_lat', true );
@@ -108,7 +112,7 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 
 			// Default Options
 			$defaults = $simple_map->get_options();
-
+			$defaults['scrollwheel'] = $defaults['draggable'] = '';
 			// Overwrite defaults with any vars passed in
 			$merged_atts = wp_parse_args( $atts, $defaults );
 
@@ -175,8 +179,16 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 
                 $atts = $this->map_atts;
                 $locations = array_keys( $this->locations );
+                $iframe = '<iframe width="' . $atts['map_width'] . '" height="' . $atts['map_height'] . '" frameborder=0 scrolling="no" src="' . esc_url( site_url() ) . '?sm_map_iframe=1&map_width=' . esc_attr( $atts['map_width'] ) . '&map_height=' . esc_attr( $atts['map_height'] ) 
+					. '&scrollwheel=' . esc_attr( $atts['scrollwheel'] )
+					. '&draggable=' . esc_attr( $atts['draggable'] )
+					. '&pan_control=' . esc_attr( $atts['panControl'] )
+					. '&zoom_control=' . esc_attr( $atts['zoomControl'] )
+					. '&scale_control=' . esc_attr( $atts['scaleControl'] )
+					. '&street_view_control=' . esc_attr( $atts['streetViewControl'] )
+					. '&map_type_control=' . esc_attr( $atts['mapTypeControl'] )
+					. '&location_ids=' . esc_attr( implode( ',', $locations ) ) . '"></iframe>';
 
-                $iframe = '<iframe width="' . $atts['map_width'] . '" height="' . $atts['map_height'] . '" frameborder=0 scrolling="no" src="' . esc_url( site_url() ) . '?sm_map_iframe=1&map_width=' . esc_attr( $atts['map_width'] ) . '&map_height=' . esc_attr( $atts['map_height'] ) . '&location_ids=' . esc_attr( implode( ',', $locations ) ) . '"></iframe>';
 
                 return $iframe;
 
@@ -193,7 +205,6 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
                 global $simple_map;
                 $this->set_map_atts();
                 $atts = $this->map_atts;
-
                 wp_enqueue_script('jquery');
                 ?>
                 <html style='margin-top:0 !important;padding-top:0 !important;'>
@@ -214,6 +225,8 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
                             var myOptions = {
                                 zoom: parseInt(<?php echo esc_js( $atts['zoom_level'] ); ?>),
                                 center: latlng,
+                                scrollwheel: <?php echo ($atts['scrollwheel']) ? 'true' : 'false'; ?>,
+                                draggable: <?php echo ($atts['draggable']) ? 'true' : 'false'; ?>,
                                 panControl: <?php echo ($atts['panControl']) ? 'true' : 'false'; ?>,
                                 zoomControl: <?php echo ($atts['zoomControl']) ? 'true' : 'false'; ?>,
                                 scaleControl: <?php echo ($atts['scaleControl']) ? 'true' : 'false'; ?>,
@@ -233,7 +246,8 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
                             <?php foreach( $this->locations as $location ) { ?>
                                 
                                 <?php $customvals = get_metadata( 'post', $location['id'] ); ?>
-                                
+                               
+				var locationData = []; 
                                 var name = '<?php echo esc_js( get_the_title( $location['id'] ) ); ?>';
                                 var address = '<?php echo esc_js( $customvals['location_address'][0] ); ?>';
                                 var address2 = '<?php echo esc_js( $customvals['location_address2'][0] ); ?>';
@@ -245,12 +259,12 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
                                 var url = '<?php echo esc_js( $customvals['location_url'][0] ); ?>';
                                 var phone = '<?php echo esc_js( $customvals['location_phone'][0] ); ?>';
                                 var fax = '<?php echo esc_js( $customvals['location_fax'][0] ); ?>';
-                                var special = '<?php echo esc_js( $customvals['location_special'][0] ); ?>';
+                                var special = locationData.special = '<?php echo esc_js( $customvals['location_special'][0] ); ?>';
                                 
                                 map.setCenter(latlng, 13);
                                 var markerOptions = {};
                                 if ( 'function' == typeof window.simplemapCustomMarkers ) {
-                                        markerOptions = simplemapCustomMarkers( name, address, address2, city, state, zip, country, '', url, phone, fax, email, special, '', '', '');
+                                        markerOptions = simplemapCustomMarkers( locationData );
                                 }
                                 markerOptions.map = map;
 

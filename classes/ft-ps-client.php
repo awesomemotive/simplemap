@@ -197,6 +197,88 @@ if ( ! class_exists( 'FT_Premium_Support_Client' ) ) {
 	
 }
 
+if ( ! class_exists( 'FT_Premium_Support_PluginUpdate' ) ):
+
+/**
+ * A simple container class for holding information about an available update.
+ * 
+ * @author Janis Elsts
+ * @copyright 2010
+ * @version 1.0
+ * @access public
+ */
+class FT_Premium_Support_PluginUpdate {
+	
+	var $id = 0;
+	var $slug;
+	var $version;
+	var $homepage;
+	var $download_url;
+	var $upgrade_notice;
+	
+	/**
+	 * Create a new instance of PluginUpdate from its JSON-encoded representation.
+	 * 
+	 * @param string $json
+	 * @return PluginUpdate
+	 */
+	function fromJson( $json ){
+		//Since update-related information is simply a subset of the full plugin info,
+		//we can parse the update JSON as if it was a plugin info string, then copy over
+		//the parts that we care about.
+		$ft_premium_support_plugin_info = FT_Premium_Support_PluginInfo::fromJson( $json );
+		if ( $ft_premium_support_plugin_info != null )
+			return FT_Premium_Support_PluginUpdate::fromPluginInfo( $ft_premium_support_plugin_info );
+		else
+			return null;
+			
+	}
+	
+	/**
+	 * Create a new instance of PluginUpdate based on an instance of PluginInfo.
+	 * Basically, this just copies a subset of fields from one object to another.
+	 * 
+	 * @param PluginInfo $info
+	 * @return PluginUpdate
+	 */
+	function fromPluginInfo( $info ){
+		
+		$update = new FT_Premium_Support_PluginUpdate();
+		$copyFields = array( 'id', 'slug', 'version', 'homepage', 'download_url', 'upgrade_notice' );
+		foreach( $copyFields as $field ) {
+			$update->$field = $info->$field;
+		}
+		
+		return $update;
+		
+	}
+	
+	/**
+	 * Transform the update into the format used by WordPress native plugin API.
+	 * 
+	 * @return object
+	 */
+	function toWpFormat(){
+		
+		$update = new StdClass;
+		
+		$update->id	 			= $this->id;
+		$update->slug 			= $this->slug;
+		$update->new_version 	= $this->version;
+		$update->url 			= $this->homepage;
+		$update->package 		= $this->download_url;
+		
+		if ( ! empty( $this->upgrade_notice ) )
+			$update->upgrade_notice = $this->upgrade_notice;
+		
+		return $update;
+		
+	}
+	
+}
+	
+endif;
+
 if ( !class_exists( 'FT_Premium_Support_PluginUpdate_Checker' ) ) :
 	
 /**
@@ -383,10 +465,10 @@ class FT_Premium_Support_PluginUpdate_Checker {
 		if ( ! function_exists( 'get_plugins' ) )
 			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
-		$allPlugins = get_plugins();
+		$myPlugin = get_plugin_data( trailingslashit( WP_PLUGIN_DIR ) . $this->pluginFile, false, false );
 
-		if ( array_key_exists( $this->pluginFile, $allPlugins ) && array_key_exists( 'Version', $allPlugins[$this->pluginFile] ) )
-			return $allPlugins[$this->pluginFile]['Version']; 
+		if ( !empty( $myPlugin ) && array_key_exists( 'Version', $myPlugin ) )
+			return $myPlugin['Version']; 
 		else
 			return ''; //This should never happen.
 
@@ -638,88 +720,6 @@ class FT_Premium_Support_PluginInfo {
 				
 		return $info;
 	}
-}
-	
-endif;
-
-if ( ! class_exists( 'FT_Premium_Support_PluginUpdate' ) ):
-
-/**
- * A simple container class for holding information about an available update.
- * 
- * @author Janis Elsts
- * @copyright 2010
- * @version 1.0
- * @access public
- */
-class FT_Premium_Support_PluginUpdate {
-	
-	var $id = 0;
-	var $slug;
-	var $version;
-	var $homepage;
-	var $download_url;
-	var $upgrade_notice;
-	
-	/**
-	 * Create a new instance of PluginUpdate from its JSON-encoded representation.
-	 * 
-	 * @param string $json
-	 * @return PluginUpdate
-	 */
-	function fromJson( $json ){
-		//Since update-related information is simply a subset of the full plugin info,
-		//we can parse the update JSON as if it was a plugin info string, then copy over
-		//the parts that we care about.
-		$ft_premium_support_plugin_info = FT_Premium_Support_PluginInfo::fromJson( $json );
-		if ( $ft_premium_support_plugin_info != null )
-			return FT_Premium_Support_PluginUpdate::fromPluginInfo( $ft_premium_support_plugin_info );
-		else
-			return null;
-			
-	}
-	
-	/**
-	 * Create a new instance of PluginUpdate based on an instance of PluginInfo.
-	 * Basically, this just copies a subset of fields from one object to another.
-	 * 
-	 * @param PluginInfo $info
-	 * @return PluginUpdate
-	 */
-	function fromPluginInfo( $info ){
-		
-		$update = new FT_Premium_Support_PluginUpdate();
-		$copyFields = array( 'id', 'slug', 'version', 'homepage', 'download_url', 'upgrade_notice' );
-		foreach( $copyFields as $field ) {
-			$update->$field = $info->$field;
-		}
-		
-		return $update;
-		
-	}
-	
-	/**
-	 * Transform the update into the format used by WordPress native plugin API.
-	 * 
-	 * @return object
-	 */
-	function toWpFormat(){
-		
-		$update = new StdClass;
-		
-		$update->id	 			= $this->id;
-		$update->slug 			= $this->slug;
-		$update->new_version 	= $this->version;
-		$update->url 			= $this->homepage;
-		$update->package 		= $this->download_url;
-		
-		if ( ! empty( $this->upgrade_notice ) )
-			$update->upgrade_notice = $this->upgrade_notice;
-		
-		return $update;
-		
-	}
-	
 }
 	
 endif;

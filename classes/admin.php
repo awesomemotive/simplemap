@@ -112,6 +112,7 @@ if ( !class_exists( 'SM_Admin' ) ){
 		function on_activate() {
 			//$current = get_site_transient( 'update_plugins' );
 			//if ( !isset( $current->checked[SIMPLEMAP_FILE] ) ) {
+			set_transient( 'sm_cpt_rewrite_flush', true );
 			return; // <--- Remove to enable
 			$options = get_option( 'SimpleMap_options' );
 			if ( empty( $options ) ) {
