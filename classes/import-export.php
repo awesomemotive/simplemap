@@ -169,7 +169,7 @@ function delete_legacy_tables() {
 }
 
 // All location data
-function get_location_data_types( $init = array() ) {
+function get_location_data_types( array $init = array() ) {
 	static $types = null;
 
 	if ( empty( $types ) ) {
