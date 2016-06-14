@@ -91,7 +91,7 @@ function export_legacy_csv() {
 				$catnames = '';
 
 				// Do Cats		
-				if ( isset( $location->category ) && 0 != $location->category && isset( $cats[ $location->category ] ) ) {
+				if ( isset( $location->category, $cats[ $location->category ] ) && 0 != $location->category ) {
 					$catnames = $cats[ $location->category ]->name;
 				}
 				$content[] = array(
@@ -227,7 +227,7 @@ global $simple_map, $sm_locations, $wpdb, $current_user, $blog_id;
 // Define Importing Constant
 define( 'WP_IMPORTING', true );
 
-if ( isset( $_POST['sm-action'] ) && 'import-csv' == $_POST['sm-action'] && isset( $_POST['step'] ) && 2 == $_POST['step'] ) {
+if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' == $_POST['sm-action'] && 2 == $_POST['step'] ) {
 ?>
 <div class="wrap">
 
