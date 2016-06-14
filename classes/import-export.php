@@ -802,8 +802,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 </div> 
 </div> ';
 
-				<
-				div class='postbox-container' style = 'width:49%;' >
+			?>	<div class='postbox-container' style = 'width:49%;' >
 
 	<div id = 'side-sortables' class='meta-box-sortables ui-sortable' >
 
