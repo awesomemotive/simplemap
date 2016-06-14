@@ -338,7 +338,7 @@ if ( isset( $_POST['sm-action'] ) && 'import-csv' == $_POST['sm-action'] && isse
 											$geocoded = '';
 
 											// Maybe geo encode
-											if ( ( empty( $to_insert['lat'] ) || empty( $to_insert['lng'] ) ) ) {
+											if ( empty( $to_insert['lat'] ) || empty( $to_insert['lng'] ) ) {
 												if ( $geo = $simple_map->geocode_location( $to_insert['address'], $to_insert['city'], $to_insert['state'], $to_insert['zip'], $to_insert['country'], '' ) ) {
 													$geocoded = __( 'geocoded and ', 'SimpleMap' );
 
