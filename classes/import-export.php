@@ -301,6 +301,8 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' == $_POST['sm-
 									$active_taxes = get_object_taxonomies( 'sm-location' );
 									$taxes        = array_intersect_key( $taxes, array_flip( $active_taxes ) );
 
+									$legacy_taxes = $simple_map->get_taxonomy_settings();
+
 									foreach ( $csv->data as $row => $location ) {
 										// Give me 20 seconds for each location. That should be more than enough time.
 										set_time_limit( 20 );
@@ -318,7 +320,6 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' == $_POST['sm-
 										}
 
 										// Combine legacy taxonomy fields into new taxonomy fields.
-										$legacy_taxes = $simple_map->get_taxonomy_settings();
 										foreach ( $legacy_taxes as $taxonomy => $legacy_taxonomy ) {
 											$old_key = $legacy_taxonomy['field'];
 											$key     = 'tax_' . $taxonomy;
@@ -602,7 +603,7 @@ if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' == $_POST['sm-
 				$step = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
 
 				// Check for uploaded file with no errors.
-				if ( ( 1 == $step && isset( $_FILES['simplemap-csv-upload'] ) && ! $_FILES['simplemap-csv-upload']['error'] > 0 ) || 2 == $step ) {
+				if ( 2 == $step || ( 1 == $step && isset( $_FILES['simplemap-csv-upload'] ) && ! $_FILES['simplemap-csv-upload']['error'] > 0 ) ) {
 
 					switch ( $step ) {
 						case 2:
