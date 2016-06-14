@@ -13,8 +13,6 @@ function __construct() {
 function export_csv() {
 	// Exports a CSV file to WordPress
 
-	global $simple_map, $sm_locations;
-
 	if ( isset( $_POST['sm-action'] ) && 'export-csv' == $_POST['sm-action'] ) {
 		// Grab locations
 		$content = array();
