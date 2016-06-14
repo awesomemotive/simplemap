@@ -22,9 +22,9 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 			// Get options.
 			$options = $simple_map->get_options();
 
-			// loop through menu and find the one I need to disable.
+			// loop through menu and find the one we need to disable.
 			foreach ( $menu as $key => $value ) {
-				if ( in_array( 'edit.php?post_type=sm-location', $value ) ) {
+				if ( in_array( 'edit.php?post_type=sm-location', $value, true ) ) {
 					unset( $menu[ $key ] );
 				}
 			}
@@ -69,6 +69,7 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 							$('.postbox-container').css({'width': '49%'});
 						}
 
+						//I'm not sure this is even being used -Michael
 						if ($('#autoload').val() == 'none') {
 							$('#lock_default_location').attr('checked', false);
 							$('#lock_default_location').attr('disabled', true);
