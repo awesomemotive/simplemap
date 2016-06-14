@@ -21,8 +21,8 @@ if ( ! class_exists( 'FT_Premium_Support_Client' ) ) {
 		var $plugin_basename = false;
 		var $plugin_slug = false;
 
-		// Constructer fires on admin page loads
 		function __construct( $config = array() ) {
+			// Constructor fires on admin page loads
 
 			// Populate properties
 			$this->server_url              = isset( $config['server_url'] ) ? $config['server_url'] : false;
