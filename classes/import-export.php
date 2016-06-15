@@ -168,8 +168,8 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 				$drop_sm   = 'DROP TABLE `' . $wpdb->prefix . 'simple_map`;';
 				$drop_cats = 'DROP TABLE `' . $wpdb->prefix . 'simple_map_cats`;';
 
-				$wpdb->query( $drop_sm );
-				$wpdb->query( $drop_cats );
+				$wpdb->query( $wpdb->prepare ( $drop_sm ) );
+				$wpdb->query( $wpdb->prepare ( $drop_cats ) );
 
 				if ( $simple_map->legacy_tables_exist() ) {
 					wp_redirect( admin_url( 'admin.php?page=simplemap-import-export&sm-msg=3' ) );
