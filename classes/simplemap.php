@@ -71,10 +71,10 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			}
 
 			// Hide map?
-			$hidemap = ( $hide_map ) ? "display:none; " : '';
+			$hidemap = ( $hide_map ) ? 'display:none; ' : '';
 
 			// Hide list?
-			$hidelist = $hide_list ? "display:none; " : '';
+			$hidelist = $hide_list ? 'display:none; ' : '';
 
 			// Map Width and height
 			$map_width  = ( '' == $map_width ) ? $options['map_width'] : $map_width;
@@ -593,14 +593,14 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			} elseif ( 'select' == $taxonomy_field_type ) {
 				// Print selectbox if that's what we're doing.
 				$tax_select = "<select id='location_search_" . esc_attr( $tax_field_name ) . "_select' name='location_search_" . esc_attr( $tax_field_name ) . "_select' >";
-				$tax_select .= "<option value=''>" . apply_filters( 'sm-search-tax-select-default', __( 'Select a value', 'SimpleMap' ), $taxonomy ) . "</option>";
+				$tax_select .= "<option value=''>" . apply_filters( 'sm-search-tax-select-default', __( 'Select a value', 'SimpleMap' ), $taxonomy ) . '</option>';
 				foreach ( $taxes_array as $key => $taxid ) {
 					if ( $term = get_term_by( 'id', $taxid, $taxonomy ) ) {
 						$tax_checked = isset( $_REQUEST[ 'location_search_' . esc_attr( $tax_field_name ) . '_select' ] ) ? ' selected="selected" ' : '';
 						$tax_select .= '<option rel="location_search_' . esc_attr( $tax_field_name ) . '_select_val"' . ' value="' . esc_attr( $term->term_id ) . '" ' . $tax_checked . '>' . esc_attr( $term->name ) . '</option>';
 					}
 				}
-				$tax_select .= "</select>";
+				$tax_select .= '</select>';
 
 				if ( ! empty( $taxid ) ) {
 					$tax_search .= $tax_select;
@@ -722,8 +722,8 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				return;
 			}
 
-			header( "HTTP/1.1 200 OK" );
-			header( "Content-type: application/x-javascript" );
+			header( 'HTTP/1.1 200 OK' );
+			header( 'Content-type: application/x-javascript' );
 			$options = $this->get_options();
 
 			?>
@@ -1184,7 +1184,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			searchMarkerOptions.position = searchData.center;
 
 			searchMarkerOptions.icon = new google.maps.MarkerImage(
-			'<?php echo esc_js( apply_filters( 'sm-search-marker-image-url', SIMPLEMAP_URL . "/inc/images/blue-dot.png" ) ); ?>',
+			'<?php echo esc_js( apply_filters( 'sm-search-marker-image-url', SIMPLEMAP_URL . '/inc/images/blue-dot.png' ) ); ?>',
 			new google.maps.Size(20, 32),
 			new google.maps.Point(0,0),
 			new google.maps.Point(0,32)
@@ -1648,7 +1648,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			$base_url = SIMPLEMAP_MAPS_WS_API . 'geocode/json?sensor=false&region=' . substr( $options['default_domain'], strrpos( $options['default_domain'], '.' ) + 1 );
 
 			// Add query.
-			$request_url = $base_url . "&address=" . $to_geocode;
+			$request_url = $base_url . '&address=' . $to_geocode;
 
 			$response = wp_remote_get( $request_url );
 
@@ -2358,7 +2358,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					break;
 				case 'en':
 				default:
-					$api_link = "http://code.google.com/apis/maps/signup.html";
+					$api_link = 'http://code.google.com/apis/maps/signup.html';
 					break;
 			}
 
