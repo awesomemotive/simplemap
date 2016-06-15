@@ -15,7 +15,7 @@ class SM_Search_Widget extends WP_Widget {
 	/**
 	 * SM_Search_Widget constructor.
 	 */
-	function __construct() {
+	public function __construct() {
 		// Define Widget
 
 		$widget_ops = array( 'classname'   => 'sm_search_widget',
@@ -28,7 +28,7 @@ class SM_Search_Widget extends WP_Widget {
 	 * @param array $args
 	 * @param array $instance
 	 */
-	function widget( $args, $instance ) {
+	public function widget( $args, $instance ) {
 		global $simple_map, $wp_rewrite;
 
 		extract( $args );
@@ -44,9 +44,9 @@ class SM_Search_Widget extends WP_Widget {
 		$show_zip      = $instance['show_zip'] ? 1 : 0;
 		$show_distance = $instance['show_distance'] ? 1 : 0;
 
-		$default_lat    = $instance['default_lat'] ? $instance['default_lat'] : 0;
-		$default_lng    = $instance['default_lng'] ? $instance['default_lng'] : 0;
-		$simplemap_page = $instance['simplemap_page'] ? $instance['simplemap_page'] : 2;
+		$default_lat    = $instance['default_lat'] ?: 0;
+		$default_lng    = $instance['default_lng'] ?: 0;
+		$simplemap_page = $instance['simplemap_page'] ?: 2;
 
 		// Set taxonomies to available equivalents 
 		$show  = array();
@@ -54,7 +54,7 @@ class SM_Search_Widget extends WP_Widget {
 		foreach ( $options['taxonomies'] as $taxonomy => $tax_info ) {
 			$key                = strtolower( $tax_info['plural'] );
 			$show[ $taxonomy ]  = $instance[ 'show_' . $key ] ? 1 : 0;
-			$terms[ $taxonomy ] = $instance[ $key ] ? $instance[ $key ] : '';
+			$terms[ $taxonomy ] = $instance[ $key ] ?: '';
 		}
 
 		$available = $terms;
@@ -187,7 +187,7 @@ class SM_Search_Widget extends WP_Widget {
 	 *
 	 * @return array
 	 */
-	function update( $new_instance, $old_instance ) {
+	public function update( $new_instance, $old_instance ) {
 		// Save settings in backend
 
 		$instance = $old_instance;
@@ -198,16 +198,16 @@ class SM_Search_Widget extends WP_Widget {
 		$instance['show_state']     = $new_instance['show_state'] ? 1 : 0;
 		$instance['show_zip']       = $new_instance['show_zip'] ? 1 : 0;
 		$instance['show_distance']  = $new_instance['show_distance'] ? 1 : 0;
-		$instance['default_lat']    = $new_instance['default_lat'] ? $new_instance['default_lat'] : 0;
-		$instance['default_lng']    = $new_instance['default_lng'] ? $new_instance['default_lng'] : 0;
-		$instance['simplemap_page'] = $new_instance['simplemap_page'] ? $new_instance['simplemap_page'] : 2;
+		$instance['default_lat']    = $new_instance['default_lat'] ?: 0;
+		$instance['default_lng']    = $new_instance['default_lng'] ?: 0;
+		$instance['simplemap_page'] = $new_instance['simplemap_page'] ?: 2;
 
 		global $simple_map;
 		$options = $simple_map->get_options();
 		foreach ( $options['taxonomies'] as $taxonomy => $tax_info ) {
 			$key                        = strtolower( $tax_info['plural'] );
 			$instance[ 'show_' . $key ] = $new_instance[ 'show_' . $key ] ? 1 : 0;
-			$instance[ $key ]           = $new_instance[ $key ] ? $new_instance[ $key ] : '';
+			$instance[ $key ]           = $new_instance[ $key ] ?: '';
 		}
 
 		return $instance;
@@ -216,7 +216,7 @@ class SM_Search_Widget extends WP_Widget {
 	/**
 	 * @param array $instance
 	 */
-	function form( $instance ) {
+	public function form( $instance ) {
 		//Defaults
 
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
