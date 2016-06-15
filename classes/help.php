@@ -207,7 +207,7 @@ if ( ! class_exists( 'SM_Help' ) ) {
 
 												<tr>
 													<td>
-														<?php _e( 'To properly add a new location, you must enter one or both of the following:', 'SimpleMap' // xss ok ); ?>
+														<?php _e( 'To properly add a new location, you must enter one or both of the following:', 'SimpleMap' ); // xss ok ?>
 														<br/>
 														<span
 															style="padding-left: 20px;"><?php _e( '1. A full address', 'SimpleMap' ); // xss ok ?></span><br/>
