@@ -178,9 +178,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 					wp_redirect( admin_url( 'admin.php?page=simplemap-import-export&sm-msg=2' ) );
 					die();
 				}
-
 			}
-
 		}
 
 		/**
