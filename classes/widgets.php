@@ -215,6 +215,8 @@ class SM_Search_Widget extends WP_Widget {
 
 	/**
 	 * @param array $instance
+	 *
+	 * @return string|void
 	 */
 	public function form( $instance ) {
 		//Defaults
