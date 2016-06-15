@@ -92,7 +92,6 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 		 *
 		 */
 		public function export_legacy_csv() {
-			// Exports a LEGACY SimpleMap CSV file to WordPress.
 
 			if ( isset( $_GET['sm-action'] ) && 'export-legacy-csv' === $_GET['sm-action'] ) {
 
