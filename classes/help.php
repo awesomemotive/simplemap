@@ -1,8 +1,9 @@
 <?php
 if ( ! class_exists( 'SM_Help' ) ) {
 	class SM_Help {
-		// Prints the options page
+
 		function print_page() {
+			// Prints the options page.
 			global $simple_map;
 			$options = $simple_map->get_options();
 
@@ -246,7 +247,7 @@ if ( ! class_exists( 'SM_Help' ) ) {
 
 									<h3 style='color:#fff;text-shadow:0 1px 0 #000;background: #fff url( <?php echo SIMPLEMAP_URL; ?>/inc/images/blue-grad.png ) top left repeat-x;'><?php _e( 'Premium Support and Features', 'SimpleMap' ); ?></h3>
 
-									<div class="inside" style='padding: 0pt 10px 10px;'>
+									<div class="inside" style='padding: 0 10px 10px;'>
 
 										<?php
 										// Check for premium support status
@@ -279,7 +280,7 @@ if ( ! class_exists( 'SM_Help' ) ) {
 											</ul>
 										<?php else : ?>
 
-											<p class='howto'><?php printf( "Your premium support for <code>%s</code> was purchased on <code>%s</code> by <code>%s</code> (%s). It will remain valid for this URL until <code>%s</code>.", get_ftps_site( $simplemap_ps ), date( "F d, Y", get_ftps_purchase_date( $simplemap_ps ) ), get_ftps_name( $simplemap_ps ), get_ftps_email( $simplemap_ps ), date( "F d, Y", get_ftps_exp_date( $simplemap_ps ) ) ); ?></p>
+											<p class='howto'><?php printf( 'Your premium support for <code>%s</code> was purchased on <code>%s</code> by <code>%s</code> (%s). It will remain valid for this URL until <code>%s</code>.', get_ftps_site( $simplemap_ps ), date( 'F d, Y', get_ftps_purchase_date( $simplemap_ps ) ), get_ftps_name( $simplemap_ps ), get_ftps_email( $simplemap_ps ), date( 'F d, Y', get_ftps_exp_date( $simplemap_ps ) ) ); ?></p>
 											<p><a href='#'
 											      id='premium_help'><?php _e( 'Launch Premium Support widget', 'SimpleMap' ); ?></a>
 												| <a target="blank"
