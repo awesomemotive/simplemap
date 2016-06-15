@@ -1,5 +1,10 @@
 <?php
+
 if ( ! class_exists( 'SM_Help' ) ) {
+
+	/**
+	 * Class SM_Help
+	 */
 	class SM_Help {
 
 		function print_page() {
@@ -175,7 +180,7 @@ if ( ! class_exists( 'SM_Help' ) ) {
 													<td width="150">
 														<strong><?php _e( 'Special Location Label', 'SimpleMap' ); // xss ok ?></strong>
 													</td>
-													<td><?php _e( 'This is meant to flag certain locations with a specific label. It shows up in the search results with a gold star next to it. Originally this was developed for an organization that wanted to highlight people that had been members for more than ten years. It could be used for something like that, or for "Favorite Spots," or "Free Wi-Fi," or anything you want. You can also leave it blank to disable it.', 'SimpleMap' ); ?></td>
+													<td><?php _e( 'This is meant to flag certain locations with a specific label. It shows up in the search results with a gold star next to it. Originally this was developed for an organization that wanted to highlight people that had been members for more than ten years. It could be used for something like that, or for "Favorite Spots," or "Free Wi-Fi," or anything you want. You can also leave it blank to disable it.', 'SimpleMap' ); // xss ok ?></td>
 												</tr>
 
 											</table>
@@ -193,7 +198,7 @@ if ( ! class_exists( 'SM_Help' ) ) {
 								<a name="adding_a_location"></a>
 								<div class="postbox">
 
-									<h3><?php _e( 'Adding a Location', 'SimpleMap' ); ?></h3>
+									<h3><?php _e( 'Adding a Location', 'SimpleMap' ); // xss ok ?></h3>
 
 									<div class="inside" style="padding: 0 10px 10px 10px;">
 
@@ -202,19 +207,19 @@ if ( ! class_exists( 'SM_Help' ) ) {
 
 												<tr>
 													<td>
-														<?php _e( 'To properly add a new location, you must enter one or both of the following:', 'SimpleMap' ); ?>
+														<?php _e( 'To properly add a new location, you must enter one or both of the following:', 'SimpleMap' // xss ok ); ?>
 														<br/>
 														<span
-															style="padding-left: 20px;"><?php _e( '1. A full address', 'SimpleMap' ); ?></span><br/>
+															style="padding-left: 20px;"><?php _e( '1. A full address', 'SimpleMap' ); // xss ok ?></span><br/>
 														<span
-															style="padding-left: 20px;"><?php _e( '2. A latitude and longitude', 'SimpleMap' ); ?></span><br/>
-														<?php _e( 'If you enter a latitude and longitude, then the address will not be geocoded, and your custom values will be left in place. Entering an address without latitude or longitude will result in the address being geocoded before it is submitted to the database.', 'SimpleMap' ); ?>
+															style="padding-left: 20px;"><?php _e( '2. A latitude and longitude', 'SimpleMap' ); // xss ok ?></span><br/>
+														<?php _e( 'If you enter a latitude and longitude, then the address will not be geocoded, and your custom values will be left in place. Entering an address without latitude or longitude will result in the address being geocoded before it is submitted to the database.', 'SimpleMap' ); // xss ok ?>
 													</td>
 												</tr>
 
 												<tr>
 													<td>
-														<?php _e( 'You must also enter a name for every location.', 'SimpleMap' ); ?>
+														<?php _e( 'You must also enter a name for every location.', 'SimpleMap' ); // xss ok ?>
 													</td>
 												</tr>
 
@@ -260,7 +265,7 @@ if ( ! class_exists( 'SM_Help' ) ) {
 												<?php printf( __( 'SimpleMap now offers a premium support package for the low cost of %s per year per domain.', 'SimpleMap' ), '$30.00 USD' ); ?>
 											</p>
 											<p>
-												<?php _e( 'By signing up for SimpleMap premium support, you help to ensure future enhancements to this excellent project as well as the following benefits:', 'SimpleMap' ); ?>
+												<?php _e( 'By signing up for SimpleMap premium support, you help to ensure future enhancements to this excellent project as well as the following benefits:', 'SimpleMap' ); // xss ok ?>
 											</p>
 
 											<ul style='margin-left:25px;list-style-type:disc'>
