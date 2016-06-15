@@ -69,7 +69,7 @@ class SM_Search_Widget extends WP_Widget {
 		//TODO update this to modern Widget API code.
 		echo $before_widget;
 		if ( $title ) {
-			echo '<span class="sm-search-widget-title">' . $before_title . $title . $after_title . '</span>';
+			echo '<span class="sm-search-widget-title">' . $before_title . $title . $after_title . '</span>'; // XSS ok.
 		}
 
 		// Form Field Values.
