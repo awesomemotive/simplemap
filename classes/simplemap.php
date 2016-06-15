@@ -568,7 +568,6 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 						$taxes_array[] = $value->term_id;
 					}
 				}
-
 			}
 
 			$taxes_avail = $taxes_array;
@@ -603,7 +602,6 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 					$tax_search .= $tax_select;
 				}
 			}
-
 			return array( 'label' => $tax_label, 'input' => $tax_search );
 		}
 
