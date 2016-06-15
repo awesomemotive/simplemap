@@ -662,12 +662,12 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				$options = $this->get_options();
 				wp_enqueue_style( 'simplemap-admin', SIMPLEMAP_URL . '/inc/styles/admin.css' );
 
-				// SimpleMap General options
+				// SimpleMap General options.
 				if ( isset( $_GET['page'] ) && 'simplemap' == $_GET['page'] ) {
 					wp_enqueue_script( 'simplemap-general-options-js', get_home_url() . '/?simplemap-general-options-js', array( 'jquery' ) );
 				}
 
-				// Google API v3 does not need a key
+				// Google API v3 does not need a key.
 				$url_params = array(
 					'v'        => '3',
 					'sensor'   => 'false',
@@ -678,7 +678,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			}
 		}
 
-		// JS Script for general options page
+		// JS Script for general options page.
 		function general_options_js_script() {
 			if ( ! isset( $_GET['simplemap-general-options-js'] ) ) {
 				return;
@@ -711,8 +711,8 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			die();
 		}
 
-		// This function prints the JS
 		function google_map_js_script() {
+			// This function prints the JS.
 			if ( ! isset( $_GET['simplemap-master-js'] ) ) {
 				return;
 			}
