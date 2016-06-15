@@ -20,9 +20,14 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 		}
 
+		/**
+		 * CSV Exported.
+		 *
+		 * Handles the exporting of data to CSV.
+		 *
+		 */
 		public function export_csv() {
-			// Exports a CSV file to WordPress.
-
+			
 			if ( isset( $_POST['sm_export_csv_nonce'] ) && wp_verify_nonce( $_POST['sm_export_csv_nonce'], 'sm_export_csv' ) ) {
 				// Grab locations.
 				$content = array();
