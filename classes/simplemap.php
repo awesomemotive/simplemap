@@ -251,7 +251,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				'label' => apply_filters( 'sm-search-label-country', __( 'Country: ', 'SimpleMap' ), $post ),
 				'input' => '<input type="text" id="location_search_country_field" name="location_search_country" value="' . esc_attr( $country_value ) . '" />'
 			);
-			$ffi['empty']    = array( 'label' => '', 'input' => '' );
+			$ffi['empty']    = array( 'label' => '', 'input' => '', );
 			$ffi['submit']   = array(
 				'label' => '',
 				'input' => '<input type="submit" value="' . apply_filters( 'sm-search-label-search', __( 'Search', 'SimpleMap' ), $post ) . '" id="location_search_submit_field" class="submit" />'
@@ -468,11 +468,8 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 					default :
 						$field_names[] = $field;
 				}
-
 			}
-
 			return (array) $field_names;
-
 		}
 
 		/**
