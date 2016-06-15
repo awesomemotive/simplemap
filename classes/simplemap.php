@@ -71,7 +71,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			}
 
 			// Hide map?
-			$hidemap = ( $hide_map ) ? 'display:none; ' : '';
+			$hidemap = $hide_map ? 'display:none; ' : '';
 
 			// Hide list?
 			$hidelist = $hide_list ? 'display:none; ' : '';
