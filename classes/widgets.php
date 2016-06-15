@@ -12,7 +12,7 @@ class SM_Search_Widget extends WP_Widget {
 	// Define Widget
 	function __construct() {
 		$widget_ops = array( 'classname'   => 'sm_search_widget',
-		                     'description' => __( "Adds a customizable search widget to your site" )
+		                     'description' => __( 'Adds a customizable search widget to your site' )
 		);
 		parent::__construct( 'sm_search_widget', __( 'SimpleMap Search' ), $widget_ops );
 	}
@@ -114,7 +114,7 @@ class SM_Search_Widget extends WP_Widget {
 			}
 
 			// Show day filters if allowed
-			if ( ! empty( $show[ $taxonomy ] ) && $all_terms ) {
+			if ( $all_terms && ! empty( $show[ $taxonomy ] ) ) {
 				$php_taxonomy = str_replace( '-', '_', $taxonomy );
 				$term_search  = '<tr><td class="location_search_' . strtolower( $tax_info['singular'] ) . '_cell location_search_cell">' . apply_filters( $php_taxonomy . '-text', __( $tax_info['plural'], 'SimpleMap' ) ) . ':<br />';
 
