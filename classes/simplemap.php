@@ -2362,9 +2362,9 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 
 		/**
 		 * Check if legacy tables exist.
-		 * 
+		 *
 		 * Returns true if legacy tables exist in the database.
-		 * 
+		 *
 		 * @return bool
 		 */
 		function legacy_tables_exist() {
@@ -2374,7 +2374,6 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			if ( $tables = $wpdb->get_results( $sql ) ) {
 				return true;
 			}
-
 			return false;
 		}
 
