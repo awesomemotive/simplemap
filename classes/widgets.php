@@ -1,6 +1,8 @@
 <?php
-// Init Widgets
+
 function simplemap_init_widgets() {
+	// Init Widgets.
+
 	register_widget( 'SM_Search_Widget' );
 }
 
@@ -28,8 +30,10 @@ class SM_Search_Widget extends WP_Widget {
 	}
 
 	/**
-	 * @param array $args
-	 * @param array $instance
+	 * Build the widget.
+	 *
+	 * @param array $args widget comments
+	 * @param array $instance actual instance of the widget
 	 */
 	public function widget( $args, $instance ) {
 		global $simple_map, $wp_rewrite;
@@ -62,6 +66,7 @@ class SM_Search_Widget extends WP_Widget {
 
 		$available = $terms;
 
+		//TODO update this to modern Widget API code
 		echo $before_widget;
 		if ( $title ) {
 			echo '<span class="sm-search-widget-title">' . $before_title . $title . $after_title . '</span>';
