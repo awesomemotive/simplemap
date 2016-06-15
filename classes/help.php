@@ -18,10 +18,10 @@ if ( ! class_exists( 'SM_Help' ) ) {
 			<div class="wrap">
 
 				<?php
-				// Title
+				// Title.
 				$sm_page_title = 'SimpleMap: Premium Support';
 
-				// Toolbar
+				// Toolbar.
 				$simple_map->show_toolbar( $sm_page_title );
 				?>
 
