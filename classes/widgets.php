@@ -10,9 +10,10 @@ add_action( 'widgets_init', 'simplemap_init_widgets' );
 
 /**
  * Class SM_Search_Widget.
+ *
+ * Location Search Widget.
  */
 class SM_Search_Widget extends WP_Widget {
-	// Location Search Widget
 
 	/**
 	 * SM_Search_Widget constructor.
@@ -66,7 +67,7 @@ class SM_Search_Widget extends WP_Widget {
 
 		$available = $terms;
 
-		//TODO update this to modern Widget API code
+		//TODO update this to modern Widget API code.
 		echo $before_widget;
 		if ( $title ) {
 			echo '<span class="sm-search-widget-title">' . $before_title . $title . $after_title . '</span>';
