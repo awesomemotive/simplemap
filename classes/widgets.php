@@ -6,17 +6,28 @@ function simplemap_init_widgets() {
 
 add_action( 'widgets_init', 'simplemap_init_widgets' );
 
-// Location Search Widget
+/**
+ * Class SM_Search_Widget
+ */
 class SM_Search_Widget extends WP_Widget {
+	// Location Search Widget
 
-	// Define Widget
+	/**
+	 * SM_Search_Widget constructor.
+	 */
 	function __construct() {
+		// Define Widget
+
 		$widget_ops = array( 'classname'   => 'sm_search_widget',
 		                     'description' => __( 'Adds a customizable search widget to your site' )
 		);
 		parent::__construct( 'sm_search_widget', __( 'SimpleMap Search' ), $widget_ops );
 	}
 
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
 	function widget( $args, $instance ) {
 		global $simple_map, $wp_rewrite;
 
@@ -170,8 +181,15 @@ class SM_Search_Widget extends WP_Widget {
 		echo $after_widget;
 	}
 
-	// Save settings in backend
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 *
+	 * @return array
+	 */
 	function update( $new_instance, $old_instance ) {
+		// Save settings in backend
+
 		$instance = $old_instance;
 
 		$instance['title']          = strip_tags( $new_instance['title'] );
@@ -195,8 +213,12 @@ class SM_Search_Widget extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * @param array $instance
+	 */
 	function form( $instance ) {
 		//Defaults
+
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 
 		$title          = esc_attr( $instance['title'] );
