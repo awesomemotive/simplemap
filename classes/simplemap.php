@@ -1,12 +1,19 @@
 <?php
 if ( ! class_exists( 'Simple_Map' ) ) {
 
+	/**
+	 * Class Simple_Map
+	 */
 	class Simple_Map {
 
 		var $plugin_url;
 		var $plugin_domain = 'SimpleMap';
 
-		// Initialize the plugin
+		/**
+		 * Simple_Map constructor.
+		 *
+		 * Initialize the plugin.
+		 */
 		function __construct() {
 
 			$plugin_dir = basename( SIMPLEMAP_PATH );
@@ -40,7 +47,13 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 		}
 
-		// This function generates the code to display the map
+		/**
+		 * Generates the code to display the map.
+		 *
+		 * @param $atts
+		 *
+		 * @return mixed|void
+		 */
 		function display_map( $atts ) {
 
 			$options = $this->get_options();
@@ -177,31 +190,37 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			return apply_filters( 'sm-display-map', $to_display, $atts );
 		}
 
-		// This function returns the location search form
+		/**
+		 * Returns the location search form.
+		 *
+		 * @param $atts
+		 *
+		 * @return mixed|void
+		 */
 		function location_search_form( $atts ) {
 			global $post;
 
-			// Grab default SimpleMap options
+			// Grab default SimpleMap options.
 			$options = $this->get_options();
 
-			// Merge default simplemap options with default shortcode options and provided shortcode options
+			// Merge default simplemap options with default shortcode options and provided shortcode options.
 			$atts = $this->parse_shortcode_atts( $atts );
 
-			// Create individual vars for each att
+			// Create individual vars for each att.
 			extract( $atts );
 
-			// Array of the names for all taxonomies registered with sm-location post type
+			// Array of the names for all taxonomies registered with sm-location post type.
 			$sm_tax_names = get_object_taxonomies( 'sm-location' );
 
-			// Array of field names for this form (with label syntax stripped
+			// Array of field names for this form (with label syntax stripped.
 			$form_field_names = $this->get_form_field_names_from_shortcode_atts( $search_fields );
 
-			// Form onsubmit, action, and method values
+			// Form onsubmit, action, and method values.
 			$on_submit = apply_filters( 'sm-location-search-onsubmit', ' onsubmit="searchLocations( 1 ); return false; "', $post->ID );
 			$action    = apply_filters( 'sm-locaiton-search-action', get_permalink(), $post->ID );
 			$method    = apply_filters( 'sm-location-search-method', 'post', $post->ID );
 
-			// Form Field Values
+			// Form Field Values.
 			$address_value = get_query_var( 'location_search_address' );
 			$city_value    = isset( $_REQUEST['location_search_city'] ) ? $_REQUEST['location_search_city'] : '';
 			$state_value   = isset( $_REQUEST['location_search_state'] ) ? $_REQUEST['location_search_state'] : '';
@@ -211,7 +230,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			$limit_value   = isset( $_REQUEST['location_search_limit'] ) ? $_REQUEST['location_search_limit'] : $limit;
 			$is_sm_search  = isset( $_REQUEST['location_is_search_results'] ) ? 1 : 0;
 
-			// Normal Field inputs
+			// Normal Field inputs.
 			$ffi['street']   = array(
 				'label' => apply_filters( 'sm-search-label-street', __( 'Street: ', 'SimpleMap' ), $post ),
 				'input' => '<input type="text" id="location_search_address_field" name="location_search_address" value="' . esc_attr( $address_value ) . '" />'
@@ -241,7 +260,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 			$hidden_fields = array();
 
-			// Visible Taxonomy Field Inputs
+			// Visible Taxonomy Field Inputs.
 			foreach ( $sm_tax_names as $tax_name ) {
 				if ( in_array( $tax_name, $form_field_names ) && $this->show_taxonomy_filter( $atts, $tax_name ) ) {
 					$ffi[ $tax_name ] = $this->add_taxonomy_fields( $atts, $tax_name );
@@ -250,12 +269,12 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				}
 			}
 
-			// More Taxonomy Fields
+			// More Taxonomy Fields.
 			foreach ( $sm_tax_names as $tax_name ) {
 				$hidden_fields[] = '<input type="hidden" id="avail_' . str_replace( '-', '_', $tax_name ) . '" value="' . $atts[ str_replace( '-', '_', $tax_name ) ] . '" />';
 			}
 
-			// Hide search?
+			// Hide search?.
 			$hidesearch = $hide_search ? " style='display:none;' " : '';
 
 			$location_search = '<div id="map_search" >';
@@ -268,7 +287,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 			$location_search .= '<tr><td colspan="' . $search_form_cols . '" class="location_search_title">' . apply_filters( 'sm-location-search-title', $search_title, $post->ID ) . '</td></tr>';
 
-			// Loop through field inputs and print table
+			// Loop through field inputs and print table.
 			$search_form_tr  = 0;
 			$search_form_trs = array();
 			$search_field_td = 1;
@@ -304,7 +323,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 						$field_value = $field_labelvalue;
 				}
 
-				// Back compat for class names
+				// Back compat for class names.
 				switch ( $field_value ) {
 					case 'sm-category' :
 						$class_value = 'cat';
@@ -325,13 +344,13 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 						$class_value = $field_value;
 				}
 
-				// Print open TR if on column 1
+				// Print open TR if on column 1.
 				if ( 1 === $search_field_td ) {
 					$search_form_tr_data = "\n\t<tr id='location_search_" . esc_attr( $search_form_tr ) . "_tr' class='location_search_row'>";
 					$search_form_tr ++;
 				}
 
-				// Print field for this position
+				// Print field for this position.
 				if ( 'span' == $field_value ) {
 					if ( $tr_data_array = explode( '<td ', $search_form_tr_data ) ) {
 						$target_td = end( $tr_data_array );
@@ -341,7 +360,6 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 						if ( 'colspan="' != substr( $target_td, 0, 9 ) ) {
 							$tr_data_array[ $key ] = 'colspan="2" ' . $target_td;
-							//echo "<pre>";print_r($tr_data_array);die();
 						} else {
 							$numcells              = substr( $target_td, 9, 1 );
 							$tr_data_array[ $key ] = substr_replace( $target_td, $numcells + 1, 9, 1 );
@@ -369,17 +387,15 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 							if ( isset( $ffi[ $field_value ]['label'] ) ) {
 								$search_form_tr_data .= $ffi[ $field_value ]['label'];
 							}
-
 							$search_form_tr_data .= $field_br;
 						}
-
 						$search_form_tr_data .= isset( $ffi[ $field_value ]['input'] ) ? $ffi[ $field_value ]['input'] . '</td>' : '</td>';
 					} else {
 						$search_form_tr_data .= "\n\t\t<td class='location_search_empty_cell location_search_cell'></td>";
 					}
 				}
 
-				// Print close TR if on column 3 or higher (for safety)
+				// Print close TR if on column 3 or higher (for safety).
 				if ( $search_form_cols <= $search_field_td ) {
 					$search_form_tr_data .= "\n\t</tr>";
 					$search_field_td = 0;
@@ -390,11 +406,11 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 					}
 				}
 
-				// Bump search field count
+				// Bump search field count.
 				$search_field_td ++;
 			}
 
-			// Add table fields
+			// Add table fields.
 			if ( ! empty( $search_form_trs ) ) {
 				$location_search .= implode( ' ', $search_form_trs );
 			}
@@ -403,31 +419,37 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 			$location_search .= '</table>';
 
-			// Add hidden fields
+			// Add hidden fields.
 			if ( ! empty( $hidden_fields ) ) {
 				$location_search .= implode( ' ', $hidden_fields );
 			}
 
-			// Lat / Lng
+			// Lat / Lng.
 			$location_search .= "<input type='hidden' id='location_search_default_lat' value='" . $default_lat . "' />";
 			$location_search .= "<input type='hidden' id='location_search_default_lng' value='" . $default_lng . "' />";
 
-			// Hidden value for limit
+			// Hidden value for limit.
 			$location_search .= "<input type='hidden' id='location_search_limit' value='" . $limit_value . "' />";
 
-			// Hidden value set to true if we got here via search
+			// Hidden value set to true if we got here via search.
 			$location_search .= "<input type='hidden' id='location_is_search_results' name='sm-location-search' value='" . $is_sm_search . "' />";
 
 			$location_search .= '</form>';
-			$location_search .= '</div>'; // close map_search div
+			$location_search .= '</div>'; // Close map_search div.
 
 			return apply_filters( 'sm_location_search_form', $location_search, $atts );
 		}
 
-		// Separates form field names from label syntax attached to them when submitted via shortcode
+		/**
+		 * Separates form field names from label syntax attached to them when submitted via shortcode.
+		 *
+		 * @param $fields
+		 *
+		 * @return array
+		 */
 		function get_form_field_names_from_shortcode_atts( $fields ) {
 
-			// String to array
+			// String to array.
 			$fields = explode( '||', $fields );
 
 			foreach ( $fields as $key => $field ) {
@@ -453,13 +475,20 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 		}
 
-		// Determines if we're supposed to show this taxonomy's filter options in the form
+		/**
+		 * Determines if we're supposed to show this taxonomy's filter options in the form.
+		 *
+		 * @param $atts
+		 * @param $tax_name
+		 *
+		 * @return bool
+		 */
 		function show_taxonomy_filter( $atts, $tax_name ) {
 
-			// Convert tax_name to PHP safe equiv
+			// Convert tax_name to PHP safe equiv.
 			$php_tax_name = str_replace( '-', '_', $tax_name );
 
-			// Convert Given Taxonomy's 'show filter' into a generic one
+			// Convert Given Taxonomy's 'show filter' into a generic one.
 			$key               = 'show_' . $php_tax_name . '_filter';
 			$show_taxes_filter = $atts[ $key ];
 
@@ -471,11 +500,18 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 		}
 
-		// Adds Distance field to form
+		/**
+		 * Adds Distance field to form.
+		 *
+		 * @param $radius_value
+		 * @param $units
+		 *
+		 * @return array
+		 */
 		function add_distance_field( $radius_value, $units ) {
 			global $post;
 
-			// Distance
+			// Distance.
 			$distance_input = '<select id="location_search_distance_field" name="location_search_distance" >';
 			foreach ( $this->get_search_radii() as $value ) {
 				$r = (int) $value;
@@ -490,11 +526,18 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 		}
 
-		// Adds taxonomy fields to search form
+		/**
+		 * Adds taxonomy fields to search form.
+		 *
+		 * @param $atts
+		 * @param $taxonomy
+		 *
+		 * @return array|string
+		 */
 		function add_taxonomy_fields( $atts, $taxonomy ) {
 			global $post;
 
-			// Get taxonomy object or return empty;
+			// Get taxonomy object or return empty.
 			if ( ! $tax_object = get_taxonomy( $taxonomy ) ) {
 				return '';
 			}
@@ -507,20 +550,20 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 			$php_taxonomy = str_replace( '-', '_', $taxonomy );
 
-			// Convert Specific Taxonomy var names and var values to Generic var names and var values
+			// Convert Specific Taxonomy var names and var values to Generic var names and var values.
 			$taxonomies        = $atts[ $php_taxonomy ];
 			$tax_hidden_name   = 'avail_' . $php_taxonomy;
 			$show_taxes_filter = $atts[ 'show_' . $php_taxonomy . '_filter' ];
 			$tax_field_name    = $php_taxonomy;
 
-			// This originates at the comma separated list of taxonomy ids in the shortcode. ie: sm_category='1,3,5'
+			// This originates at the comma separated list of taxonomy ids in the shortcode. ie: sm_category='1,3,5'.
 			$taxes_avail = $atts[ $tax_hidden_name ];
 
-			// Place available taxes in array
+			// Place available taxes in array.
 			$taxes_avail = explode( ',', $taxes_avail );
 			$taxes_array = array();
 
-			// Loop through all cats and create array of available cats
+			// Loop through all cats and create array of available cats.
 			if ( $all_taxes = get_terms( $taxonomy ) ) {
 
 				foreach ( $all_taxes as $key => $value ) {
@@ -533,14 +576,14 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 			$taxes_avail = $taxes_array;
 
-			// Show taxes filters if allowed
+			// Show taxes filters if allowed.
 			$tax_search = '';
 			$tax_label  = apply_filters( $php_taxonomy . '-text', __( $tax_object->labels->singular_name . ': ' ), 'SimpleMap' );
 
 			$taxes_array = apply_filters( 'sm-search-from-taxonomies', $taxes_array, $taxonomy );
 
 			if ( 'checkboxes' == $taxonomy_field_type ) {
-				// Print checkbox for each available cat
+				// Print checkbox for each available cat.
 				foreach ( $taxes_array as $key => $taxid ) {
 					if ( $term = get_term_by( 'id', $taxid, $taxonomy ) ) {
 						$tax_checked = isset( $_REQUEST[ 'location_search_' . $tax_field_name . '_' . esc_attr( $term->term_id ) . 'field' ] ) ? ' checked="checked" ' : '';
@@ -548,7 +591,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 					}
 				}
 			} elseif ( 'select' == $taxonomy_field_type ) {
-				// Print selectbox if that's what we're doing
+				// Print selectbox if that's what we're doing.
 				$tax_select = "<select id='location_search_" . esc_attr( $tax_field_name ) . "_select' name='location_search_" . esc_attr( $tax_field_name ) . "_select' >";
 				$tax_select .= "<option value=''>" . apply_filters( 'sm-search-tax-select-default', __( 'Select a value', 'SimpleMap' ), $taxonomy ) . "</option>";
 				foreach ( $taxes_array as $key => $taxid ) {
@@ -567,39 +610,43 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			return array( 'label' => $tax_label, 'input' => $tax_search );
 		}
 
-		// This function enqueues all the javascript and stylesheets
+		/**
+		 * Enqueues all the javascript and stylesheets.
+		 *
+		 * @return bool
+		 */
 		function enqueue_frontend_scripts_styles() {
 			global $post;
 			$options = $this->get_options();
 
-			// Rewrite rules if we've changed the location permalink slug
+			// Rewrite rules if we've changed the location permalink slug.
 			if ( get_option( 'sm-rewrite-rules' ) ) {
 				global $wp_rewrite;
 				$wp_rewrite->flush_rules();
 				delete_option( 'sm-rewrite-rules' );
 			}
 
-			// Frontend only
+			// Frontend only.
 			if ( ! is_admin() && is_object( $post ) || apply_filters( 'sm-force-frontend-js', '__return_false' ) ) {
-				// Bail if we're not showing on all pages and this isn't a map page
+				// Bail if we're not showing on all pages and this isn't a map page.
 				if ( ! in_array( $post->ID, explode( ',', $options['map_pages'] ) ) && ! in_array( 0, explode( ',', $options['map_pages'] ) ) ) {
 					return false;
 				}
 
-				// Check for use of custom stylesheet and load styles
+				// Check for use of custom stylesheet and load styles.
 				if ( strstr( $options['map_stylesheet'], 'simplemap-styles' ) ) {
 					$style_url = plugins_url() . '/' . $options['map_stylesheet'];
 				} else {
 					$style_url = SIMPLEMAP_URL . '/' . $options['map_stylesheet'];
 				}
 
-				// Load styles
+				// Load styles.
 				wp_enqueue_style( 'simplemap-map-style', $style_url );
 
-				// Scripts
+				// Scripts.
 				wp_enqueue_script( 'simplemap-master-js', get_home_url() . '?simplemap-master-js=1&smpid=' . $post->ID, array( 'jquery' ) );
 
-				// Google API v3 does not need a key
+				// Google API v3 does not need a key.
 				$url_params = array(
 					'sensor'   => 'false',
 					'v'        => '3',
@@ -613,7 +660,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			}
 		}
 
-		// This function enqueues all the javascript and stylesheets
+		// This function enqueues all the javascript and stylesheets.
 		function enqueue_backend_scripts_styles() {
 			// Admin only
 			if ( is_admin() ) {
@@ -1580,16 +1627,27 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			die();
 		}
 
-		// This function geocodes a location
+		/**
+		 * Geocodes a location
+		 *
+		 * @param string $address
+		 * @param string $city
+		 * @param string $state
+		 * @param string $zip
+		 * @param string $country
+		 * @param string $key
+		 *
+		 * @return array|bool
+		 */
 		function geocode_location( $address = '', $city = '', $state = '', $zip = '', $country = '', $key = '' ) {
 			$options = $this->get_options();
-			// Create URL encoded comma separated list of address elements that != ''
+			// Create URL encoded comma separated list of address elements that != ''.
 			$to_geocode = urlencode( implode( ', ', array_filter( compact( 'address', 'city', 'state', 'zip', 'country' ) ) ) );
 
-			// Base URL
+			// Base URL.
 			$base_url = SIMPLEMAP_MAPS_WS_API . 'geocode/json?sensor=false&region=' . substr( $options['default_domain'], strrpos( $options['default_domain'], '.' ) + 1 );
 
-			// Add query
+			// Add query.
 			$request_url = $base_url . "&address=" . $to_geocode;
 
 			$response = wp_remote_get( $request_url );
@@ -1600,11 +1658,10 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 				$status = $body->status;
 
 				if ( $status == 'OK' ) {
-					// Successful geocode
-					//echo "<pre>";print_r( $body );die();
+					// Successful geocode.
 					$location = $body->results[0]->geometry->location;
 
-					// Format: Longitude, Latitude, Altitude
+					// Format: Longitude, Latitude, Altitude.
 					$lat = $location->lat;
 					$lng = $location->lng;
 				}
@@ -1615,7 +1672,16 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			}
 		}
 
-		// Returns list of SimpleMap Taxonomies
+		/**
+		 * Returns list of SimpleMap Taxonomies.
+		 *
+		 * @param string $format
+		 * @param string $prefix
+		 * @param bool $php_safe
+		 * @param string $output
+		 *
+		 * @return array|string
+		 */
 		function get_sm_taxonomies( $format = 'array', $prefix = '', $php_safe = false, $output = 'names' ) {
 
 			$taxes = array();
@@ -1624,7 +1690,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 
 				foreach ( $taxes as $key => $tax ) {
 
-					// Convert to PHP safe and add prefix
+					// Convert to PHP safe and add prefix.
 					if ( $php_safe && 'names' == $output ) {
 						$taxes[ $key ] = str_replace( '-', '_', $prefix . $tax );
 					} elseif ( $php_safe ) {
@@ -1635,7 +1701,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 
 			}
 
-			// Convert to string if needed
+			// Convert to string if needed.
 			if ( 'string' == $format ) {
 				$taxes = implode( ', ', $taxes );
 			}
@@ -1644,6 +1710,13 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 
 		}
 
+		/**
+		 * Get taxonomy settings.
+		 *
+		 * @param null $taxonomy
+		 *
+		 * @return array|mixed
+		 */
 		function get_taxonomy_settings( $taxonomy = null ) {
 			$standard_taxonomies = array(
 				'sm-category' => array( 'singular'     => 'Category',
@@ -1677,7 +1750,11 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			}
 		}
 
-		// This function returns the default SimpleMap options		
+		/**
+		 * Returns the default SimpleMap options.
+		 *
+		 * @return array|mixed|null|void
+		 */
 		function get_options() {
 			$options = array();
 			$saved   = get_option( 'SimpleMap_options' );
@@ -1716,7 +1793,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					'adsense_pub_id'        => '',
 					'adsense_channel_id'    => '',
 					'adsense_max_ads'       => 2,
-					//'api_key' => '',
+					// 'api_key' => '',
 					'auto_locate'           => '',
 					'taxonomies'            => array(
 						'sm-category' => $this->get_taxonomy_settings( 'sm-category' ),
@@ -1765,7 +1842,11 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			return $options;
 		}
 
-		// Google Domains
+		/**
+		 * Google Domains.
+		 *
+		 * @return mixed|void
+		 */
 		function get_domain_options() {
 			$domains_list = array(
 				'United States'          => '.com',
@@ -1798,8 +1879,16 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			return apply_filters( 'sm-domain-list', $domains_list );
 		}
 
-		// Region list from http://code.google.com/apis/adwords/docs/appendix/provincecodes.html
-		// Used for Maps v3 localization: http://code.google.com/apis/maps/documentation/javascript/basics.html#Localization
+		/**
+		 * Region list
+		 *
+		 * Used for Maps v3 localization.
+		 *
+		 * @link http://code.google.com/apis/adwords/docs/appendix/provincecodes.html
+		 * @link http://code.google.com/apis/maps/documentation/javascript/basics.html#Localization
+		 *
+		 * @return mixed|void
+		 */
 		function get_region_options() {
 			$region_list = array(
 				'US' => 'United States',
@@ -1850,7 +1939,11 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			return apply_filters( 'sm-region-list', $region_list );
 		}
 
-		// Country list
+		/**
+		 * Country list.
+		 *
+		 * @return mixed|void
+		 */
 		function get_country_options() {
 			$country_list = array(
 				'US' => 'United States',
@@ -2097,8 +2190,16 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			return apply_filters( 'sm-country-list', $country_list );
 		}
 
-		// Region list from http://code.google.com/apis/maps/faq.html#languagesupport
-		// Used for Maps v3 localization: http://code.google.com/apis/maps/documentation/javascript/basics.html#Localization
+		/**
+		 * Region list.
+		 *
+		 * Used for Maps v3 localization.
+		 *
+		 * @link http://code.google.com/apis/maps/faq.html#languagesupport
+		 * @link http://code.google.com/apis/maps/documentation/javascript/basics.html#Localization
+		 *
+		 * @return mixed|void
+		 */
 		function get_language_options() {
 			$language_list = array(
 				'ar'    => 'Arabic',
@@ -2160,6 +2261,11 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			return apply_filters( 'sm-language-list', $language_list );
 		}
 
+		/**
+		 * Get auto locate options.
+		 *
+		 * @return mixed|void
+		 */
 		function get_auto_locate_options() {
 			$auto_locate_list = array(
 				''      => 'No Automatic Location',
@@ -2170,7 +2276,11 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			return apply_filters( 'sm-auto-locte-list', $auto_locate_list );
 		}
 
-		// Echo the toolbar
+		/**
+		 * Show the toolbar.
+		 *
+		 * @param string $title
+		 */
 		function show_toolbar( $title = '' ) {
 			global $simple_map;
 			$options = $simple_map->get_options();
@@ -2212,14 +2322,25 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			*/
 		}
 
-		// Return the available search_radii
+		/**
+		 * Get the search radii.
+		 *
+		 * Returns the available search_radii.
+		 * @return mixed|void
+		 */
 		function get_search_radii() {
 			$search_radii = array( 1, 5, 10, 25, 50, 100, 500, 1000 );
 
 			return apply_filters( 'sm-search-radii', $search_radii );
 		}
 
-		// What link are we using for google's API
+		/**
+		 * Get API link.
+		 *
+		 * Determine which link we're using for Google's API.
+		 *
+		 * @return string
+		 */
 		function get_api_link() {
 			$lo = str_replace( '_', '-', get_locale() );
 			$l  = substr( $lo, 0, 2 );
@@ -2244,7 +2365,13 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			return $api_link;
 		}
 
-		// Returns true if legacy tables exist in the DB
+		/**
+		 * Check if legacy tables exist.
+		 * 
+		 * Returns true if legacy tables exist in the database.
+		 * 
+		 * @return bool
+		 */
 		function legacy_tables_exist() {
 			global $wpdb;
 
@@ -2256,7 +2383,12 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			return false;
 		}
 
-		// Search form / widget query vars
+		/**
+		 * Search form / widget query vars.
+		 * @param $vars
+		 *
+		 * @return array
+		 */
 		function register_query_vars( $vars ) {
 
 			$vars[] = 'location_search_address';
@@ -2274,13 +2406,17 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 		 * Parses the shortcode attributes with the default options and returns array
 		 *
 		 * @since 2.3
+		 *
+		 * @param $shortcode_atts
+		 *
+		 * @return array
 		 */
 		function parse_shortcode_atts( $shortcode_atts ) {
 			$options      = $this->get_options();
 			$default_atts = $this->get_default_shortcode_atts();
 			$atts         = shortcode_atts( $default_atts, $shortcode_atts );
 
-			// If deprecated shortcodes were used, replace with current ones
+			// If deprecated shortcodes were used, replace with current ones.
 			if ( isset( $atts['show_categories_filter'] ) ) {
 				$atts['show_sm_category_filter'] = $atts['show_categories_filter'];
 			}
@@ -2306,7 +2442,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 				$atts['sm_time'] = $atts['times'];
 			}
 
-			// Determine if we need to hide the search form or not
+			// Determine if we need to hide the search form or not.
 			if ( '' == $atts['hide_search'] ) {
 				// Use default value
 				if ( 'show' == $options['display_search'] ) {
@@ -2316,7 +2452,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 				}
 			}
 
-			// Set categories and tags to available equivelants 
+			// Set categories and tags to available equivelants.
 			$atts['avail_sm_category'] = $atts['sm_category'];
 			$atts['avail_sm_tag']      = $atts['sm_tag'];
 			$atts['avail_sm_day']      = $atts['sm_day'];
@@ -2333,12 +2469,12 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			// Doing powered by?
 			if ( '' == $atts['powered_by'] ) {
 
-				// Use default value
+				// Use default value.
 				$atts['powered_by'] = $options['powered_by'];
 
 			} else {
 
-				// Use shortcode
+				// Use shortcode.
 				if ( 0 == $atts['powered_by'] ) {
 					$atts['powered_by'] = 0;
 				} else {
@@ -2359,12 +2495,12 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 				$atts['radius'] = $options['default_radius'];
 			}
 
-			//Make sure we have limit
+			//Make sure we have limit.
 			if ( '' == $atts['limit'] ) {
 				$atts['limit'] = $options['results_limit'];
 			}
 
-			// Clean search_field_cols
+			// Clean search_field_cols.
 			if ( 0 === absint( $atts['search_form_cols'] ) ) {
 				$atts['search_form_cols'] = $default_atts['search_form_cols'];
 			}
@@ -2394,7 +2530,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 				$atts['autoload'] = $options['autoload'];
 			}
 
-			// Return final array
+			// Return final array.
 			return $atts;
 		}
 
@@ -2450,22 +2586,46 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			return apply_filters( 'sm-default-shortcode-atts', $atts );
 		}
 
-		// This function filters category text labels
+		/**
+		 * Filters category text labels.
+		 *
+		 * @param $text
+		 *
+		 * @return string|void
+		 */
 		function backwards_compat_categories_text( $text ) {
 			return __( 'Categories', 'SimpleMap' );
 		}
 
-		// This function filters category text labels
+		/**
+		 * Filters category text labels.
+		 *
+		 * @param $text
+		 *
+		 * @return string|void
+		 */
 		function backwards_compat_tags_text( $text ) {
 			return __( 'Tags', 'SimpleMap' );
 		}
 
-		// This function filters category text labels
+		/**
+		 * Filters category text labels.
+		 *
+		 * @param $text
+		 *
+		 * @return string|void
+		 */
 		function backwards_compat_days_text( $text ) {
 			return __( 'Days', 'SimpleMap' );
 		}
 
-		// This function filters category text labels
+		/**
+		 * Filters category text labels.
+		 *
+		 * @param $text
+		 *
+		 * @return string|void
+		 */
 		function backwards_compat_times_text( $text ) {
 			return __( 'Times', 'SimpleMap' );
 		}
