@@ -210,7 +210,7 @@ if ( ! class_exists( 'SM_Help' ) ) {
 														<?php _e( 'To properly add a new location, you must enter one or both of the following:', 'SimpleMap' ); // xss ok ?>
 														<br/>
 														<span
-															style="padding-left: 20px;"><?php _e( '1. A full address', 'SimpleMap' ); // xss ok ?></span><br/>
+															style="padding-left: 20px;"><?php _e( '1. A full address', 'SimpleMap' ); // xss ok. ?></span><br/>
 														<span
 															style="padding-left: 20px;"><?php _e( '2. A latitude and longitude', 'SimpleMap' ); // xss ok ?></span><br/>
 														<?php _e( 'If you enter a latitude and longitude, then the address will not be geocoded, and your custom values will be left in place. Entering an address without latitude or longitude will result in the address being geocoded before it is submitted to the database.', 'SimpleMap' ); // xss ok ?>
