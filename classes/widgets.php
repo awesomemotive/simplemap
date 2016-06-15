@@ -7,16 +7,18 @@ function simplemap_init_widgets() {
 add_action( 'widgets_init', 'simplemap_init_widgets' );
 
 /**
- * Class SM_Search_Widget
+ * Class SM_Search_Widget.
  */
 class SM_Search_Widget extends WP_Widget {
 	// Location Search Widget
 
 	/**
 	 * SM_Search_Widget constructor.
+	 *
+	 * Define Widget.
+	 *
 	 */
 	public function __construct() {
-		// Define Widget
 
 		$widget_ops = array(
 							'classname'   => 'sm_search_widget',
@@ -38,7 +40,7 @@ class SM_Search_Widget extends WP_Widget {
 
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'] );
 
-		// Search Form Options
+		// Search Form Options.
 		$show_address  = $instance['show_address'] ? 1 : 0;
 		$show_city     = $instance['show_city'] ? 1 : 0;
 		$show_state    = $instance['show_state'] ? 1 : 0;
@@ -65,7 +67,7 @@ class SM_Search_Widget extends WP_Widget {
 			echo '<span class="sm-search-widget-title">' . $before_title . $title . $after_title . '</span>';
 		}
 
-		// Form Field Values
+		// Form Field Values.
 		$address_value = isset( $_REQUEST['location_search_address'] ) ? $_REQUEST['location_search_address'] : '';
 		$city_value    = isset( $_REQUEST['location_search_city'] ) ? $_REQUEST['location_search_city'] : '';
 		$state_value   = isset( $_REQUEST['location_search_state'] ) ? $_REQUEST['location_search_state'] : '';
@@ -73,7 +75,7 @@ class SM_Search_Widget extends WP_Widget {
 		$radius_value  = isset( $_REQUEST['location_search_distance'] ) ? $_REQUEST['location_search_distance'] : $options['default_radius'];
 		$limit_value   = isset( $_REQUEST['location_search_limit'] ) ? $_REQUEST['location_search_limit'] : $options['results_limit'];
 
-		// Set action based on permalink structure
+		// Set action based on permalink structure.
 		if ( ! $wp_rewrite->permalink_structure ) {
 			$method = 'get';
 			$action = site_url();
@@ -112,11 +114,11 @@ class SM_Search_Widget extends WP_Widget {
 		}
 
 		foreach ( $options['taxonomies'] as $taxonomy => $tax_info ) {
-			// Place available values in array
+			// Place available values in array.
 			$available = explode( ',', $available[ $taxonomy ] );
 			$valid     = array();
 
-			// Loop through all days and create array of available days
+			// Loop through all days and create array of available days.
 			if ( $all_terms = get_terms( $taxonomy ) ) {
 				foreach ( $all_terms as $key => $value ) {
 					if ( '' == $available[0] || in_array( $value->term_id, $available ) ) {
@@ -125,12 +127,12 @@ class SM_Search_Widget extends WP_Widget {
 				}
 			}
 
-			// Show day filters if allowed
+			// Show day filters if allowed.
 			if ( $all_terms && ! empty( $show[ $taxonomy ] ) ) {
 				$php_taxonomy = str_replace( '-', '_', $taxonomy );
 				$term_search  = '<tr><td class="location_search_' . strtolower( $tax_info['singular'] ) . '_cell location_search_cell">' . apply_filters( $php_taxonomy . '-text', __( $tax_info['plural'], 'SimpleMap' ) ) . ':<br />';
 
-				// Print checkbox for each available day
+				// Print checkbox for each available day.
 				foreach ( $valid as $key => $termid ) {
 					if ( $term = get_term_by( 'id', $termid, $taxonomy ) ) {
 						$term_search .= '<label for="location_search_widget_' . strtolower( $tax_info['plural'] ) . '_field_' . esc_attr( $term->term_id ) . '" class="no-linebreak"><input type="checkbox" name="location_search_' . $php_taxonomy . '_' . esc_attr( $term->term_id ) . 'field" id="location_search_widget_' . strtolower( $tax_info['plural'] ) . '_field_' . esc_attr( $term->term_id ) . '" value="' . esc_attr( $term->term_id ) . '" /> ' . esc_attr( $term->name ) . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> ';
@@ -139,11 +141,11 @@ class SM_Search_Widget extends WP_Widget {
 
 				$term_search .= '</td></tr>';
 			} else {
-				// Default day_selected is none
+				// Default day_selected is none.
 				$term_search = '<input type="hidden" name="location_search_' . strtolower( $tax_info['plural'] ) . '_field" value="" checked="checked" />';
 			}
 
-			// Hidden field for available days. We'll need this in the event that nothing is selected
+			// Hidden field for available days; we'll need this in the event that nothing is selected.
 			$term_search .= '<input type="hidden" id="avail_' . strtolower( $tax_info['plural'] ) . '" value="' . esc_attr( $terms[ $taxonomy ] ) . '" />';
 
 			$term_search = apply_filters( 'sm-location-' . strtolower( $tax_info['singular'] ) . '-search-widget', $term_search );
@@ -161,13 +163,13 @@ class SM_Search_Widget extends WP_Widget {
 		$location_search .= "<input type='hidden' id='location_search_widget_default_lat' value='" . $default_lat . "' />";
 		$location_search .= "<input type='hidden' id='location_search_widget_default_lng' value='" . $default_lng . "' />";
 
-		// Hidden value for limit
+		// Hidden value for limit.
 		$location_search .= "<input type='hidden' name='location_search_widget_limit' id='location_search_widget_limit' value='" . $limit_value . "' />";
 
-		// Hidden value set to true if we got here via search
+		// Hidden value set to true if we got here via search.
 		$location_search .= "<input type='hidden' id='location_is_search_widget_results' name='location_is_search_results' value='1' />";
 
-		// Hidden value referencing page_id
+		// Hidden value referencing page_id.
 		$location_search .= "<input type='hidden' name='page_id' value='" . absint( $simplemap_page ) . "' />";
 
 		$location_search .= apply_filters( 'sm-location-search-widget-before-submit', '' );
@@ -175,7 +177,7 @@ class SM_Search_Widget extends WP_Widget {
 		$location_search .= '<tr><td class="location_search_widget_submit_cell location_search_widget_cell"> <input type="submit" value="' . apply_filters( 'sm-search-label-search', __( 'Search', 'SimpleMap' ) ) . '" id="location_search_widget_submit_field" class="submit" /></td></tr>';
 		$location_search .= '</table>';
 		$location_search .= '</form>';
-		$location_search .= '</div>'; // close map_search div
+		$location_search .= '</div>'; // Close map_search div.
 
 		echo $location_search;
 
@@ -183,14 +185,15 @@ class SM_Search_Widget extends WP_Widget {
 	}
 
 	/**
+	 *
+	 * Save settings in backend.
+	 *
 	 * @param array $new_instance
 	 * @param array $old_instance
 	 *
 	 * @return array
 	 */
 	public function update( $new_instance, $old_instance ) {
-		// Save settings in backend
-
 		$instance = $old_instance;
 
 		$instance['title']          = strip_tags( $new_instance['title'] );
@@ -215,13 +218,13 @@ class SM_Search_Widget extends WP_Widget {
 	}
 
 	/**
+	 * Defaults
+	 *
 	 * @param array $instance
 	 *
 	 * @return string|void
 	 */
 	public function form( $instance ) {
-		//Defaults
-
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 
 		$title          = esc_attr( $instance['title'] );
