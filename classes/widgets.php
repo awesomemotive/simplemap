@@ -243,32 +243,32 @@ class SM_Search_Widget extends WP_Widget {
 		$simplemap_page = isset( $instance['simplemap_page'] ) ? esc_attr( $instance['simplemap_page'] ) : '';
 		?>
 
-		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>"
-			       name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>"/>
+		<p><label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php _e( 'Title:' ); ?></label>
+			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"
+			       name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>"/>
 		</p>
 
-		<p><input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id( 'show_address' ); ?>"
-		          name="<?php echo $this->get_field_name( 'show_address' ); ?>"<?php checked( $show_address ); ?> />
+		<p><input type="checkbox" class="checkbox" id="<?php echo esc_attr(  $this->get_field_id( 'show_address' ) ); ?>"
+		          name="<?php echo esc_attr( $this->get_field_name( 'show_address' ) ); ?>"<?php checked( $show_address ); ?> />
 			<label
-				for="<?php echo $this->get_field_id( 'show_address' ); ?>"><?php _e( 'Show Address', 'SimpleMap' ); ?></label><br/>
+				for="<?php echo esc_attr( $this->get_field_id( 'show_address' ) ); ?>"><?php _e( 'Show Address', 'SimpleMap' ); ?></label><br/>
 
-			<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id( 'show_city' ); ?>"
-			       name="<?php echo $this->get_field_name( 'show_city' ); ?>"<?php checked( $show_city ); ?> />
+			<input type="checkbox" class="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_city' ) ); ?>"
+			       name="<?php echo esc_attr( $this->get_field_name( 'show_city' ) ); ?>"<?php checked( $show_city ); ?> />
 			<label
-				for="<?php echo $this->get_field_id( 'show_city' ); ?>"><?php _e( 'Show City', 'SimpleMap' ); ?></label><br/>
+				for="<?php echo esc_attr( $this->get_field_id( 'show_city' ) ); ?>"><?php _e( 'Show City', 'SimpleMap' ); ?></label><br/>
 
-			<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id( 'show_state' ); ?>"
-			       name="<?php echo $this->get_field_name( 'show_state' ); ?>"<?php checked( $show_state ); ?> />
+			<input type="checkbox" class="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_state' ) ); ?>"
+			       name="<?php echo esc_attr( $this->get_field_name( 'show_state' ) ); ?>"<?php checked( $show_state ); ?> />
 			<label
 				for="<?php echo $this->get_field_id( 'show_state' ); ?>"><?php _e( 'Show State', 'SimpleMap' ); ?></label><br/>
 
-			<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id( 'show_zip' ); ?>"
-			       name="<?php echo $this->get_field_name( 'show_zip' ); ?>"<?php checked( $show_zip ); ?> />
+			<input type="checkbox" class="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_zip' ) ); ?>"
+			       name="<?php echo esc_attr( $this->get_field_name( 'show_zip' ) ); ?>"<?php checked( $show_zip ); ?> />
 			<label
 				for="<?php echo $this->get_field_id( 'show_zip' ); ?>"><?php _e( 'Show Zip', 'SimpleMap' ); ?></label><br/>
 
-			<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id( 'show_distance' ); ?>"
+			<input type="checkbox" class="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_distance' ) ); ?>"
 			       name="<?php echo $this->get_field_name( 'show_distance' ); ?>"<?php checked( $show_distance ); ?> />
 			<label
 				for="<?php echo $this->get_field_id( 'show_distance' ); ?>"><?php _e( 'Show Distance', 'SimpleMap' ); ?></label><br/>
