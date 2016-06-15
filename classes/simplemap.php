@@ -21,25 +21,25 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 			$this->plugin_url = SIMPLEMAP_URL;
 
-			// Add shortcode handler
+			// Add shortcode handler.
 			add_shortcode( 'simplemap', array( &$this, 'display_map' ) );
 
-			// Enqueue frontend scripts & styles into <head>
+			// Enqueue frontend scripts & styles into <head>.
 			add_action( 'template_redirect', array( &$this, 'enqueue_frontend_scripts_styles' ) );
 
-			// Enqueue backend scripts
+			// Enqueue backend scripts.
 			add_action( 'init', array( &$this, 'enqueue_backend_scripts_styles' ) );
 
-			// Add hook for master js file
+			// Add hook for master js file.
 			add_action( 'template_redirect', array( &$this, 'google_map_js_script' ) );
 
-			// Add hook for general options js file
+			// Add hook for general options js file.
 			add_action( 'init', array( &$this, 'general_options_js_script' ) );
 
-			// Query vars
+			// Query vars.
 			add_filter( 'query_vars', array( &$this, 'register_query_vars' ) );
 
-			// Backwards compat for core sm taxonomies
+			// Backwards compat for core sm taxonomies.
 			add_filter( 'sm_category-text', array( &$this, 'backwards_compat_categories_text' ) );
 			add_filter( 'sm_tag-text', array( &$this, 'backwards_compat_tags_text' ) );
 			add_filter( 'sm_day-text', array( &$this, 'backwards_compat_days_text' ) );
@@ -76,11 +76,11 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			// Hide list?
 			$hidelist = $hide_list ? 'display:none; ' : '';
 
-			// Map Width and height
+			// Map Width and height.
 			$map_width  = ( '' == $map_width ) ? $options['map_width'] : $map_width;
 			$map_height = ( '' == $map_height ) ? $options['map_height'] : $map_height;
 
-			// Updating Div
+			// Updating Div.
 			$sm_updating_img_src  = apply_filters( 'sm_updating_img_src', SIMPLEMAP_URL . '/inc/images/loading.gif' );
 			$sm_updating_div_size = apply_filters( 'sm_updating_img_size', 'height:' . $map_height . ';width:' . $map_width . ';' );
 			$to_display .= '<div id="simplemap-updating" style="' . $sm_updating_div_size . '"><img src="' . $sm_updating_img_src . '" alt="' . __( 'Loading new locations', 'SimpleMap' ) . '" /></div>';
@@ -90,7 +90,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			$to_display .= '<script type="text/javascript">';
 			$to_display .= '(function($) { ';
 
-			// Load Locations
+			// Load Locations.
 			$is_sm_search = isset( $_REQUEST['location_is_search_results'] ) ? 1 : 0;
 
 
