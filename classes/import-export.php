@@ -22,7 +22,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 		public function export_csv() {
 			// Exports a CSV file to WordPress.
 
-			if ( isset( $_POST['sm-action'] ) && 'export-csv' === $_POST['sm-action'] ) {
+			if ( isset( $_POST['sm_export_csv_nonce'] ) && wp_verify_nonce( $_POST['sm_export_csv_nonce'], 'sm_export_csv' ) ) {
 				// Grab locations.
 				$content = array();
 				set_time_limit( 0 );
@@ -786,11 +786,9 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 				_e( 'Export To File', 'SimpleMap' );
 				echo '</h3><div class="inside" style="padding: 10px;">
 
-		<form name="export_form" method="post" action="">
-
-			<input type="hidden" name="sm-action" value="export-csv"/>
-			<input type="submit" class="button-primary"
-			       value="';
+		<form name="export_form" method="post" action="">';
+				wp_nonce_field( 'sm_export_csv', 'sm_export_csv_nonce' );
+				echo '<input type="submit" class="button-primary" value="';
 
 				_e( 'Export Database to CSV File', 'SimpleMap' );
 				echo '"/>
