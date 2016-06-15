@@ -17,6 +17,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 			add_action( 'admin_init', array( &$this, 'export_csv' ) );
 			add_action( 'admin_init', array( &$this, 'export_legacy_csv' ) );
 			add_action( 'admin_init', array( &$this, 'delete_legacy_tables' ) );
+
 		}
 
 		public function export_csv() {
@@ -26,11 +27,16 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 				// Grab locations.
 				$content = array();
 				set_time_limit( 0 );
-				$locations = query_posts( array(
-					'post_status'    => 'publish',
-					'post_type'      => 'sm-location',
-					'posts_per_page' => - 1,
-				) );
+
+				$query_args = array(
+					'post_type' => 'sm-location',
+					'post_status' => 'publish',
+					'posts_per_page' => '-1',
+				);
+
+				$locations_results = new WP_Query( $query_args );
+				$locations = $locations_results->posts;
+
 				// Include CSV library.
 				require_once( SIMPLEMAP_PATH . '/classes/parsecsv.lib.php' );
 				$taxonomies = get_object_taxonomies( 'sm-location' );
