@@ -27,7 +27,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 		 *
 		 */
 		public function export_csv() {
-			
+
 			if ( isset( $_POST['sm_export_csv_nonce'] ) && wp_verify_nonce( $_POST['sm_export_csv_nonce'], 'sm_export_csv' ) ) {
 				// Grab locations.
 				$content = array();
@@ -85,6 +85,12 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 			}
 		}
 
+		/**
+		 * CSV Exporter.
+		 *
+		 * Handles the exporting of legacy data to CSV.
+		 *
+		 */
 		public function export_legacy_csv() {
 			// Exports a LEGACY SimpleMap CSV file to WordPress.
 
@@ -163,6 +169,12 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 		}
 
+		/**
+		 * Delete legacy tables.
+		 *
+		 * Deletes old tables.
+		 *
+		 */
 		public function delete_legacy_tables() {
 			// Deletes legacy tables.
 			global $wpdb, $simple_map;
@@ -241,11 +253,16 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 			return $types;
 		}
 
-// Imports a CSV file to WordPress.
+		/**
+		 * CSV Importer.
+		 *
+		 * Handles the importing of data from CSV.
+		 *
+		 */
 		public function import_csv() {
 			global $simple_map, $sm_locations, $current_user, $blog_id;
 
-// Define Importing Constant.
+			// Define Importing Constant.
 			define( 'WP_IMPORTING', true );
 
 			if ( isset( $_POST['sm-action'], $_POST['step'] ) && 'import-csv' === $_POST['sm-action'] && 2 == $_POST['step'] ) {
@@ -290,7 +307,9 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 					if ( isset( $csv->data ) ) {
 						echo '<ol style="list-style-type:decimal">';
 
-						/* We're going to do some pre-processing to prevent WP's wp_get_unique_slug from pinging the database
+
+						/**
+						 *We're going to do some pre-processing to prevent WP's wp_get_unique_slug from pinging the database
 						 * a ridiculous amount of times in the event that this file is importing several thousand locations with
 						 * same name (like a franchise).
 						 */
@@ -434,7 +453,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 									foreach ( $taxes as $taxonomy => $tax_field ) {
 										if ( isset( $to_insert[ $tax_field ] ) ) {
-											// Place comma separated values into array
+											// Place comma separated values into array.
 											$terms = explode( ',', $to_insert[ $tax_field ] );
 
 											// Loop through array. If term does not exist, create it.
@@ -442,12 +461,12 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 											foreach ( (array) $terms as $key => $name ) {
 												$name = trim( $name );
 
-												// Skip it if we have bad data
+												// Skip it if we have bad data.
 												if ( empty( $name ) ) {
 													continue;
 												}
 
-												// Grab or create and grab the category ID
+												// Grab or create and grab the category ID.
 												if ( $term_obj = get_term_by( 'name', $name, $taxonomy ) ) {
 													$term_id = $term_obj->term_id;
 												} else {
@@ -458,9 +477,9 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 													$term_id = $term_array['term_id'];
 												}
 
-												// This is just a failsafe. It also gives us access to vars the WP API created rather than from the CSV
+												// This is just a failsafe. It also gives us access to vars the WP API created rather than from the CSV.
 												if ( ! is_wp_error( $term_id ) && $term = get_term( (int) $term_id, $taxonomy ) && ! is_wp_error( $term ) ) {
-													// Associate (last var appends term to rather than replaces existing terms)
+													// Associate (last var appends term to rather than replaces existing terms).
 													wp_set_object_terms( $id, $term->name, $taxonomy, true );
 													unset( $term );
 												}
@@ -482,7 +501,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 						echo '<h2>' . sprintf( __( 'View them <a href="%s">here</a>', 'SimpleMap' ), admin_url( 'edit.php?post_type=sm-location' ) ) . '</h2>';
 					}
 
-					// Import is finished, delete csv and redirect to edit locaitons page
+					// Import is finished, delete csv and redirect to edit locaitons page.
 					unlink( $file_location );
 				}
 				echo '
@@ -495,8 +514,13 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 			}
 		}
 
+		/**
+		 * CSV Preview.
+		 *
+		 * Generates the CSV preview for the imported data.
+		 *
+		 */
 		public function do_csv_preview() {
-// Generates the CSV Preview
 
 			global $simple_map, $blog_id;
 			$options = $simple_map->get_options();
@@ -510,10 +534,10 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 			echo '<div class="wrap">';
 
-			// Title
+			// Title.
 			$sm_page_title = apply_filters( 'sm-import-export-page-title', 'SimpleMap: Import. Step One' );
 
-			// Toolbar
+			// Toolbar.
 			$simple_map->show_toolbar( $sm_page_title );
 			echo '
 
@@ -544,7 +568,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 			echo '</p>';
 
 
-			// Include CSV library
+			// Include CSV library.
 			include_once( SIMPLEMAP_PATH . '/classes/parsecsv.lib.php' );
 
 			$file_location = WP_PLUGIN_DIR . '/sm-temp-csv-' . $blog_id . '.csv';
@@ -575,7 +599,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 					echo '</form>
 									</tr>';
 
-					// Grab some random rows to display as a sample
+					// Grab some random rows to display as a sample.
 					$row_count = count( $csv->data );
 					if ( $row_count < 50 ) {
 						foreach ( $csv->data as $csv_row => $csv_row_data ) {
@@ -624,8 +648,11 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 	</div>';
 		}
 
-// This function creates a select box of all my data types to assign to this column
 		/**
+		 * Select box for columns.
+		 *
+		 * This function creates a select box of all my data types to assign to this column
+		 *
 		 * @param $col
 		 * @param $title
 		 *
@@ -646,8 +673,11 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 			return $select;
 		}
 
+		/**
+		 * Prints the options page.
+		 *
+		 */
 		public function print_page() {
-// Prints the options page
 
 			if ( isset( $_POST['sm-action'] ) && 'import-csv' === $_POST['sm-action'] ) {
 				$step = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
@@ -678,13 +708,13 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 				echo '<div class="wrap">';
 
-				// Title
+				// Title.
 				$sm_page_title = apply_filters( 'sm-import-export-page-title', 'SimpleMap: Import/Export CSV' );
 
-				// Toolbar
+				// Toolbar.
 				$simple_map->show_toolbar( $sm_page_title );
 
-				// Messages
+				// Messages.
 				if ( isset( $_GET['sm-msg'] ) && '2' == $_GET['sm-msg'] ) {
 					echo '<div class="updated fade"><p>' . __( 'Legacy SimpleMap settings deleted.', 'SimpleMap' ) . '</p></div>';
 				}
@@ -770,7 +800,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 		<br/>';
 
 
-				// Warn them if the simplemap path is not writable
+				// Warn them if the simplemap path is not writable.
 				if ( ! is_writable( WP_PLUGIN_DIR ) ) {
 					echo '<br />' . __( sprintf( 'Please make the following directory <a href="%s">writable by WordPress</a>: %s', 'http://codex.wordpress.org/Changing_File_Permissions#Permission_Scheme_for_WordPress', '<code>' . WP_PLUGIN_DIR . '</code>' ), 'SimpleMap' );
 				}
@@ -826,7 +856,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 					<div class="inside" style='padding: 0 10px 10px;'>
 
 						<?php
-						// Check for premium support status
+						// Check for premium support status.
 						global $simplemap_ps;
 
 						if ( ! url_has_ftps_for_item( $simplemap_ps ) ) : ?>
