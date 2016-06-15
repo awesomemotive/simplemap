@@ -193,7 +193,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 		/**
 		 * Returns the location search form.
 		 *
-		 * @param $atts
+		 * @param array $atts Search form attributes.
 		 *
 		 * @return mixed|void
 		 */
