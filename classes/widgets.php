@@ -2,7 +2,6 @@
 
 function simplemap_init_widgets() {
 	// Init Widgets.
-
 	register_widget( 'SM_Search_Widget' );
 }
 
