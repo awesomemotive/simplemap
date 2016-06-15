@@ -18,8 +18,9 @@ class SM_Search_Widget extends WP_Widget {
 	public function __construct() {
 		// Define Widget
 
-		$widget_ops = array( 'classname'   => 'sm_search_widget',
-		                     'description' => __( 'Adds a customizable search widget to your site' )
+		$widget_ops = array(
+							'classname'   => 'sm_search_widget',
+							'description' => __( 'Adds a customizable search widget to your site' ),
 		);
 		parent::__construct( 'sm_search_widget', __( 'SimpleMap Search' ), $widget_ops );
 	}
@@ -48,7 +49,7 @@ class SM_Search_Widget extends WP_Widget {
 		$default_lng    = $instance['default_lng'] ?: 0;
 		$simplemap_page = $instance['simplemap_page'] ?: 2;
 
-		// Set taxonomies to available equivalents 
+		// Set taxonomies to available equivalents.
 		$show  = array();
 		$terms = array();
 		foreach ( $options['taxonomies'] as $taxonomy => $tax_info ) {
