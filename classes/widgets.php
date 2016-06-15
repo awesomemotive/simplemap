@@ -127,7 +127,7 @@ class SM_Search_Widget extends WP_Widget {
 			// Loop through all days and create array of available days.
 			if ( $all_terms = get_terms( $taxonomy ) ) {
 				foreach ( $all_terms as $key => $value ) {
-					if ( '' == $available[0] || in_array( $value->term_id, $available ) ) {
+					if ( '' === $available[0] || in_array( $value->term_id, $available ) ) {
 						$valid[] = $value->term_id;
 					}
 				}
