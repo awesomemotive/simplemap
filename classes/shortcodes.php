@@ -149,27 +149,36 @@ if ( ! class_exists( 'SM_Location_Shortcodes' ) ) {
 				return $full_address;
 			}
 
-			// if the requested data is 'directions' return the link to google maps
+			// if the requested data is 'directions' return the link to google maps.
 			if ( 'directions' == $atts['data'] ) {
 				return $this->get_directions_link( $post->ID );
 			}
 
-			// if the requested data is a map, return the map
+			// if the requested data is a map, return the map.
 			if ( 'iframe-map' == $atts['data'] ) {
 
-				// Args we need to make the map itself - not the locations on the map
-				$r = array(
-					'map_width'         => $atts['map_width'],
-					'map_height'        => $atts['map_height'],
-					'panControl'        => $atts['pan_control'],
-					'default_lat'       => $atts['default_lat'],
-					'default_lng'       => $atts['default_lng'],
-					'zoomControl'       => $atts['zoom_control'],
-					'scaleControl'      => $atts['scale_control'],
-					'streetViewControl' => $atts['street_view_control'],
-					'mapTypeControl'    => $atts['map_type_control'],
-					'mapType'           => $atts['map_type']
+				// Args we need to make the map itself - not the locations on the map.
+				$build_att_array = array(
+					'map_width',
+					'map_height',
+					'panControl',
+					'default_lat',
+					'default_lng',
+					'zoomControl',
+					'scaleControl',
+					'streetViewControl',
+					'mapTypeControl',
+					'mapType',
 				);
+
+				// Use the values from $atts[] to popular $r[]
+				foreach ( $build_att_array as $item ) {
+					if ( isset( $atts[ $item ] ) ) {
+						$r[ $item ] = $atts[ $item ];
+					} else {
+						$r[ $item ] = '';
+					}
+				}
 
 				// Determine location IDs
 				$location_ids = empty( $args['location_ids'] ) ? array( $post->ID ) : explode( ',', $args['location_ids'] );
