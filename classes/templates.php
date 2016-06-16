@@ -109,7 +109,7 @@ if ( ! class_exists( 'SM_Template_Factory' ) ) {
 				$return = "<div class='sm-single-location-default-template'>";
 				$return .= "<div class='sm-single-map'>[sm-location data='iframe-map' map_width='100px' map_height='100px']</div>";
 				$return .= "<div class='sm-single-location-data'>[sm-location data='full-address']";
-				$return .= "<br /><a href=\"[sm-location data='directions']\">Get Directions</a>";
+				$return .= "<br /><a href=\"[sm-location data='directions']\" target=\"_blank\">Get Directions</a>";
 				$return .= "<ul class='sm-single-location-data-ul'>[sm-location data='phone' before='<li>' after='</li>'] [sm-location data='email' before='<li><a href=\"mailto:%self%\">' after='</a></li>'] [sm-location data='sm_category' format='csv' before='<li>Categories: ' after='</li>'] [sm-location data='sm_tag' format='csv' before='<li>Tags: ' after='</li>']</ul>";
 				$return .= "</div>";
 				$return .= "<hr style='clear:both;' />";
