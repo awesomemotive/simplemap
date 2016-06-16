@@ -115,7 +115,7 @@ padding-bottom: 20px;
 
 div.result {
 margin: 0;
-padding: 10px 5px;
+padding: 15px 5px;
 font-size: 0.9em;
 line-height: 1.2em;
 border-bottom: 1px solid #ccc;
@@ -160,14 +160,14 @@ width: 40%;
 
 div.result div.result_phone {
 float: left;
-width: 30%;
-height: 3em;
+width: 40%;
+min-height: 3em;
 }
 
 div.result div.result_links {
 float: left;
 display: table-cell;
-width: 30%;
+width: 20%;
 text-align: right;
 vertical-align: bottom;
 }
