@@ -201,9 +201,20 @@ white-space:nowrap;
 padding:3px;
 }
 
-.sm-single-map {
+div.sm-single-map {
+position: relative;
 float:left;
 width:105px;
+}
+
+div.sm-single-map a {
+position: absolute;
+display: inline-block;
+width: 100px;
+height: 100px;
+top: 0;
+left: 0;
+z-index: 5;
 }
 
 .sm-single-location-data {
