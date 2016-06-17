@@ -644,7 +644,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				}
 
 				// Scripts.
-				wp_enqueue_script( 'simplemap-master-js', '?' . $mylang . 'simplemap-master-js=1&smpid=' . $post->ID, array( 'jquery' ), '2' );
+				wp_enqueue_script( 'simplemap-master-js', '?' . $mylang . 'simplemap-master-js=1&smpid=' . $post->ID, array( 'jquery' ) );
 
 				// Google API v3 does not need a key.
 				$url_params = array(
