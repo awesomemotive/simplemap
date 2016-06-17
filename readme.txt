@@ -82,6 +82,27 @@ Please visit [the SimpleMap forums at WordPress.org](http://wordpress.org/tags/s
 
 == Changelog ==
 
+= 2.4.9 =
+
+This release has a lot on under the hood performance improvements, code optimizations, lots of small bugfixes, etc, including:
+
+* New geolocation by IP service
+* New support for WPML (configure WPML with URL variables
+* Get directions opens in new tab
+* Signup now link opens in new tab
+* Improve layout of map page locations
+* Update CSV code
+* WordPress Coding Standards improvements
+* Fix for undefined index
+* Increase compatibility with latest versions of PHP/futureproofing code
+* Resolved jQuery conflict with some plugins
+* Improvements to UX of single maps page
+* Added PHP Docblocks
+* Improvements to database queries
+* Improved security of form
+* Improved memory resource usage
+* Fixed donation link :)
+
 = 2.4.6 =
 * Bugfix release for Google API changes
 * Fixed display of marker bubble
