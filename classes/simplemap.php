@@ -99,7 +99,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				//searchLocations( ' . absint( $is_sm_search ) . ' );
 			';
 
-			$to_display .= '$(document).ready(function() {
+			$to_display .= 'jQuery(document).ready(function() {
 				var lat = "' . esc_js( $default_lat ) . '";
 				var lng = "' . esc_js( $default_lng ) . '";
 				var aspid = "' . esc_js( $adsense_publisher_id ) . '";

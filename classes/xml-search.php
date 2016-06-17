@@ -89,10 +89,18 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 					}
 				}
 
+
+
+
 				// Compatibility with WPML
 				$wpml_join = "";
 				if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
 					global $sitepress;
+
+/*
+					$log =  "the lang is" . $_GET['lang'];
+					error_log( $log );
+*/
 					$sitepress->switch_lang( $_GET['lang'] );
 					$wpml_join = "INNER JOIN " . $wpdb->prefix . "icl_translations t ON posts.ID = t.element_id AND t.element_type = 'post_sm-location' AND t.language_code = '" . $sitepress->get_current_language() . "'";
 				}
