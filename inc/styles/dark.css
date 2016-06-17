@@ -101,8 +101,13 @@ text-decoration: underline;
 
 .markertext h3 {
 margin-top: 0 !important;
+margin-bottom: 1em !important;
 text-align: left !important;
 line-height: 1.2em !important;
+}
+
+.markertext p {
+margin-bottom: 1em !important;
 }
 
 .markertext .search-term {
