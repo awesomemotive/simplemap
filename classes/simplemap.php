@@ -113,8 +113,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				geocoder = new google.maps.Geocoder();
 
 				if ( !' . absint( $is_sm_search ) . ' && auto_locate == "ip" ) {
-					// alternatively, freegeoip.net/json/
-					jQuery.getJSON( "http://www.telize.com/geoip/?callback=?", function(location) {
+					jQuery.getJSON( "http://freegeoip.net/json/?callback=?", function(location) {
 						lat = location.latitude;
 						lng = location.longitude;
 
