@@ -277,7 +277,7 @@ if ( ! class_exists( 'SM_Help' ) ) {
 
 											<ul style='margin-left:25px;list-style-type:none'>
 												<li>
-													<a href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'SimpleMap' ); // XSS ok. ?></a>
+													<a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'SimpleMap' ); // XSS ok. ?></a>
 												</li>
 												<li><a target='_blank'
 												       href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'SimpleMap' ); // XSS ok. ?></a>
