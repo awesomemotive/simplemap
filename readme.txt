@@ -78,7 +78,7 @@ Of course! Visit [the SimpleMap home page](http://simplemap-plugin.com/) to do s
 
 = What if I have a problem with SimpleMap, or find a bug? =
 
-Please visit [the SimpleMap forums at WordPress.org](http://wordpress.org/tags/simplemap?forum_id=10) if you have a bug to report. Otherwise, you may access premium support inside the plugin dashboard.
+Please open a ticket on [the SimpleMap project's repo on Github](https://github.com/semperfiwebdesign/simplemap/issues) if you have a bug to report. Otherwise, you may access premium support inside the plugin dashboard.
 
 == Changelog ==
 
