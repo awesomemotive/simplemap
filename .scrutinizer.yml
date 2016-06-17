@@ -4,18 +4,12 @@ filter:
 tools:
     php_code_sniffer:
         config:
-            # https://scrutinizer-ci.com/docs/tools/php/code-sniffer/standards
             standard: WordPress
-
-tools:
-    php_code_sniffer: true
-    sensiolabs_security_checker: true
-    php_pdepend: true
-    php_loc:
-        enabled: true
-        
-
-
+            sensiolabs_security_checker: true
+            # https://scrutinizer-ci.com/docs/tools/php/code-sniffer/standards
+            #php_pdepend: true
+            #php_loc:
+            #enabled: true
 
 checks:
     php:

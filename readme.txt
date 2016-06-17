@@ -1,11 +1,11 @@
 === SimpleMap Store Locator ===
 
 Contributors: hallsofmontezuma, fullthrottledevelopment
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DTJBYXGQFSW64
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=SimpleMap&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8
 Tags: map, maps, store locator, database, locations, stores, Google maps, locator
 Requires at least: 2.8
-Tested up to: 4.4
-Stable tag: 2.4.8
+Tested up to: 4.5
+Stable tag: 2.4.9
 
 SimpleMap is an easy-to-use international store locator plugin that uses Google Maps to display information directly on your WordPress site.
 
@@ -78,9 +78,30 @@ Of course! Visit [the SimpleMap home page](http://simplemap-plugin.com/) to do s
 
 = What if I have a problem with SimpleMap, or find a bug? =
 
-Please visit [the SimpleMap forums at WordPress.org](http://wordpress.org/tags/simplemap?forum_id=10) if you have a bug to report. Otherwise, you may access premium support inside the plugin dashboard.
+Please open a ticket on [the SimpleMap project's repo on Github](https://github.com/semperfiwebdesign/simplemap/issues) if you have a bug to report. Otherwise, you may access premium support inside the plugin dashboard.
 
 == Changelog ==
+
+= 2.4.9 =
+
+This release has a lot on under the hood performance improvements, code optimizations, lots of small bugfixes, etc, including:
+
+* New geolocation by IP service
+* New support for WPML (configure WPML with URL variables
+* Get directions opens in new tab
+* Signup now link opens in new tab
+* Improve layout of map page locations
+* Update CSV code
+* WordPress Coding Standards improvements
+* Fix for undefined index
+* Increase compatibility with latest versions of PHP/futureproofing code
+* Resolved jQuery conflict with some plugins
+* Improvements to UX of single maps page
+* Added PHP Docblocks
+* Improvements to database queries
+* Improved security of form
+* Improved memory resource usage
+* Fixed donation link :)
 
 = 2.4.6 =
 * Bugfix release for Google API changes

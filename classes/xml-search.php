@@ -1,8 +1,8 @@
 <?php
-if ( !class_exists( 'SM_XML_Search' ) ){
-	class SM_XML_Search{
+if ( ! class_exists( 'SM_XML_Search' ) ) {
+	class SM_XML_Search {
 		// Register hook to perform the search
-		function sm_xml_search() {
+		function __construct() {
 			add_action( 'template_redirect', array( &$this, 'init_search' ) );
 		}
 
@@ -13,28 +13,28 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 				remove_filter( 'the_title', 'at_title_check' );
 
 				$defaults = array(
-					'lat' => false,
-					'lng' => false,
-					'radius' => false,
-					'namequery' => false,
+					'lat'        => false,
+					'lng'        => false,
+					'radius'     => false,
+					'namequery'  => false,
 					'query_type' => 'distance',
-					'address' => false,
-					'city' => false,
-					'state' => false,
-					'zip' => false,
-					'onlyzip' => false,
-					'country' => false,
-					'limit' => false,
-					'pid'	=> 0,
+					'address'    => false,
+					'city'       => false,
+					'state'      => false,
+					'zip'        => false,
+					'onlyzip'    => false,
+					'country'    => false,
+					'limit'      => false,
+					'pid'        => 0,
 				);
-				$input = array_filter( array_intersect_key( $_GET, $defaults ) ) + $defaults;
+				$input    = array_filter( array_intersect_key( $_GET, $defaults ) ) + $defaults;
 
 				$smtaxes = array();
 				if ( $taxonomies = get_object_taxonomies( 'sm-location' ) ) {
 					foreach ( $taxonomies as $key => $tax ) {
 						$phpsafe = str_replace( '-', '_', $tax );
 						$_GET += array( $phpsafe => '' );
-						$smtaxes[$tax] = $_GET[$phpsafe];
+						$smtaxes[ $tax ] = $_GET[ $phpsafe ];
 					}
 				}
 
@@ -42,23 +42,24 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 				$distance_select = $distance_having = $distance_order = '';
 
 				// We're going to do a hard limit to 5000 for now.
-				if ( !$input['limit'] || $input['limit'] > 250 )
+				if ( ! $input['limit'] || $input['limit'] > 250 ) {
 					$limit = "LIMIT 250";
-				else
+				} else {
 					$limit = 'LIMIT ' . absint( $input['limit'] );
+				}
 
 				$limit = apply_filters( 'sm-xml-search-limit', $limit );
 
 				// Locations within specific distance or just get them all?
 				$distance_select = $wpdb->prepare( "( 3959 * ACOS( COS( RADIANS(%s) ) * COS( RADIANS( lat_tbl.meta_value ) ) * COS( RADIANS( lng_tbl.meta_value ) - RADIANS(%s) ) + SIN( RADIANS(%s) ) * SIN( RADIANS( lat_tbl.meta_value ) ) ) ) AS distance", $input['lat'], $input['lng'], $input['lat'] ) . ', ';
-				$distance_order = 'distance, ';
+				$distance_order  = 'distance, ';
 
 				if ( $input['radius'] ) {
 					$input['radius'] = ( $input['radius'] < 1 ) ? 1 : $input['radius'];
 					$distance_having = $wpdb->prepare( "HAVING distance < %d", $input['radius'] );
 				}
 
-				$i = 1;
+				$i             = 1;
 				$taxonomy_join = '';
 				foreach ( array_filter( $smtaxes ) as $taxonomy => $tax_value ) {
 					$term_ids = explode( ',', $tax_value );
@@ -84,8 +85,28 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 									AND tax_$i.taxonomy = '$taxonomy'
 									AND tax_$i.term_id $search_value
 						";
-						$i++;
+						$i ++;
 					}
+				}
+
+
+				// Compatibility with WPML
+				$wpml_join = "";
+				if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
+					global $sitepress;
+
+					if ( isset( $_GET['wpml'] ) ) {
+						$wpml_sm_lang = $_GET['wpml'];
+					}
+
+					if ( isset( $_GET['lang'] ) ) {
+						$wpml_sm_lang = $_GET['lang'];
+					}
+
+					if ( isset( $wpml_sm_lang ) ) {
+						$sitepress->switch_lang( $wpml_sm_lang );
+					}
+					$wpml_join = "INNER JOIN " . $wpdb->prefix . "icl_translations t ON posts.ID = t.element_id AND t.element_type = 'post_sm-location' AND t.language_code = '" . $sitepress->get_current_language() . "'";
 				}
 
 				$sql = "SELECT
@@ -97,6 +118,7 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 						posts.post_title
 					FROM
 						$wpdb->posts AS posts
+						$wpml_join
 					INNER JOIN
 						$wpdb->postmeta lat_tbl ON lat_tbl.post_id = posts.ID AND lat_tbl.meta_key = 'location_lat'
 					INNER JOIN
@@ -114,21 +136,21 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 
 				// TODO: Consider using this to generate the marker node attributes in print_xml().
 				$location_field_map = array(
-					'location_address' => 'address',
+					'location_address'  => 'address',
 					'location_address2' => 'address2',
-					'location_city' => 'city',
-					'location_state' => 'state',
-					'location_zip' => 'zip',
-					'location_country' => 'country',
-					'location_phone' => 'phone',
-					'location_fax' => 'fax',
-					'location_email' => 'email',
-					'location_url' => 'url',
-					'location_special' => 'special',
+					'location_city'     => 'city',
+					'location_state'    => 'state',
+					'location_zip'      => 'zip',
+					'location_country'  => 'country',
+					'location_phone'    => 'phone',
+					'location_fax'      => 'fax',
+					'location_email'    => 'email',
+					'location_url'      => 'url',
+					'location_special'  => 'special',
 				);
 
-				$options = $simple_map->get_options();
-				$show_permalink = !empty( $options['enable_permalinks'] );
+				$options        = $simple_map->get_options();
+				$show_permalink = ! empty( $options['enable_permalinks'] );
 
 				if ( $locations = $wpdb->get_results( $sql ) ) {
 					// Start looping through all locations i found in the radius
@@ -136,19 +158,18 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 						// Add postmeta data to location
 						$custom_fields = get_post_custom( $value->ID );
 						foreach ( $location_field_map as $key => $field ) {
-							if ( isset( $custom_fields[$key][0] ) ) {
-								$value->$field = $custom_fields[$key][0];
-							}
-							else {
+							if ( isset( $custom_fields[ $key ][0] ) ) {
+								$value->$field = $custom_fields[ $key ][0];
+							} else {
 								$value->$field = '';
 							}
 						}
 
 						$value->postid = $value->ID;
-						$value->name = apply_filters( 'the_title', $value->post_title );
+						$value->name   = apply_filters( 'the_title', $value->post_title );
 
 						$the_content = trim( $value->post_content );
-						if ( !empty( $the_content ) ) {
+						if ( ! empty( $the_content ) ) {
 							$the_content = apply_filters( 'the_content', $the_content );
 						}
 						$value->description = $the_content;
@@ -162,7 +183,7 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 						// List all terms for all taxonomies for this post
 						$value->taxes = array();
 						foreach ( $smtaxes as $taxonomy => $tax_value ) {
-							$phpsafe_tax = str_replace( '-', '_', $taxonomy );
+							$phpsafe_tax     = str_replace( '-', '_', $taxonomy );
 							$local_tax_names = '';
 
 							// Get all taxes for this post
@@ -170,7 +191,7 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 								$local_tax_names = implode( ', ', $local_taxes );
 							}
 
-							$value->taxes[$phpsafe_tax] = $local_tax_names;
+							$value->taxes[ $phpsafe_tax ] = $local_tax_names;
 						}
 					}
 				} else {
