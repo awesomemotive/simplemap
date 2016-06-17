@@ -103,7 +103,9 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 						$wpml_sm_lang = $_GET['lang'];
 					}
 
-					$sitepress->switch_lang( $wpml_sm_lang );
+					if ( isset( $wpml_sm_lang ) ) {
+						$sitepress->switch_lang( $wpml_sm_lang );
+					}
 					$wpml_join = "INNER JOIN " . $wpdb->prefix . "icl_translations t ON posts.ID = t.element_id AND t.element_type = 'post_sm-location' AND t.language_code = '" . $sitepress->get_current_language() . "'";
 				}
 
