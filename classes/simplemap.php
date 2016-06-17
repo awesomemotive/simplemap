@@ -638,8 +638,13 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				// Load styles.
 				wp_enqueue_style( 'simplemap-map-style', $style_url );
 
+				$mylang = '';
+				if ( isset( $_GET['lang'] ) ) {
+					$mylang = 'wpml=' . $_GET['lang'] . '&';
+				}
+
 				// Scripts.
-				wp_enqueue_script( 'simplemap-master-js', get_home_url() . '?simplemap-master-js=1&smpid=' . $post->ID, array( 'jquery' ) );
+				wp_enqueue_script( 'simplemap-master-js', '?' . $mylang . 'simplemap-master-js=1&smpid=' . $post->ID, array( 'jquery' ), '2' );
 
 				// Google API v3 does not need a key.
 				$url_params = array(
@@ -721,6 +726,9 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			header( 'Content-type: application/x-javascript' );
 			$options = $this->get_options();
 
+			if ( isset( $_GET['wpml'] ) ) {
+				$wpmllang = $_GET['wpml'];
+			}
 			?>
 			var default_lat            = <?php echo esc_js( $options['default_lat'] ); ?>;
 			var default_lng            = <?php echo esc_js( $options['default_lng'] ); ?>;
@@ -1125,9 +1133,14 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 					$js_tax_string .= "'&$taxonomy=' + searchData.taxes.$taxonomy + ";
 				}
 			}
+
+			$wpmlquery = '';
+			if ( isset( $wpmllang ) ) {
+				$wpmlquery = 'wpml=' . $wpmllang . '&';
+			}
 			?>
 
-			var searchUrl = siteurl + '/?sm-xml-search=1&lat=' + searchData.center.lat() + '&lng=' + searchData.center.lng() + '&radius=' + searchData.radius + '&namequery=' + searchData.homeAddress + '&query_type=' + searchData.query_type  + '&limit=' + searchData.limit + <?php echo $js_tax_string; ?>'&address=' + searchData.address + '&city=' + searchData.city + '&state=' + searchData.state + '&zip=' + searchData.zip + '&pid=<?php echo esc_js( absint( $_GET['smpid'] ) ); ?>';
+			var searchUrl = siteurl + '/?sm-xml-search=1&<?php echo $wpmlquery;  ?>lat=' + searchData.center.lat() + '&lng=' + searchData.center.lng() + '&radius=' + searchData.radius + '&namequery=' + searchData.homeAddress + '&query_type=' + searchData.query_type  + '&limit=' + searchData.limit + <?php echo $js_tax_string; ?>'&address=' + searchData.address + '&city=' + searchData.city + '&state=' + searchData.state + '&zip=' + searchData.zip + '&pid=<?php echo esc_js( absint( $_GET['smpid'] ) ); ?>';
 
 			<?php if ( apply_filters( 'sm-use-updating-image', true ) ) : ?>
 				// Display Updating Message and hide search results
