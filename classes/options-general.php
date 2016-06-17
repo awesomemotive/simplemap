@@ -176,7 +176,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 				// Toolbar
 				$simple_map->show_toolbar( $sm_page_title );
 
-				// Messages			 
+				// Messages
 				if ( isset( $_GET['sm-msg'] ) && '1' == $_GET['sm-msg'] ) {
 					echo '<div class="updated fade"><p>' . __( 'SimpleMap settings saved.', 'SimpleMap' ) . '</p></div>';
 				}
@@ -621,7 +621,9 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																?>
 															</select><br/>
 															<small><span
-																	class='howto'><?php _e( 'IP based detection does not prompt the user for permission and is faster than HTML5. HTML5 is more precise.' ); ?></span>
+																	class='howto'><?php _e( 'IP - does not prompt the user for permission, faster, less reliable.' ); ?></span>
+																<span
+																	class='howto'><?php _e( 'HTML5 - more precise, may prompt users for permission, requires HTTPS/SSL.' ); ?></span>
 															</small>
 														</td>
 													</tr>
