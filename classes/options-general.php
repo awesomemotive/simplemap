@@ -686,7 +686,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 												<ul style='margin-left:25px;list-style-type:none'>
 													<li>
-														<a href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'SimpleMap' ); ?></a>
+														<a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'SimpleMap' ); ?></a>
 													</li>
 													<li><a target='_blank'
 													       href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'SimpleMap' ); ?></a>
@@ -928,8 +928,8 @@ if ( ! class_exists( 'SM_Options' ) ) {
 						</div> <!-- dashboard-widgets -->
 					</form>
 
-					<p style='float:right;margin-right:25px;'><a
-							href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=DTJBYXGQFSW64'>Donate
+					<p style='float:right;margin-right:25px;'><a target="_blank"
+							href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=SimpleMap&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8'>Donate
 							via PayPal</a></p>
 
 					<div class="clear">

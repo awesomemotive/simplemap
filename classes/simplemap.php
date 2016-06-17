@@ -2310,15 +2310,9 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 						   title="<?php _e( 'Premium Support', 'SimpleMap' ); ?>"><?php _e( 'Premium Support', 'SimpleMap' ); ?></a>
 					</td>
 					<td class="sm-toolbar-item">
-						<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-							<input type="hidden" name="cmd" value="_s-xclick"/>
-							<input type="hidden" name="hosted_button_id" value="DTJBYXGQFSW64"/>
-							<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif"
-							       style="border: none;" name="submit"
-							       alt="PayPal - The safer, easier way to pay online!"/>
-							<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1"
-							     height="1"/>
-						</form>
+						<a target="_blank" title="<?php _e( 'Donate', 'SimpleMap' ); ?>"href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=SimpleMap&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8">
+							<img src="<?php echo SIMPLEMAP_URL; ?>/inc/images/donate.jpg" alt="<?php _e( 'Donate with Paypal', 'SimpleMap' ); ?>"/>
+						</a>
 					</td>
 				</tr>
 			</table>
