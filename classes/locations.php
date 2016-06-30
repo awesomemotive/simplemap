@@ -633,7 +633,7 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 			$options     = $simple_map->get_options();
 			$post_object = get_post( $post );
 
-			//$api_key = ( isset( $options['api_key'] ) && !empty( $options['api_key'] ) ) ? $options['api_key'] : '';
+			$api_key = ( isset( $options['api_key'] ) && !empty( $options['api_key'] ) ) ? $options['api_key'] : '';
 
 			// Grab old data.
 			$location_address  = get_post_meta( $post, 'location_address', true ) ?: ' ';
