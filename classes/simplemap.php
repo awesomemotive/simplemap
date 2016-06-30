@@ -645,9 +645,9 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				// Scripts.
 				wp_enqueue_script( 'simplemap-master-js', '?' . $mylang . 'simplemap-master-js=1&smpid=' . $post->ID, array( 'jquery' ) );
 
-				// Google API v3 does not need a key.
+				// Google API v3 now requires an API key.
 				$url_params = array(
-					'sensor'   => 'false',
+					'key' => $options['api_key'],
 					'v'        => '3',
 					'language' => $options['default_language'],
 					'region'   => $options['default_country'],
@@ -671,10 +671,10 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 					wp_enqueue_script( 'simplemap-general-options-js', get_home_url() . '/?simplemap-general-options-js', array( 'jquery' ) );
 				}
 
-				// Google API v3 does not need a key.
+				// Google API v3 not requires and API key.
 				$url_params = array(
 					'v'        => '3',
-					'sensor'   => 'false',
+					'key' => $options['api_key'],
 					'language' => $options['default_language'],
 					'region'   => $options['default_country'],
 				);
