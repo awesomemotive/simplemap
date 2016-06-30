@@ -2339,6 +2339,10 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 		 * @return string
 		 */
 		function get_api_link() {
+			
+			// The old URLs seem to be outdated. Not sure about the international ones.
+			return 'https://developers.google.com/maps/documentation/javascript/get-api-key#get-an-api-key';
+			
 			$lo = str_replace( '_', '-', get_locale() );
 			$l  = substr( $lo, 0, 2 );
 			switch ( $l ) {

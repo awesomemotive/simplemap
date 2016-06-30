@@ -406,7 +406,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 													<td width="150"><label for="api_key"><?php _e( 'Google Maps API Key', 'SimpleMap' ); ?></label></td>
 													<td>
 														<input type="text" name="api_key" id="api_key" size="50" value="<?php echo esc_attr( $api_key ); ?>" /><br />
-														<small><em><?php printf( __( '%s Click here%s to sign up for a Google Maps API key for your domain.', 'SimpleMap' ), '<a href="' . $simple_map->get_api_link() . '" target="_blank">', '</a>'); ?></em></small>
+														<small><em><?php printf( __( '%s Click here%s to sign up for a free Google Maps API key for your domain.', 'SimpleMap' ), '<a href="' . $simple_map->get_api_link() . '" target="_blank">', '</a>'); ?></em></small>
 													</td>
 												</tr>
 													<tr valign="top">
