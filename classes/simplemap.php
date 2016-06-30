@@ -645,9 +645,9 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				// Scripts.
 				wp_enqueue_script( 'simplemap-master-js', '?' . $mylang . 'simplemap-master-js=1&smpid=' . $post->ID, array( 'jquery' ) );
 
-				// Google API v3 does not need a key.
+				// Google API v3 now requires an API key.
 				$url_params = array(
-					'sensor'   => 'false',
+					'key' => $options['api_key'],
 					'v'        => '3',
 					'language' => $options['default_language'],
 					'region'   => $options['default_country'],
@@ -671,10 +671,10 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 					wp_enqueue_script( 'simplemap-general-options-js', get_home_url() . '/?simplemap-general-options-js', array( 'jquery' ) );
 				}
 
-				// Google API v3 does not need a key.
+				// Google API v3 not requires and API key.
 				$url_params = array(
 					'v'        => '3',
-					'sensor'   => 'false',
+					'key' => $options['api_key'],
 					'language' => $options['default_language'],
 					'region'   => $options['default_country'],
 				);
@@ -792,13 +792,11 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			zoom_level = shortcode_zoom_level;
 			autoload = shortcode_autoload;
 			<?php
-			/*
 			if ( '' == $options['api_key'] ) {
 				?>
 				jQuery( "#simplemap" ).html( "<p style='padding:10px;'><?php printf( __( 'You must enter an API Key in <a href=\"%s\">General Settings</a> before your maps will work.', 'SimpleMap' ), admin_url( 'admin.php?page=simplemap' ) ); ?></p>" );
 			<?php
 			}
-			*/
 
 			do_action( 'sm-load-simplemap-js-top' );
 			?>
@@ -1800,7 +1798,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					'adsense_pub_id'        => '',
 					'adsense_channel_id'    => '',
 					'adsense_max_ads'       => 2,
-					// 'api_key' => '',
+					'api_key' => '',
 					'auto_locate'           => '',
 					'taxonomies'            => array(
 						'sm-category' => $this->get_taxonomy_settings( 'sm-category' ),
@@ -2317,10 +2315,8 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			</table>
 
 			<?php
-			/*
 			if ( !isset( $options['api_key'] ) || $options['api_key'] == '' )
 				echo '<div class="error"><p>' . __( 'You must enter an API key for your domain.', 'SimpleMap' ).' <a href="' . admin_url( 'admin.php?page=simplemap' ) . '">' . __( 'Enter a key on the General Options page.', 'SimpleMap' ) . '</a></p></div>';
-			*/
 		}
 
 		/**
@@ -2343,6 +2339,10 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 		 * @return string
 		 */
 		function get_api_link() {
+			
+			// The old URLs seem to be outdated. Not sure about the international ones.
+			return 'https://developers.google.com/maps/documentation/javascript/get-api-key#get-an-api-key';
+			
 			$lo = str_replace( '_', '-', get_locale() );
 			$l  = substr( $lo, 0, 2 );
 			switch ( $l ) {

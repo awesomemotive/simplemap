@@ -524,10 +524,8 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 			global $simple_map, $blog_id;
 			$options = $simple_map->get_options();
 
-			/*
 			if ( !isset( $options['api_key'] ) )
 				$options['api_key'] = '';
-			*/
 
 			extract( $options );
 
@@ -697,10 +695,8 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 				global $simple_map;
 				$options = $simple_map->get_options();
 
-				/*
 				if ( !isset( $options['api_key'] ) )
 					$options['api_key'] = '';
-				*/
 
 				extract( $options );
 
@@ -810,9 +806,9 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 	       value="';
 				_e( 'Import CSV File', 'SimpleMap' );
 				echo '"/>';
-				/* if ( '' == $options['api_key'] ) : ?>
+				if ( '' == $options['api_key'] ) : ?>
 															   <?php printf( __( "Warning: You still need to enter an <a href='%s'>API key</a> if you need your locaitons geocoded.", 'SimpleMap' ), admin_url( "admin.php?page=simplemap" ) ); ?>
-														   <?php endif; */
+														   <?php endif;
 
 				echo '</form>
 

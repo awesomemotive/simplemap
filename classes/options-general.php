@@ -68,7 +68,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 				$new_options = $options;
 
 				// Validate POST Options
-				//$new_options['api_key'] 			= ( ! empty( $_POST['api_key'] ) ) ? $_POST['api_key'] : '';
+				$new_options['api_key'] 			= ( ! empty( $_POST['api_key'] ) ) ? $_POST['api_key'] : '';
 				$new_options['map_width']             = ( ! empty( $_POST['map_width'] ) ) ? $_POST['map_width'] : $options['map_width'];
 				$new_options['map_height']            = ( ! empty( $_POST['map_height'] ) ) ? $_POST['map_height'] : $options['map_height'];
 				$new_options['default_lat']           = ( ! empty( $_POST['default_lat'] ) ) ? $_POST['default_lat'] : $options['default_lat'];
@@ -401,16 +401,14 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 											<div class="table">
 												<table class="form-table">
-													<?php /*
+													
 												<tr valign="top">
 													<td width="150"><label for="api_key"><?php _e( 'Google Maps API Key', 'SimpleMap' ); ?></label></td>
 													<td>
 														<input type="text" name="api_key" id="api_key" size="50" value="<?php echo esc_attr( $api_key ); ?>" /><br />
-														<small><em><?php printf( __( '%s Click here%s to sign up for a Google Maps API key for your domain.', 'SimpleMap' ), '<a href="' . $simple_map->get_api_link() . '">', '</a>'); ?></em></small>
+														<small><em><?php printf( __( '%s Click here%s to sign up for a free Google Maps API key for your domain.', 'SimpleMap' ), '<a href="' . $simple_map->get_api_link() . '" target="_blank">', '</a>'); ?></em></small>
 													</td>
 												</tr>
-												*/ ?>
-
 													<tr valign="top">
 
 														<?php
