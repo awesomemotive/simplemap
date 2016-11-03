@@ -13,7 +13,7 @@ Domain Path: /lang
 global $wp_version, $wpdb;
 
 $exit_msg = __( 'SimpleMap requires WordPress 2.8 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update!</a>', 'simplemap' );
-if ( version_compare( $wp_version, "2.8", "<" ) ) {
+if ( version_compare( $wp_version, '2.8', '<' ) ) {
 	exit( $exit_msg );
 }
 
