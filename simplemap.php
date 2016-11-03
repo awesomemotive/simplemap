@@ -6,6 +6,8 @@ Plugin URI: http://simplemap-plugin.com/
 Author: Michael Torbert
 Author URI: http://fullthrottledevelopment.com/
 Description: An easy-to-use international store locator plugin that uses Google Maps to display information directly on your WordPress site.
+Text Domain: simplemap
+Domain Path: /lang
 */
 
 global $wp_version, $wpdb;
