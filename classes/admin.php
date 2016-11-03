@@ -34,7 +34,7 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 					'publish_posts' ), 'simplemap', array(
 					&$sm_options,
 					'print_page',
-				), SIMPLEMAP_URL . '/inc/images/icon.png' );
+				), 'dashicons-location-alt' );
 			add_submenu_page( 'simplemap',
 				__( 'SimpleMap: General Options', 'simplemap' ),
 				__( 'General Options', 'simplemap' ),
