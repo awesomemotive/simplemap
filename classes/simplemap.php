@@ -231,29 +231,29 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 			// Normal Field inputs.
 			$ffi['street']   = array(
-				'label' => apply_filters( 'sm-search-label-street', __( 'Street: ', 'SimpleMap' ), $post ),
+				'label' => apply_filters( 'sm-search-label-street', __( 'Street: ', 'simplemap' ), $post ),
 				'input' => '<input type="text" id="location_search_address_field" name="location_search_address" value="' . esc_attr( $address_value ) . '" />',
 			);
 			$ffi['city']     = array(
-				'label' => apply_filters( 'sm-search-label-city', __( 'City: ', 'SimpleMap' ), $post ),
+				'label' => apply_filters( 'sm-search-label-city', __( 'City: ', 'simplemap' ), $post ),
 				'input' => '<input type="text"  id="location_search_city_field" name="location_search_city" value="' . esc_attr( $city_value ) . '" />',
 			);
 			$ffi['state']    = array(
-				'label' => apply_filters( 'sm-search-label-state', __( 'State: ', 'SimpleMap' ), $post ),
+				'label' => apply_filters( 'sm-search-label-state', __( 'State: ', 'simplemap' ), $post ),
 				'input' => '<input type="text" id="location_search_state_field" name="location_search_state" value="' . esc_attr( $state_value ) . '" />',
 			);
 			$ffi['zip']      = array(
-				'label' => apply_filters( 'sm-search-label-zip', __( 'Zip: ', 'SimpleMap' ), $post ),
+				'label' => apply_filters( 'sm-search-label-zip', __( 'Zip: ', 'simplemap' ), $post ),
 				'input' => '<input type="text" id="location_search_zip_field" name="location_search_zip" value="' . esc_attr( $zip_value ) . '" />',
 			);
 			$ffi['country']  = array(
-				'label' => apply_filters( 'sm-search-label-country', __( 'Country: ', 'SimpleMap' ), $post ),
+				'label' => apply_filters( 'sm-search-label-country', __( 'Country: ', 'simplemap' ), $post ),
 				'input' => '<input type="text" id="location_search_country_field" name="location_search_country" value="' . esc_attr( $country_value ) . '" />',
 			);
 			$ffi['empty']    = array( 'label' => '', 'input' => '', );
 			$ffi['submit']   = array(
 				'label' => '',
-				'input' => '<input type="submit" value="' . apply_filters( 'sm-search-label-search', __( 'Search', 'SimpleMap' ), $post ) . '" id="location_search_submit_field" class="submit" />',
+				'input' => '<input type="submit" value="' . apply_filters( 'sm-search-label-search', __( 'Search', 'simplemap' ), $post ) . '" id="location_search_submit_field" class="submit" />',
 			);
 			$ffi['distance'] = $this->add_distance_field( $radius_value, $units );
 
@@ -516,7 +516,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			$distance_input .= '</select>';
 
 			return array(
-				'label' => apply_filters( 'sm-search-label-distance', __( 'Select a distance: ', 'SimpleMap' ), $post ),
+				'label' => apply_filters( 'sm-search-label-distance', __( 'Select a distance: ', 'simplemap' ), $post ),
 				'input' => $distance_input
 			);
 
@@ -573,7 +573,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 			// Show taxes filters if allowed.
 			$tax_search = '';
-			$tax_label  = apply_filters( $php_taxonomy . '-text', __( $tax_object->labels->singular_name . ': ' ), 'SimpleMap' );
+			$tax_label  = apply_filters( $php_taxonomy . '-text', __( $tax_object->labels->singular_name . ': ' ), 'simplemap' );
 
 			$taxes_array = apply_filters( 'sm-search-from-taxonomies', $taxes_array, $taxonomy );
 
@@ -588,7 +588,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			} elseif ( 'select' == $taxonomy_field_type ) {
 				// Print selectbox if that's what we're doing.
 				$tax_select = "<select id='location_search_" . esc_attr( $tax_field_name ) . "_select' name='location_search_" . esc_attr( $tax_field_name ) . "_select' >";
-				$tax_select .= "<option value=''>" . apply_filters( 'sm-search-tax-select-default', __( 'Select a value', 'SimpleMap' ), $taxonomy ) . '</option>';
+				$tax_select .= "<option value=''>" . apply_filters( 'sm-search-tax-select-default', __( 'Select a value', 'simplemap' ), $taxonomy ) . '</option>';
 				foreach ( $taxes_array as $key => $taxid ) {
 					if ( $term = get_term_by( 'id', $taxid, $taxonomy ) ) {
 						$tax_checked = isset( $_REQUEST[ 'location_search_' . esc_attr( $tax_field_name ) . '_select' ] ) ? ' selected="selected" ' : '';
@@ -739,25 +739,25 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			var units                    = '<?php echo esc_js( $options['units'] ); ?>';
 			var limit                    = '<?php echo esc_js( $options['results_limit'] ); ?>';
 			var plugin_url                = '<?php echo esc_js( SIMPLEMAP_URL ); ?>';
-			var visit_website_text        = '<?php echo apply_filters( 'sm-visit-website-text', __( 'Visit Website', 'SimpleMap' ) ); ?>';
-			var get_directions_text        = '<?php echo apply_filters( 'sm-get-directions-text', __( 'Get Directions', 'SimpleMap' ) ); ?>';
-			var location_tab_text        = '<?php echo apply_filters( 'sm-location-text', __( 'Location', 'SimpleMap' ) ); ?>';
-			var description_tab_text    = '<?php echo apply_filters( 'sm-description-text', __( 'Description', 'SimpleMap' ) ); ?>';
-			var phone_text                = '<?php echo apply_filters( 'sm-phone-text', __( 'Phone', 'SimpleMap' ) ); ?>';
-			var fax_text                = '<?php echo apply_filters( 'sm-fax-text', __( 'Fax', 'SimpleMap' ) ); ?>';
-			var email_text                = '<?php echo apply_filters( 'sm-email-text', __( 'Email', 'SimpleMap' ) ); ?>';
+			var visit_website_text        = '<?php echo apply_filters( 'sm-visit-website-text', __( 'Visit Website', 'simplemap' ) ); ?>';
+			var get_directions_text        = '<?php echo apply_filters( 'sm-get-directions-text', __( 'Get Directions', 'simplemap' ) ); ?>';
+			var location_tab_text        = '<?php echo apply_filters( 'sm-location-text', __( 'Location', 'simplemap' ) ); ?>';
+			var description_tab_text    = '<?php echo apply_filters( 'sm-description-text', __( 'Description', 'simplemap' ) ); ?>';
+			var phone_text                = '<?php echo apply_filters( 'sm-phone-text', __( 'Phone', 'simplemap' ) ); ?>';
+			var fax_text                = '<?php echo apply_filters( 'sm-fax-text', __( 'Fax', 'simplemap' ) ); ?>';
+			var email_text                = '<?php echo apply_filters( 'sm-email-text', __( 'Email', 'simplemap' ) ); ?>';
 
 			var taxonomy_text = {};
 			<?php
 			if ( $taxonomies = $this->get_sm_taxonomies( 'array', '', true, 'object' ) ) {
 				foreach ( $taxonomies as $taxonomy ) {
 					?>
-					taxonomy_text.<?php echo $taxonomy->name; ?> = '<?php echo apply_filters( $taxonomy->name . '-text', __( $taxonomy->labels->name, 'SimpleMap' ) ); ?>';
+					taxonomy_text.<?php echo $taxonomy->name; ?> = '<?php echo apply_filters( $taxonomy->name . '-text', __( $taxonomy->labels->name, 'simplemap' ) ); ?>';
 					<?php
 				}
 			}
 			?>
-			var noresults_text            = '<?php echo apply_filters( 'sm-no-results-found-text', __( 'No results found.', 'SimpleMap' ) ); ?>';
+			var noresults_text            = '<?php echo apply_filters( 'sm-no-results-found-text', __( 'No results found.', 'simplemap' ) ); ?>';
 			var default_domain            = '<?php echo esc_js( $options['default_domain'] ); ?>';
 			var address_format            = '<?php echo esc_js( $options['address_format'] ); ?>';
 			var siteurl                    = '<?php echo esc_js( get_home_url() ); ?>';
@@ -794,7 +794,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			<?php
 			if ( '' == $options['api_key'] ) {
 				?>
-				jQuery( "#simplemap" ).html( "<p style='padding:10px;'><?php printf( __( 'You must enter an API Key in <a href=\"%s\">General Settings</a> before your maps will work.', 'SimpleMap' ), admin_url( 'admin.php?page=simplemap' ) ); ?></p>" );
+				jQuery( "#simplemap" ).html( "<p style='padding:10px;'><?php printf( __( 'You must enter an API Key in <a href=\"%s\">General Settings</a> before your maps will work.', 'simplemap' ), admin_url( 'admin.php?page=simplemap' ) ); ?></p>" );
 			<?php
 			}
 
@@ -2296,19 +2296,19 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			<table class="sm-toolbar" cellspacing="0" cellpadding="0" border="0">
 				<tr>
 					<td class="sm-page-title">
-						<h2><?php _e( $title, 'SimpleMap' ); ?></h2>
+						<h2><?php _e( $title, 'simplemap' ); ?></h2>
 					</td>
 					<td class="sm-toolbar-item">
 						<a href="http://simplemap-plugin.com" target="_blank"
-						   title="<?php _e( 'Go to the SimpleMap Home Page', 'SimpleMap' ); ?>"><?php _e( 'SimpleMap Home Page', 'SimpleMap' ); ?></a>
+						   title="<?php _e( 'Go to the SimpleMap Home Page', 'simplemap' ); ?>"><?php _e( 'SimpleMap Home Page', 'simplemap' ); ?></a>
 					</td>
 					<td class="sm-toolbar-item">
 						<a href="<?php echo admin_url( 'admin.php?page=simplemap-help' ); ?>"
-						   title="<?php _e( 'Premium Support', 'SimpleMap' ); ?>"><?php _e( 'Premium Support', 'SimpleMap' ); ?></a>
+						   title="<?php _e( 'Premium Support', 'simplemap' ); ?>"><?php _e( 'Premium Support', 'simplemap' ); ?></a>
 					</td>
 					<td class="sm-toolbar-item">
-						<a target="_blank" title="<?php _e( 'Donate', 'SimpleMap' ); ?>"href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=SimpleMap&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8">
-							<img src="<?php echo SIMPLEMAP_URL; ?>/inc/images/donate.jpg" alt="<?php _e( 'Donate with Paypal', 'SimpleMap' ); ?>"/>
+						<a target="_blank" title="<?php _e( 'Donate', 'simplemap' ); ?>"href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=SimpleMap&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8">
+							<img src="<?php echo SIMPLEMAP_URL; ?>/inc/images/donate.jpg" alt="<?php _e( 'Donate with Paypal', 'simplemap' ); ?>"/>
 						</a>
 					</td>
 				</tr>
@@ -2316,7 +2316,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 
 			<?php
 			if ( !isset( $options['api_key'] ) || $options['api_key'] == '' )
-				echo '<div class="error"><p>' . __( 'You must enter an API key for your domain.', 'SimpleMap' ).' <a href="' . admin_url( 'admin.php?page=simplemap' ) . '">' . __( 'Enter a key on the General Options page.', 'SimpleMap' ) . '</a></p></div>';
+				echo '<div class="error"><p>' . __( 'You must enter an API key for your domain.', 'simplemap' ).' <a href="' . admin_url( 'admin.php?page=simplemap' ) . '">' . __( 'Enter a key on the General Options page.', 'simplemap' ) . '</a></p></div>';
 		}
 
 		/**
@@ -2339,10 +2339,10 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 		 * @return string
 		 */
 		function get_api_link() {
-			
+
 			// The old URLs seem to be outdated. Not sure about the international ones.
 			return 'https://developers.google.com/maps/documentation/javascript/get-api-key#get-an-api-key';
-			
+
 			$lo = str_replace( '_', '-', get_locale() );
 			$l  = substr( $lo, 0, 2 );
 			switch ( $l ) {
@@ -2557,7 +2557,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			}
 
 			$atts = $tax_atts + array(
-					'search_title'         => __( 'Find Locations Near:', 'SimpleMap' ),
+					'search_title'         => __( 'Find Locations Near:', 'simplemap' ),
 					'search_form_type'     => 'table',
 					'search_form_cols'     => 3,
 					'search_fields'        => 'labelbr_street||labelbr_city||labelbr_state||labelbr_zip||empty||empty||labeltd_distance||empty' . implode( '', $tax_search_fields ) . '||submit||empty||empty',
@@ -2594,7 +2594,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 		 * @return string|void
 		 */
 		function backwards_compat_categories_text( $text ) {
-			return __( 'Categories', 'SimpleMap' );
+			return __( 'Categories', 'simplemap' );
 		}
 
 		/**
@@ -2605,7 +2605,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 		 * @return string|void
 		 */
 		function backwards_compat_tags_text( $text ) {
-			return __( 'Tags', 'SimpleMap' );
+			return __( 'Tags', 'simplemap' );
 		}
 
 		/**
@@ -2616,7 +2616,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 		 * @return string|void
 		 */
 		function backwards_compat_days_text( $text ) {
-			return __( 'Days', 'SimpleMap' );
+			return __( 'Days', 'simplemap' );
 		}
 
 		/**
@@ -2627,7 +2627,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 		 * @return string|void
 		 */
 		function backwards_compat_times_text( $text ) {
-			return __( 'Times', 'SimpleMap' );
+			return __( 'Times', 'simplemap' );
 		}
 
 	}
