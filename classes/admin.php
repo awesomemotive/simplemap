@@ -24,33 +24,59 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 
 			// Loop through menu and find the one we need to disable.
 			foreach ( $menu as $key => $value ) {
-				if ( in_array( 'edit.php?post_type=sm-location', $value, true ) ) {
+				if ( in_array( 'edit.php?post_type=sm-location', $value,
+					true ) ) {
 					unset( $menu[ $key ] );
 				}
 			}
-			add_menu_page( __( 'SimpleMap Options', 'simplemap' ), 'SimpleMap', apply_filters( 'sm-admin-permissions-sm-options', 'publish_posts' ), 'simplemap', array(
-				&$sm_options,
-				'print_page',
-			), SIMPLEMAP_URL . '/inc/images/icon.png' );
-			add_submenu_page( 'simplemap', __( 'SimpleMap: General Options', 'simplemap' ), __( 'General Options', 'simplemap' ), apply_filters( 'sm-admin-permissions-sm-options', 'manage_options' ), 'simplemap', array(
-				&$sm_options,
-				'print_page',
-			) );
-			add_submenu_page( 'simplemap', __( 'SimpleMap: Add Location', 'simplemap' ), __( 'Add Location', 'simplemap' ), apply_filters( 'sm-admin-permissions-sm-add-locations', 'publish_posts' ), 'post-new.php?post_type=sm-location' );
-			add_submenu_page( 'simplemap', __( 'SimpleMap: Edit Locations', 'simplemap' ), __( 'Edit Locations', 'simplemap' ), apply_filters( 'sm-admin-permissions-sm-edit-locations', 'publish_posts' ), 'edit.php?post_type=sm-location' );
+			add_menu_page( __( 'SimpleMap Options', 'simplemap' ), 'SimpleMap',
+				apply_filters( 'sm-admin-permissions-sm-options',
+					'publish_posts' ), 'simplemap', array(
+					&$sm_options,
+					'print_page',
+				), SIMPLEMAP_URL . '/inc/images/icon.png' );
+			add_submenu_page( 'simplemap',
+				__( 'SimpleMap: General Options', 'simplemap' ),
+				__( 'General Options', 'simplemap' ),
+				apply_filters( 'sm-admin-permissions-sm-options',
+					'manage_options' ), 'simplemap', array(
+					&$sm_options,
+					'print_page',
+				) );
+			add_submenu_page( 'simplemap',
+				__( 'SimpleMap: Add Location', 'simplemap' ),
+				__( 'Add Location', 'simplemap' ),
+				apply_filters( 'sm-admin-permissions-sm-add-locations',
+					'publish_posts' ), 'post-new.php?post_type=sm-location' );
+			add_submenu_page( 'simplemap',
+				__( 'SimpleMap: Edit Locations', 'simplemap' ),
+				__( 'Edit Locations', 'simplemap' ),
+				apply_filters( 'sm-admin-permissions-sm-edit-locations',
+					'publish_posts' ), 'edit.php?post_type=sm-location' );
 
 			foreach ( $options['taxonomies'] as $taxonomy => $tax_info ) {
-				add_submenu_page( 'simplemap', __( 'SimpleMap: Location ' . $tax_info['plural'], 'simplemap' ), __( 'Location ' . $tax_info['plural'], 'simplemap' ), 'publish_posts', 'edit-tags.php?taxonomy=' . $taxonomy . '&amp;post_type=sm-location' );
+				add_submenu_page( 'simplemap',
+					__( 'SimpleMap: Location ' . $tax_info['plural'],
+						'simplemap' ),
+					__( 'Location ' . $tax_info['plural'], 'simplemap' ),
+					'publish_posts', 'edit-tags.php?taxonomy=' . $taxonomy
+					                 . '&amp;post_type=sm-location' );
 			}
 
-			add_submenu_page( 'simplemap', __( 'SimpleMap: Import / Export CSV', 'simplemap' ), __( 'Import / Export CSV', 'simplemap' ), 'publish_posts', 'simplemap-import-export', array(
-				&$sm_import_export,
-				'print_page',
-			) );
-			add_submenu_page( 'simplemap', __( 'SimpleMap: Premium Support', 'simplemap' ), __( 'Premium Support', 'simplemap' ), 'publish_posts', 'simplemap-help', array(
-				&$sm_help,
-				'print_page',
-			) );
+			add_submenu_page( 'simplemap',
+				__( 'SimpleMap: Import / Export CSV', 'simplemap' ),
+				__( 'Import / Export CSV', 'simplemap' ), 'publish_posts',
+				'simplemap-import-export', array(
+					&$sm_import_export,
+					'print_page',
+				) );
+			add_submenu_page( 'simplemap',
+				__( 'SimpleMap: Premium Support', 'simplemap' ),
+				__( 'Premium Support', 'simplemap' ), 'publish_posts',
+				'simplemap-help', array(
+					&$sm_help,
+					'print_page',
+				) );
 		}
 
 		public function load_admin_scripts() {
