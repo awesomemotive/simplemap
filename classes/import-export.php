@@ -514,6 +514,22 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 		}
 
 		/**
+		 * Gets import path.
+		 *
+		 * @param $file
+		 *
+		 * @return string
+		 */
+		function get_import_path($file) {
+			$upload_dir = wp_upload_dir();
+
+			// fallback to original path...?
+			if( isset($upload_dir['error']) && !empty($upload_dir['error']) ) return WP_PLUGIN_DIR . '/sm-temp-csv-' . $file;
+
+			return $upload_dir['path'] . '\\' . $file;
+		}
+
+		/**
 		 * CSV Preview.
 		 *
 		 * Generates the CSV preview for the imported data.
@@ -568,7 +584,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 			// Include CSV library.
 			include_once( SIMPLEMAP_PATH . '/classes/parsecsv.lib.php' );
 
-			$file_location = WP_PLUGIN_DIR . '/sm-temp-csv-' . $blog_id . '.csv';
+			$file_location = $this->get_import_path( $blog_id . '.csv' );
 			if ( move_uploaded_file( $_FILES['simplemap-csv-upload']['tmp_name'], $file_location ) ) {
 				if ( $csv = new smParseCSV( $file_location ) ) {
 					echo '
