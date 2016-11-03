@@ -520,11 +520,13 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 		 *
 		 * @return string
 		 */
-		function get_import_path($file) {
+		function get_import_path( $file ) {
 			$upload_dir = wp_upload_dir();
 
 			// fallback to original path...?
-			if( isset($upload_dir['error']) && !empty($upload_dir['error']) ) return WP_PLUGIN_DIR . '/sm-temp-csv-' . $file;
+			if ( isset( $upload_dir['error'] ) && ! empty( $upload_dir['error'] ) ) {
+				return WP_PLUGIN_DIR . '/sm-temp-csv-' . $file;
+			}
 
 			return $upload_dir['path'] . '\\' . $file;
 		}
