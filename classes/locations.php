@@ -8,6 +8,7 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 	class SM_Locations {
 
 		public function __construct() {
+
 			// Register my locations on init hook.
 			add_action( 'init', array( &$this, 'register_locations' ) );
 			add_action( 'init', array( &$this, 'register_location_taxonomies' ) );
@@ -307,6 +308,8 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 
 		function additional_information( $post ) {
 			// Additional Information.
+
+			    wp_nonce_field( 'sm_save_postmeta_nonce_action', 'sm_save_postmeta_nonce_field' );
 
 			global $simple_map;
 			$options = $simple_map->get_options();
@@ -623,9 +626,14 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 		function save_post_meta( $post ) {
 			// This function saves the geo data as well as the additional info.
 
-			global $simple_map, $current_screen;
+        if ( ! isset( $_POST['sm_save_postmeta_nonce_field'] ) || ! wp_verify_nonce( $_POST['sm_save_postmeta_nonce_field'], 'sm_save_postmeta_nonce_action' )){
+            return;
+		}
+
+		global $simple_map, $current_screen;
 
 			// Bail if we're not editing a location.
+			// This should be replaced by a nonce!!!
 			if ( ! is_object( $current_screen ) || 'sm-location' != $current_screen->id || 'sm-location' != $current_screen->post_type ) {
 				return;
 			}
