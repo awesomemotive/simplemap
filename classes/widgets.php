@@ -96,19 +96,19 @@ class SM_Search_Widget extends WP_Widget {
 		$location_search .= apply_filters( 'sm-location-search-widget-table-top', '' );
 
 		if ( $show_address ) {
-			$location_search .= '<tr><td class="location_search_widget_address_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-street', __( 'Street', 'SimpleMap' ) ) . ':<br /><input type="text" id="location_search_widget_address_field" name="location_search_address" /></td></tr>';
+			$location_search .= '<tr><td class="location_search_widget_address_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-street', __( 'Street', 'simplemap' ) ) . ':<br /><input type="text" id="location_search_widget_address_field" name="location_search_address" /></td></tr>';
 		}
 		if ( $show_city ) {
-			$location_search .= '<tr><td class="location_search_widget_city_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-city', __( 'City', 'SimpleMap' ) ) . ':<br /><input type="text"  id="location_search_widget_city_field" name="location_search_city" /></td></tr>';
+			$location_search .= '<tr><td class="location_search_widget_city_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-city', __( 'City', 'simplemap' ) ) . ':<br /><input type="text"  id="location_search_widget_city_field" name="location_search_city" /></td></tr>';
 		}
 		if ( $show_state ) {
-			$location_search .= '<tr><td class="location_search_widget_state_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-state', __( 'State', 'SimpleMap' ) ) . ':<br /><input type="text" id="location_search_widget_state_field" name="location_search_state" /></td></tr>';
+			$location_search .= '<tr><td class="location_search_widget_state_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-state', __( 'State', 'simplemap' ) ) . ':<br /><input type="text" id="location_search_widget_state_field" name="location_search_state" /></td></tr>';
 		}
 		if ( $show_zip ) {
-			$location_search .= '<tr><td class="location_search_widget_zip_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-zip', __( 'Zip', 'SimpleMap' ) ) . ':<br /><input type="text" id="location_search_widget_zip_field" name="location_search_zip" /></td></tr>';
+			$location_search .= '<tr><td class="location_search_widget_zip_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-zip', __( 'Zip', 'simplemap' ) ) . ':<br /><input type="text" id="location_search_widget_zip_field" name="location_search_zip" /></td></tr>';
 		}
 		if ( $show_distance ) {
-			$location_search .= '<tr><td class="location_search_widget_distance_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-distance', __( 'Select a distance', 'SimpleMap' ) ) . ':<br /><select id="location_search_widget_distance_field" name="location_search_distance" >';
+			$location_search .= '<tr><td class="location_search_widget_distance_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-distance', __( 'Select a distance', 'simplemap' ) ) . ':<br /><select id="location_search_widget_distance_field" name="location_search_distance" >';
 
 			foreach ( $simple_map->get_search_radii() as $value ) {
 				$r = (int) $value;
@@ -135,7 +135,7 @@ class SM_Search_Widget extends WP_Widget {
 			// Show day filters if allowed.
 			if ( $all_terms && ! empty( $show[ $taxonomy ] ) ) {
 				$php_taxonomy = str_replace( '-', '_', $taxonomy );
-				$term_search  = '<tr><td class="location_search_' . strtolower( $tax_info['singular'] ) . '_cell location_search_cell">' . apply_filters( $php_taxonomy . '-text', __( $tax_info['plural'], 'SimpleMap' ) ) . ':<br />';
+				$term_search  = '<tr><td class="location_search_' . strtolower( $tax_info['singular'] ) . '_cell location_search_cell">' . apply_filters( $php_taxonomy . '-text', __( $tax_info['plural'], 'simplemap' ) ) . ':<br />';
 
 				// Print checkbox for each available day.
 				foreach ( $valid as $key => $termid ) {
@@ -179,7 +179,7 @@ class SM_Search_Widget extends WP_Widget {
 
 		$location_search .= apply_filters( 'sm-location-search-widget-before-submit', '' );
 
-		$location_search .= '<tr><td class="location_search_widget_submit_cell location_search_widget_cell"> <input type="submit" value="' . apply_filters( 'sm-search-label-search', __( 'Search', 'SimpleMap' ) ) . '" id="location_search_widget_submit_field" class="submit" /></td></tr>';
+		$location_search .= '<tr><td class="location_search_widget_submit_cell location_search_widget_cell"> <input type="submit" value="' . apply_filters( 'sm-search-label-search', __( 'Search', 'simplemap' ) ) . '" id="location_search_widget_submit_field" class="submit" /></td></tr>';
 		$location_search .= '</table>';
 		$location_search .= '</form>';
 		$location_search .= '</div>'; // Close map_search div.
@@ -251,27 +251,27 @@ class SM_Search_Widget extends WP_Widget {
 		<p><input type="checkbox" class="checkbox" id="<?php echo esc_attr(  $this->get_field_id( 'show_address' ) ); ?>"
 		          name="<?php echo esc_attr( $this->get_field_name( 'show_address' ) ); ?>"<?php checked( $show_address ); ?> />
 			<label
-				for="<?php echo esc_attr( $this->get_field_id( 'show_address' ) ); ?>"><?php _e( 'Show Address', 'SimpleMap' ); ?></label><br/>
+				for="<?php echo esc_attr( $this->get_field_id( 'show_address' ) ); ?>"><?php _e( 'Show Address', 'simplemap' ); ?></label><br/>
 
 			<input type="checkbox" class="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_city' ) ); ?>"
 			       name="<?php echo esc_attr( $this->get_field_name( 'show_city' ) ); ?>"<?php checked( $show_city ); ?> />
 			<label
-				for="<?php echo esc_attr( $this->get_field_id( 'show_city' ) ); ?>"><?php _e( 'Show City', 'SimpleMap' ); ?></label><br/>
+				for="<?php echo esc_attr( $this->get_field_id( 'show_city' ) ); ?>"><?php _e( 'Show City', 'simplemap' ); ?></label><br/>
 
 			<input type="checkbox" class="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_state' ) ); ?>"
 			       name="<?php echo esc_attr( $this->get_field_name( 'show_state' ) ); ?>"<?php checked( $show_state ); ?> />
 			<label
-				for="<?php echo $this->get_field_id( 'show_state' ); ?>"><?php _e( 'Show State', 'SimpleMap' ); ?></label><br/>
+				for="<?php echo $this->get_field_id( 'show_state' ); ?>"><?php _e( 'Show State', 'simplemap' ); ?></label><br/>
 
 			<input type="checkbox" class="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_zip' ) ); ?>"
 			       name="<?php echo esc_attr( $this->get_field_name( 'show_zip' ) ); ?>"<?php checked( $show_zip ); ?> />
 			<label
-				for="<?php echo $this->get_field_id( 'show_zip' ); ?>"><?php _e( 'Show Zip', 'SimpleMap' ); ?></label><br/>
+				for="<?php echo $this->get_field_id( 'show_zip' ); ?>"><?php _e( 'Show Zip', 'simplemap' ); ?></label><br/>
 
 			<input type="checkbox" class="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_distance' ) ); ?>"
 			       name="<?php echo $this->get_field_name( 'show_distance' ); ?>"<?php checked( $show_distance ); ?> />
 			<label
-				for="<?php echo $this->get_field_id( 'show_distance' ); ?>"><?php _e( 'Show Distance', 'SimpleMap' ); ?></label><br/>
+				for="<?php echo $this->get_field_id( 'show_distance' ); ?>"><?php _e( 'Show Distance', 'simplemap' ); ?></label><br/>
 
 			<?php
 			global $simple_map;
@@ -284,29 +284,29 @@ class SM_Search_Widget extends WP_Widget {
 				<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id( $show_field ); ?>"
 				       name="<?php echo $this->get_field_name( $show_field ); ?>"<?php checked( $show ); ?> />
 				<label
-					for="<?php echo $this->get_field_id( $show_field ); ?>"><?php _e( 'Show ' . $tax_info['plural'], 'SimpleMap' ); ?></label>
+					for="<?php echo $this->get_field_id( $show_field ); ?>"><?php _e( 'Show ' . $tax_info['plural'], 'simplemap' ); ?></label>
 				<br/>
 
 				<?php
 				/** TODO: The commented out code below isn't working yet. Implement it.
 				 * $values = isset( $instance[$key] ) ? esc_attr( $instance[$key] ) : '';
 				 * ?>
-				 * <p><label for="<?php echo $this->get_field_id( $key ); ?>"><?php _e( $tax_info['plural'] . ':', 'SimpleMap' ); ?></label>
+				 * <p><label for="<?php echo $this->get_field_id( $key ); ?>"><?php _e( $tax_info['plural'] . ':', 'simplemap' ); ?></label>
 				 * <input class="widefat" id="<?php echo $this->get_field_id( $key ); ?>" name="<?php echo $this->get_field_name( $key ); ?>" type="text" value="<?php echo $values; ?>" /></p>
 				 * <?php
 				 */
 			}
 
 			/** TODO: The commented out code below isn't working yet. Implement it.
-			 * <p><label for="<?php echo $this->get_field_id( 'default_lat' ); ?>"><?php _e( 'Default Lat:', 'SimpleMap' ); ?></label>
+			 * <p><label for="<?php echo $this->get_field_id( 'default_lat' ); ?>"><?php _e( 'Default Lat:', 'simplemap' ); ?></label>
 			 * <input class="widefat" id="<?php echo $this->get_field_id( 'default_lat' ); ?>" name="<?php echo $this->get_field_name( 'default_lat' ); ?>" type="text" value="<?php echo $default_lat; ?>" /></p>
 			 *
-			 * <p><label for="<?php echo $this->get_field_id( 'default_lng' ); ?>"><?php _e( 'Default Lng:', 'SimpleMap' ); ?></label>
+			 * <p><label for="<?php echo $this->get_field_id( 'default_lng' ); ?>"><?php _e( 'Default Lng:', 'simplemap' ); ?></label>
 			 * <input class="widefat" id="<?php echo $this->get_field_id( 'default_lng' ); ?>" name="<?php echo $this->get_field_name( 'default_lng' ); ?>" type="text" value="<?php echo $default_lng; ?>" /></p>
 			 */
 			?>
 		<p><label
-				for="<?php echo $this->get_field_id( 'simplemap_page' ); ?>"><?php _e( 'SimpleMap Page or Post ID:', 'SimpleMap' ); ?></label>
+				for="<?php echo $this->get_field_id( 'simplemap_page' ); ?>"><?php _e( 'SimpleMap Page or Post ID:', 'simplemap' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'simplemap_page' ); ?>"
 			       name="<?php echo $this->get_field_name( 'simplemap_page' ); ?>" type="text"
 			       value="<?php echo $simplemap_page; ?>"/></p>
