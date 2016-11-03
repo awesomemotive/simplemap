@@ -627,7 +627,7 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 			// This function saves the geo data as well as the additional info.
 
         if ( ! isset( $_POST['sm_save_postmeta_nonce_field'] ) || ! wp_verify_nonce( $_POST['sm_save_postmeta_nonce_field'], 'sm_save_postmeta_nonce_action' )){
-            return;
+    return;
 		}
 
 		global $simple_map, $current_screen;
