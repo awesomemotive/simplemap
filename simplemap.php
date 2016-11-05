@@ -45,15 +45,6 @@ define( 'SIMPLEMAP_PATH', WP_PLUGIN_DIR . '/' . $simplemap_dir );
 // Define plugin URL
 define( 'SIMPLEMAP_URL', plugins_url() . '/' . $simplemap_dir );
 
-// Table Names
-if ( ! defined( 'SIMPLEMAP_TABLE' ) ) {
-	define( 'SIMPLEMAP_TABLE', $wpdb->prefix . 'simple_map' );
-}
-
-if ( ! defined( 'SIMPLEMAP_CAT_TABLE' ) ) {
-	define( 'SIMPLEMAP_CAT_TABLE', $wpdb->prefix . 'simple_map_cats' );
-}
-
 // Map HOST
 if ( ! defined( 'SIMPLEMAP_MAPS_JS_API' ) ) {
 	// TODO: Evaluate removing scheme check as scheme-less urls can be enqueued in 3.3 (WP #16560)
