@@ -10,12 +10,7 @@ Text Domain: simplemap
 Domain Path: /lang
 */
 
-global $wp_version, $wpdb;
-
-$exit_msg = __( 'SimpleMap requires WordPress 3.0 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update!</a>', 'simplemap' );
-if ( version_compare( $wp_version, '3.0', '<' ) ) {
-	exit( $exit_msg );
-}
+global $wpdb;
 
 #### CONSTANTS ####
 
