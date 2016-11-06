@@ -14,7 +14,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 			// Delete all SimpleMap data.
 			if ( isset( $_GET['sm-action'] ) && 'delete-simplemap' == $_GET['sm-action'] ) {
 				// Confirm we have both permisssion to do this and we have intent to do this.
-				if ( current_user_can( 'manage_options' ) && ( check_admin_referer( 'delete-simplemap-locations' ) || check_admin_referer( 'delete-simplemap' ) ) ) {
+				if ( current_user_can( 'manage_options' ) && check_admin_referer( 'delete-simplemap' ) ) {
 					// Delete locations
 					while ( $locations = query_posts( array( 'post_type'      => 'sm-location',
 					                                         'posts_per_page' => 200
@@ -909,7 +909,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 											</p>
 											<p style='text-align:center;'><a
 													onclick="javascript:return confirm('<?php _e( 'Last chance! Pressing OK will delete all SimpleMap locations. Your settings will not be deleted.' ); ?>')"
-													href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=simplemap&sm-action=delete-simplemap&locations-only=true' ), 'delete-simplemap-locations' ); ?>"><?php _e( 'Clicking this link will remove all locations but preserve your settings.' ); ?></a>
+													href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=simplemap&sm-action=delete-simplemap&locations-only=true' ), 'delete-simplemap' ); ?>"><?php _e( 'Clicking this link will remove all locations but preserve your settings.' ); ?></a>
 											</p>
 											<p style='text-align:center;'><a
 													onclick="javascript:return confirm('<?php _e( 'Last chance! Pressing OK will delete all SimpleMap data.' ); ?>')"
