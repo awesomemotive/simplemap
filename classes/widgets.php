@@ -26,7 +26,7 @@ class SM_Search_Widget extends WP_Widget {
 							'classname'   => 'sm_search_widget',
 							'description' => __( 'Adds a customizable search widget to your site' ),
 		);
-		parent::__construct( 'sm_search_widget', __( 'SimpleMap Search' ), $widget_ops );
+		parent::__construct( 'sm_search_widget', 'SimpleMap ' . __( 'Search' ), $widget_ops );
 	}
 
 	/**
