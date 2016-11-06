@@ -67,7 +67,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			$to_display .= $this->location_search_form( $atts );
 
 			if ( $powered_by ) {
-				$to_display .= '<div id="powered_by_simplemap">' . sprintf( __( 'Powered by %s SimpleMap', 'SimpleMap' ), '<a href="http://simplemap-plugin.com/" target="_blank">' ) . '</a></div>';
+				$to_display .= '<div id="powered_by_simplemap">' . sprintf( __( 'Powered by %s %s', 'SimpleMap' ), '<a href="http://simplemap-plugin.com/" target="_blank">', 'SimpleMap' ) . '</a></div>';
 			}
 
 			// Hide map?
