@@ -2300,7 +2300,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					</td>
 					<td class="sm-toolbar-item">
 						<a href="http://simplemap-plugin.com" target="_blank"
-						   title="<?php _e( 'Go to the SimpleMap Home Page', 'simplemap' ); ?>">SimpleMap <?php _e( 'Home Page', 'simplemap' ); ?></a>
+						   title="<?php _e( 'Go to our website', 'simplemap' ); ?>">SimpleMap <?php _e( 'Home Page', 'simplemap' ); ?></a>
 					</td>
 					<td class="sm-toolbar-item">
 						<a href="<?php echo admin_url( 'admin.php?page=simplemap-help' ); ?>"
