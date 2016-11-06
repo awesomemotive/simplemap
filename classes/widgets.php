@@ -306,7 +306,7 @@ class SM_Search_Widget extends WP_Widget {
 			 */
 			?>
 		<p><label
-				for="<?php echo $this->get_field_id( 'simplemap_page' ); ?>"><?php _e( 'SimpleMap Page or Post ID:', 'simplemap' ); ?></label>
+				for="<?php echo $this->get_field_id( 'simplemap_page' ); ?>">SimpleMap <?php _e( 'Page or Post ID:', 'simplemap' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'simplemap_page' ); ?>"
 			       name="<?php echo $this->get_field_name( 'simplemap_page' ); ?>" type="text"
 			       value="<?php echo $simplemap_page; ?>"/></p>
