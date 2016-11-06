@@ -79,6 +79,9 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 				) );
 		}
 
+		/**
+		 * TODO: Currently this loads on toplevel_page_simplemap... but that could change once we redo the menus.
+		 */
 		public function load_admin_scripts() {
 			// Print admin scripts.
 			global $current_screen;
