@@ -147,7 +147,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 			if ( $count >= 250 ) {
 				$disabled_autoload = false; // let it happen. we're limiting to 500 in the query
-				$disabledmsg       = sprintf( __( 'You have to many locations to auto-load them all. Only the closest %d will be displayed if auto-load all is selected.', 'simplemap' ), '250' );
+				$disabledmsg       = sprintf( __( 'You have too many locations to auto-load them all. Only the closest %d will be displayed if auto-load all is selected.', 'simplemap' ), '250' );
 			} else {
 				$disabled_autoload = false;
 				$disabledmsg       = '';
