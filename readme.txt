@@ -84,24 +84,3 @@ Please open a ticket on [the SimpleMap project's repo on Github](https://github.
 == Changelog ==
 
 SimpleMap [Changelog](http://simplemap-plugin.com/changelog/)
-
-== Making Your Own Theme ==
-
-To upload your own SimpleMap theme, make a directory in your `plugins` folder called `simplemap-styles`. Upload your theme's CSS file here.
-
-To give it a name that shows up in the **Theme** drop-down menu (instead of the filename), use the following markup at the beginning of the CSS file:
-
-`/*
-Theme Name: YOUR THEME NAME HERE
-*/`
-
-== Other Notes ==
-
-Planned for future releases:
-
-* UI for custom markers
-* Show map of single location
-* Search by Day / Time (great for groups)
-* Search by Date (great for traveling gigs / performances)
-
-To suggest any new features, please visit [the SimpleMap home page](http://simplemap-plugin.com/) and leave a comment.
