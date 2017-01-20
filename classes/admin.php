@@ -24,12 +24,6 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 			// Get options.
 			$options = $simple_map->get_options();
 
-			add_menu_page( __( 'SimpleMap Options', 'simplemap' ), 'SimpleMap',
-				apply_filters( 'sm-admin-permissions-sm-options',
-					'publish_posts' ), 'simplemap', array(
-					&$sm_options,
-					'print_page',
-				), 'dashicons-location-alt' );
 			add_submenu_page( 'edit.php?post_type=sm-location',
 				__( 'SimpleMap: General Options', 'simplemap' ),
 				__( 'General Options', 'simplemap' ),
