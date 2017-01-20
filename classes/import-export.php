@@ -574,7 +574,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 			echo '</h3>
 
-						<div class="inside" style="padding: 0 10px 10px 10px;">
+						<div class="inside sm-scroll" style="padding: 0 10px 10px 10px;">
 
 							<p class="howto">';
 
