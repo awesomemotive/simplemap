@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtor
 Tags: map, maps, store locator, database, locations, stores, Google maps, locator
 Requires at least: 3.0
 Tested up to: 4.6
-Stable tag: 2.4.10
+Stable tag: 2.4.10.1
 
 SimpleMap is an easy-to-use international store locator plugin that uses Google Maps to display information directly on your WordPress site.
 
