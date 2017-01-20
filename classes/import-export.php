@@ -477,10 +477,11 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 												}
 
 												// This is just a failsafe. It also gives us access to vars the WP API created rather than from the CSV
-												if ( ! is_wp_error( $term ) && ! is_wp_error( $term_id ) && $term = get_term( (int) $term_id, $taxonomy ) ) {
+												if ( ! is_wp_error( $term_id ) && ( $term = get_term( (int) $term_id, $taxonomy ) ) && ! is_wp_error( $term ) ) {
 														// Associate (last var appends term to rather than replaces existing terms)
 														wp_set_object_terms( $id, $term->name, $taxonomy, true );
 														unset( $term );
+
 												}
 											}
 										}
