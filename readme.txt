@@ -105,29 +105,3 @@ Planned for future releases:
 * Search by Date (great for traveling gigs / performances)
 
 To suggest any new features, please visit [the SimpleMap home page](http://simplemap-plugin.com/) and leave a comment.
-
-== Credits ==
-
-= Code and Inspiration =
-
-* [Alison Barrett](http://alisothegeek.com/) Original developer and maintainer until June, 2010.
-
-= Translations =
-
-* German: Thorsten at [.numinose](http://www.numinose.com)
-* Spanish: Fernando at [Dixit](http://www.dixit.es)
-* Portugese (Brazil): Rodolfo Rodrigues at [ChEngineer Place](http://chengineer.com/)
-* Dutch: Jan-Albert Droppers at [Droppers.NL](http://droppers.nl)
-
-If you want to help with any translation for this plugin, please don't hesitate to contact us. Any help translating is greatly appreciated! The updated `.POT` file is always included in every release, in the `lang` folder.
-
-== License ==
-
-SimpleMap - the easy store locator for WordPress.
-Copyright (C) 2010 FullThrottle Development, LLC.
-
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
