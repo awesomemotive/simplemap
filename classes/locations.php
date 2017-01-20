@@ -63,9 +63,10 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 			'register_meta_box_cb' => array( &$this, 'location_meta_cb' ),
 			'supports'             => array(),
 			'labels'               => array(
-				'name'               => 'Locations',
+				'name'               => 'SimpleMap',
 				'singular_name'      => 'Location',
 				'add_new_item'       => 'Add New Location',
+				'all_items'         => 'Locations',
 				'edit_item'          => 'Edit Location',
 				'new_item'           => 'New Location',
 				'view_item'          => 'View Locations',
@@ -73,6 +74,7 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 				'not_found'          => 'No Locations found',
 				'not_found_in_trash' => 'No Locations found in trash',
 			),
+			'menu_icon'             => 'dashicons-location-alt',
 		);
 
 		register_post_type( 'sm-location', $args );
