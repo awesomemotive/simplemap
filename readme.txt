@@ -13,8 +13,6 @@ Easy to use Store Locator plugin (supports international stores) using Google Ma
 
 SimpleMap is a *powerful* and *easy-to-use* international store locator plugin. It has an intuitive interface and is completely customizable. Its search features make it easy for your users to find your locations quickly.
 
-Please note: SimpleMap has some compatibility problems with WordPress MU.
-
 Key features include:
 
 * Manage locations from any country supported by Google Maps
@@ -34,10 +32,12 @@ With SimpleMap, you can easily put a store locator on your WordPress site in sec
 
 == Installation ==
 
-1. Upload the entire `simplemap` folder to your `/wp-content/plugins/` folder.
-2. Go to the 'Plugins' page in the menu and activate the plugin.
-3. Type `[simplemap]` into any Post or Page you want SimpleMap to be displayed in.
-4. Enter some locations in the database and start enjoying the plugin!
+1. Visit 'Plugins > Add New'
+2. Search for 'SimpleMap'
+3. Go to the 'Plugins' page in the menu and activate the plugin.
+4. Get a free [Google Maps API key](https://code.google.com/apis/console)
+5. Type `[simplemap]` into any Post or Page you want SimpleMap to be displayed in.
+6. Enter some locations in the database and start enjoying the plugin!
 
 == Screenshots ==
 
@@ -48,14 +48,6 @@ With SimpleMap, you can easily put a store locator on your WordPress site in sec
 5. Managing the database
 
 == Frequently Asked Questions ==
-
-= What are the minimum requirements for SimpleMap? =
-
-You must have:
-
-* A free Google Maps API key
-* WordPress 2.8 or later
-* PHP 5 (or PHP 4 with the SimpleXML extension loaded), DOMDocument class
 
 = How do I put SimpleMap on my website? =
 
@@ -71,7 +63,7 @@ This is meant to flag certain locations with a specific label. It shows up in th
 
 = Why can't my map load more than 100 search results at a time? =
 
-On most browsers, loading more than 100 locations at once will really slow things down. In some cases, such as a slower internet connection, it can crash the browser completely. I put that limit on there to prevent that from happening.
+On most browsers, loading more than 100 locations at once will really slow things down. In some cases, such as a slower internet connection, it can crash the browser completely. We put that limit on there to prevent that from happening.
 
 = Can I suggest a feature for SimpleMap? =
 
