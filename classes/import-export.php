@@ -298,7 +298,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 				// Include CSV library.
 				require_once( SIMPLEMAP_PATH . '/classes/parsecsv.lib.php' );
 
-				$file_location = WP_PLUGIN_DIR . '/sm-temp-csv-' . $blog_id . '.csv';
+				$file_location = $this->get_import_path( $blog_id . '.csv' );
 
 				if ( file_exists( $file_location ) && $csv = new smParseCSV() ) {
 					$csv->auto( $file_location );
@@ -528,7 +528,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 				return WP_PLUGIN_DIR . '/sm-temp-csv-' . $file;
 			}
 
-			return $upload_dir['path'] . '\\' . $file;
+			return $upload_dir['path'] . '/sm-temp-csv-' . $file;
 		}
 
 		/**
