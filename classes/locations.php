@@ -61,7 +61,7 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 			'rewrite'              => false,
 			'query_var'            => 'sm-location',
 			'register_meta_box_cb' => array( &$this, 'location_meta_cb' ),
-			'supports'             => array( 'title','author',),
+			'supports'             => array( 'title','author', 'editor'),
 			'labels'               => array(
 				'name'               => 'SimpleMap',
 				'singular_name'      => 'Location',
