@@ -137,15 +137,15 @@ if ( class_exists( 'SM_Admin' ) && ( ! isset( $sm_admin ) || ! is_object( $sm_ad
 	$sm_admin = new SM_Admin();
 }
 
-// Premium Support Client for SimpleMap
+// Premium Support Client for SimpleMap. (We may not need sm-location?)
 $config = array(
 	'server_url'              => 'http://simplemap-plugin.com',
 	'product_id'              => 1,
 	'product-slug'            => 'sm-premium',
 	'plugin_support_page_ids' => array(
-		'simplemap_page_simplemap-help',
-		'toplevel_page_simplemap',
-		'simplemap_page_simplemap-import-export',
+		'sm-location_page_simplemap-help',
+		'sm-location_page_simplemap',
+		'sm-location_page_simplemap-import-export',
 		'sm-location',
 	),
 	'plugin_basename'         => plugin_basename( SIMPLEMAP_PATH . '/simplemap.php' ),
