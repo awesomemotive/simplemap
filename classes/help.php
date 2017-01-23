@@ -28,8 +28,7 @@ if ( ! class_exists( 'SM_Help' ) ) {
 				<div><p><?php _e( 'Jump to a section:', 'simplemap' ); // XSS ok. ?> <a
 							href="#displaying_your_map"><?php _e( 'Displaying Your Map', 'simplemap' ); // XSS ok. ?></a> | <a
 							href="#general_options"><?php _e( 'General Options', 'simplemap' ); // XSS ok. ?></a> | <a
-							href="#adding_a_location"><?php _e( 'Adding a Location', 'simplemap' ); // XSS ok. ?></a> | <a
-							href="#everything_else"><?php _e( 'Everything Else', 'simplemap' ); // XSS ok. ?></a></p></div>
+							href="#adding_a_location"><?php _e( 'Adding a Location', 'simplemap' ); // XSS ok. ?></a></p></div>
 
 				<div id="dashboard-widgets-wrap" class="clear">
 
