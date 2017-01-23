@@ -177,3 +177,11 @@ table.server-tests td {
 	color:#fff;
 	text-shadow:0 1px 0 #000;
 }
+
+body.sm-location_page_simplemap-import-export #wpbody-content #dashboard-widgets .postbox-container {
+	width: 100%;
+}
+body.sm-location_page_simplemap-import-export #dashboard-widgets .postbox .inside.sm-scroll {
+	overflow: auto;
+	height: 750px;
+}

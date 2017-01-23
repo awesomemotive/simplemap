@@ -298,7 +298,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 				// Include CSV library.
 				require_once( SIMPLEMAP_PATH . '/classes/parsecsv.lib.php' );
 
-				$file_location = WP_PLUGIN_DIR . '/sm-temp-csv-' . $blog_id . '.csv';
+				$file_location = $this->get_import_path( $blog_id . '.csv' );
 
 				if ( file_exists( $file_location ) && $csv = new smParseCSV() ) {
 					$csv->auto( $file_location );
@@ -476,11 +476,12 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 													$term_id = $term_array['term_id'];
 												}
 
-												// This is just a failsafe. It also gives us access to vars the WP API created rather than from the CSV.
-												if ( ! is_wp_error( $term_id ) && $term = get_term( (int) $term_id, $taxonomy ) && ! is_wp_error( $term ) ) {
-													// Associate (last var appends term to rather than replaces existing terms).
-													wp_set_object_terms( $id, $term->name, $taxonomy, true );
-													unset( $term );
+												// This is just a failsafe. It also gives us access to vars the WP API created rather than from the CSV
+												if ( ! is_wp_error( $term_id ) && ( $term = get_term( (int) $term_id, $taxonomy ) ) && ! is_wp_error( $term ) ) {
+														// Associate (last var appends term to rather than replaces existing terms)
+														wp_set_object_terms( $id, $term->name, $taxonomy, true );
+														unset( $term );
+
 												}
 											}
 										}
@@ -511,6 +512,24 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 		</div>';
 
 			}
+		}
+
+		/**
+		 * Gets import path.
+		 *
+		 * @param $file
+		 *
+		 * @return string
+		 */
+		function get_import_path( $file ) {
+			$upload_dir = wp_upload_dir();
+
+			// fallback to original path...?
+			if ( isset( $upload_dir['error'] ) && ! empty( $upload_dir['error'] ) ) {
+				return WP_PLUGIN_DIR . '/sm-temp-csv-' . $file;
+			}
+
+			return $upload_dir['path'] . '/sm-temp-csv-' . $file;
 		}
 
 		/**
@@ -555,7 +574,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 			echo '</h3>
 
-						<div class="inside" style="padding: 0 10px 10px 10px;">
+						<div class="inside sm-scroll" style="padding: 0 10px 10px 10px;">
 
 							<p class="howto">';
 
@@ -568,7 +587,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 			// Include CSV library.
 			include_once( SIMPLEMAP_PATH . '/classes/parsecsv.lib.php' );
 
-			$file_location = WP_PLUGIN_DIR . '/sm-temp-csv-' . $blog_id . '.csv';
+			$file_location = $this->get_import_path( $blog_id . '.csv' );
 			if ( move_uploaded_file( $_FILES['simplemap-csv-upload']['tmp_name'], $file_location ) ) {
 				if ( $csv = new smParseCSV( $file_location ) ) {
 					echo '

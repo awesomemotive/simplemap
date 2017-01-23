@@ -8,6 +8,7 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 	class SM_Locations {
 
 		public function __construct() {
+
 			// Register my locations on init hook.
 			add_action( 'init', array( &$this, 'register_locations' ) );
 			add_action( 'init', array( &$this, 'register_location_taxonomies' ) );
@@ -60,11 +61,12 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 			'rewrite'              => false,
 			'query_var'            => 'sm-location',
 			'register_meta_box_cb' => array( &$this, 'location_meta_cb' ),
-			'supports'             => array(),
+			'supports'             => array( 'title','author', 'editor'),
 			'labels'               => array(
-				'name'               => 'Locations',
+				'name'               => 'SimpleMap',
 				'singular_name'      => 'Location',
 				'add_new_item'       => 'Add New Location',
+				'all_items'         => 'Locations',
 				'edit_item'          => 'Edit Location',
 				'new_item'           => 'New Location',
 				'view_item'          => 'View Locations',
@@ -72,6 +74,7 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 				'not_found'          => 'No Locations found',
 				'not_found_in_trash' => 'No Locations found in trash',
 			),
+			'menu_icon'             => 'dashicons-location-alt',
 		);
 
 		register_post_type( 'sm-location', $args );
@@ -126,19 +129,19 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 
 	// Add call back for meta box.
 	function location_meta_cb() {
-		add_meta_box( 'sm-location-premium-support', __( 'Premium Support', 'SimpleMap' ), array(
+		add_meta_box( 'sm-location-premium-support', __( 'Premium Support', 'simplemap' ), array(
 			&$this,
 			'premium_support',
 		), 'sm-location', 'side', 'high' );
-		add_meta_box( 'sm-geo-location', __( 'Geographic Location', 'SimpleMap' ), array(
+		add_meta_box( 'sm-geo-location', __( 'Geographic Location', 'simplemap' ), array(
 			&$this,
 			'geo_location',
 		), 'sm-location', 'normal' );
-		add_meta_box( 'sm-additional-information', __( 'Additional Information', 'SimpleMap' ), array(
+		add_meta_box( 'sm-additional-information', __( 'Additional Information', 'simplemap' ), array(
 			&$this,
 			'additional_information',
 		), 'sm-location', 'normal' );
-		add_meta_box( 'sm-location-drag-drop', __( 'Drag and Drop Location', 'SimpleMap' ), array(
+		add_meta_box( 'sm-location-drag-drop', __( 'Drag and Drop Location', 'simplemap' ), array(
 			&$this,
 			'location_drag_drop',
 		), 'sm-location', 'side' );
@@ -167,22 +170,22 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 
 		?>
 		<p>
-			<?php _e( 'By signing up for SimpleMap premium support, you help to ensure future enhancements to this excellent project as well as the following benefits:', 'SimpleMap' ); ?>
+			<?php _e( 'By signing up for SimpleMap premium support, you help to ensure future enhancements to this excellent project as well as the following benefits:', 'simplemap' ); ?>
 		</p>
 
 		<ul style='margin-left:25px;list-style-type:disc'>
-			<li><?php _e( 'Around the clock access to our extensive knowledge base and support forum from within your WordPress dashboard', 'SimpleMap' ); ?></li>
-			<li><?php _e( 'Professional and timely response times to all your questions from the SimpleMap team', 'SimpleMap' ); ?></li>
-			<li><?php _e( 'A 10% discount for any custom functionality you request from the SimpleMap developers', 'SimpleMap' ); ?></li>
-			<li><?php _e( 'A 6-12 month advance access to new features integrated into the auto upgrade functionality of WordPress', 'SimpleMap' ); ?></li>
+			<li><?php _e( 'Around the clock access to our extensive knowledge base and support forum from within your WordPress dashboard', 'simplemap' ); ?></li>
+			<li><?php _e( 'Professional and timely response times to all your questions from the SimpleMap team', 'simplemap' ); ?></li>
+			<li><?php _e( 'A 10% discount for any custom functionality you request from the SimpleMap developers', 'simplemap' ); ?></li>
+			<li><?php _e( 'A 6-12 month advance access to new features integrated into the auto upgrade functionality of WordPress', 'simplemap' ); ?></li>
 		</ul>
 
 		<ul style='margin-left:25px;list-style-type:none'>
 			<li>
-				<a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'SimpleMap' ); ?></a>
+				<a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'simplemap' ); ?></a>
 			</li>
 			<li><a target='_blank'
-				   href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'SimpleMap' ); ?></a>
+				   href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'simplemap' ); ?></a>
 			</li>
 		</ul>
 
@@ -191,11 +194,11 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 	else :
 
 	?>
-	<p class='howto aligncenter'><?php printf( __( 'Your premium support license for %s is valid until %s', 'SimpleMap' ), get_ftps_site( $simplemap_ps ), date( 'F d, Y', get_ftps_exp_date( $simplemap_ps ) ) ); ?></p>
+	<p class='howto aligncenter'><?php printf( __( 'Your premium support license for %s is valid until %s', 'simplemap' ), get_ftps_site( $simplemap_ps ), date( 'F d, Y', get_ftps_exp_date( $simplemap_ps ) ) ); ?></p>
 	<ul style='margin-left:25px;list-style-type:disc'>
-		<li><a href="#" id="simplemap-pss"><?php _e( 'Launch Premium Support widget', 'SimpleMap' ); ?></a></li>
+		<li><a href="#" id="simplemap-pss"><?php _e( 'Launch Premium Support widget', 'simplemap' ); ?></a></li>
 		<li><a target='_blank'
-			   href="http://support.simplemap-plugin.com?sso=<?php echo get_ftps_sso_key( $simplemap_ps ); ?>"><?php _e( 'Visit Premium Support web site', 'SimpleMap' ); ?></a>
+			   href="http://support.simplemap-plugin.com?sso=<?php echo get_ftps_sso_key( $simplemap_ps ); ?>"><?php _e( 'Visit Premium Support web site', 'simplemap' ); ?></a>
 		</li>
 		<script type="text/javascript" charset="utf-8">
 			Tender = {
@@ -228,10 +231,10 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 			$location_lng      = get_post_meta( $post->ID, 'location_lng', true ) ?: '';
 
 			?>
-			<p class="sub"><?php _e( 'You must enter either an address or a latitude/longitude. If you enter both, the address will not be geocoded and your latitude/longitude values will remain intact.', 'SimpleMap' ); ?></p>
+			<p class="sub"><?php _e( 'You must enter either an address or a latitude/longitude. If you enter both, the address will not be geocoded and your latitude/longitude values will remain intact.', 'simplemap' ); ?></p>
 
 			<div class='hidden updated below-h2' id='js-geo-encode-msg'>
-				<p><?php echo __( "Your Server's IP is over the geocode threshold set by Google so we had fallback to a Javascript function. <span id='sm_js_update_lat_lng_result'></span>", 'SimpleMap' ); ?></p>
+				<p><?php echo __( "Your Server's IP is over the geocode threshold set by Google so we had fallback to a Javascript function. <span id='sm_js_update_lat_lng_result'></span>", 'simplemap' ); ?></p>
 			</div>
 
 			<div class="table">
@@ -239,7 +242,7 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 
 					<!-- Store Address -->
 					<tr valign="top">
-						<td width="150"><label for="location_address"><?php _e( 'Address', 'SimpleMap' ); ?></label></td>
+						<td width="150"><label for="location_address"><?php _e( 'Address', 'simplemap' ); ?></label></td>
 						<td><input type="text" name="location_address" id="location_address" size="30"
 								   value="<?php echo esc_attr( $location_address ); ?>"/><br/>
 							<input type="text" name="location_address2" size="30"
@@ -248,28 +251,28 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 
 					<!-- City / Town -->
 					<tr valign="top">
-						<td><label for="location_city"><?php _e( 'City/Town', 'SimpleMap' ); ?></label></td>
+						<td><label for="location_city"><?php _e( 'City/Town', 'simplemap' ); ?></label></td>
 						<td><input type="text" name="location_city" id="location_city"
 								   value="<?php echo esc_attr( $location_city ); ?>" size="30"/></td>
 					</tr>
 
 					<!-- State / Providence -->
 					<tr valign="top">
-						<td><label for="location_state"><?php _e( 'State/Province', 'SimpleMap' ); ?></label></td>
+						<td><label for="location_state"><?php _e( 'State/Province', 'simplemap' ); ?></label></td>
 						<td><input type="text" name="location_state" id="location_state"
 								   value="<?php echo esc_attr( $location_state ); ?>" size="30"/></td>
 					</tr>
 
 					<!-- Zip / Postal Code -->
 					<tr valign="top">
-						<td><label for="location_zip"><?php _e( 'Zip/Postal Code', 'SimpleMap' ); ?></label></td>
+						<td><label for="location_zip"><?php _e( 'Zip/Postal Code', 'simplemap' ); ?></label></td>
 						<td><input type="text" name="location_zip" id="location_zip"
 								   value="<?php echo esc_attr( $location_zip ); ?>" size="30" maxlength="20"/></td>
 					</tr>
 
 					<!-- Country -->
 					<tr valign="top">
-						<td><label for="location_country"><?php _e( 'Country', 'SimpleMap' ); ?></label></td>
+						<td><label for="location_country"><?php _e( 'Country', 'simplemap' ); ?></label></td>
 						<td>
 							<select name="location_country" id="location_country">
 								<?php
@@ -283,7 +286,7 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 
 					<!-- Lat / Lng -->
 					<tr valign="top">
-						<td><label for="location_lat"><?php _e( 'Latitude/Longitude', 'SimpleMap' ); ?></label></td>
+						<td><label for="location_lat"><?php _e( 'Latitude/Longitude', 'simplemap' ); ?></label></td>
 						<td><input type="text" name="location_lat" id="location_lat" size="14"
 								   value="<?php echo esc_attr( $location_lat ); ?>"/>
 							<input type="text" name="location_lng" id="location_lng" size="14"
@@ -308,6 +311,8 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 		function additional_information( $post ) {
 			// Additional Information.
 
+			    wp_nonce_field( 'sm_save_postmeta_nonce_action', 'sm_save_postmeta_nonce_field' );
+
 			global $simple_map;
 			$options = $simple_map->get_options();
 
@@ -323,29 +328,29 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 
 					<!-- Phone -->
 					<tr valign="top">
-						<td width="150"><label for="location_phone"><?php _e( 'Phone', 'SimpleMap' ); ?></label></td>
+						<td width="150"><label for="location_phone"><?php _e( 'Phone', 'simplemap' ); ?></label></td>
 						<td><input type="text" id="location_phone" name="location_phone" size="30" maxlength="28"
 								   value="<?php echo esc_attr( $location_phone ); ?>"/></td>
 					</tr>
 
 					<!-- Email -->
 					<tr valign="top">
-						<td><label for="location_email"><?php _e( 'Email', 'SimpleMap' ); ?></label></td>
+						<td><label for="location_email"><?php _e( 'Email', 'simplemap' ); ?></label></td>
 						<td><input type="text" name="location_email" id="location_email" size="30"
 								   value="<?php echo esc_attr( $location_email ); ?>"/>
 					</tr>
 
 					<!-- URL -->
 					<tr valign="top">
-						<td><label for="location_url"><?php _e( 'URL', 'SimpleMap' ); ?></label></td>
+						<td><label for="location_url"><?php _e( 'URL', 'simplemap' ); ?></label></td>
 						<td><input type="text" name="location_url" id="location_url" size="30"
 								   value="<?php echo esc_attr( $location_url ); ?>"/>
-							<br/><?php _e( 'Please include <strong>http://</strong>', 'SimpleMap' ); ?></td>
+							<br/><?php _e( 'Please include <strong>http://</strong>', 'simplemap' ); ?></td>
 					</tr>
 
 					<!-- Fax -->
 					<tr valign="top">
-						<td><label for="location_fax"><?php _e( 'Fax', 'SimpleMap' ); ?></label></td>
+						<td><label for="location_fax"><?php _e( 'Fax', 'simplemap' ); ?></label></td>
 						<td><input type="text" id="location_fax" name="location_fax" size="30" maxlength="28"
 								   value="<?php echo esc_attr( $location_fax ); ?>"/></td>
 					</tr>
@@ -623,9 +628,14 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 		function save_post_meta( $post ) {
 			// This function saves the geo data as well as the additional info.
 
-			global $simple_map, $current_screen;
+        if ( ! isset( $_POST['sm_save_postmeta_nonce_field'] ) || ! wp_verify_nonce( $_POST['sm_save_postmeta_nonce_field'], 'sm_save_postmeta_nonce_action' )){
+    return;
+		}
+
+		global $simple_map, $current_screen;
 
 			// Bail if we're not editing a location.
+			// This should be replaced by a nonce!!!
 			if ( ! is_object( $current_screen ) || 'sm-location' != $current_screen->id || 'sm-location' != $current_screen->post_type ) {
 				return;
 			}
@@ -768,7 +778,7 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 
 			?>
 			<div id="message" class="error">
-				<p><?php _e( '<strong>Warning</strong>: You have more than 10,000 locations in your database. We have limited the list here to 1,000. You may <strong>use the search field to access locations beyond the first 1,000</strong>.', 'SimpleMap' ); ?></p>
+				<p><?php _e( '<strong>Warning</strong>: You have more than 10,000 locations in your database. We have limited the list here to 1,000. You may <strong>use the search field to access locations beyond the first 1,000</strong>.', 'simplemap' ); ?></p>
 			</div>
 			<?php
 		}
@@ -778,7 +788,7 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 
 			// If we're missing a var, return false.
 			if ( empty( $_POST['sm_lat'] ) || empty( $_POST['sm_lng'] ) || empty( $_POST['sm_id'] ) ) {
-				die( __( "It doesn't look like that worked either. Please try again later.", 'SimpleMap' ) );
+				die( __( "It doesn't look like that worked either. Please try again later.", 'simplemap' ) );
 			}
 
 			// Save original lat for roleback if lng update fails.
@@ -786,15 +796,15 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 
 			// Update or return false.
 			if ( ! update_post_meta( absint( $_POST['sm_id'] ), 'location_lat', esc_attr( $_POST['sm_lat'] ) ) ) {
-				die( __( "It doesn't look like that worked either. Please try again later.", 'SimpleMap' ) );
+				die( __( "It doesn't look like that worked either. Please try again later.", 'simplemap' ) );
 			}
 			if ( ! update_post_meta( absint( $_POST['sm_id'] ), 'location_lng', esc_attr( $_POST['sm_lng'] ) ) ) {
 				update_post_meta( absint( $_POST['sm_id'] ), 'location_lat', esc_attr( $orig_lat ) );
-				die( __( "It doesn't look like that worked either. Please try again later.", 'SimpleMap' ) );
+				die( __( "It doesn't look like that worked either. Please try again later.", 'simplemap' ) );
 			}
 
 			// If we made it here, we're golden.
-			die( __( 'It looks like that worked!', 'SimpleMap' ) );
+			die( __( 'It looks like that worked!', 'simplemap' ) );
 
 		}
 

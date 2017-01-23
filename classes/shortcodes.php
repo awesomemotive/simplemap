@@ -68,10 +68,11 @@ if ( ! class_exists( 'SM_Location_Shortcodes' ) ) {
 				'phone',
 				'fax',
 				'email',
-				'url'
+				'url',
 			);
 
-			return apply_filters( 'sm-location-shortcode-tag-array', $shortcode_tags );
+			return apply_filters( 'sm-location-shortcode-tag-array',
+				$shortcode_tags );
 		}
 
 		/**
@@ -91,8 +92,10 @@ if ( ! class_exists( 'SM_Location_Shortcodes' ) ) {
 				'after'             => '',
 				'map_width'         => '75px',
 				'map_height'        => '75px',
-				'default_lat'       => get_post_meta( $post->ID, 'location_lat', true ),
-				'default_lng'       => get_post_meta( $post->ID, 'location_lng', true ),
+				'default_lat'       => get_post_meta( $post->ID, 'location_lat',
+					true ),
+				'default_lng'       => get_post_meta( $post->ID, 'location_lng',
+					true ),
 				'panControl'        => false,
 				'zoomContorl'       => false,
 				'scaleControl'      => false,
@@ -116,32 +119,58 @@ if ( ! class_exists( 'SM_Location_Shortcodes' ) ) {
 
 				switch ( $address_format ) {
 					case 'town province postalcode' :
-						$full_address = $postmeta['location_address'][0] . ' ' . $postmeta['location_address2'][0] . ' ' . $postmeta['location_city'][0] . $postmeta['location_state'][0] . ' ' . $postmeta['location_zip'][0];
+						$full_address = $postmeta['location_address'][0] . ' '
+						                . $postmeta['location_address2'][0]
+						                . ' ' . $postmeta['location_city'][0]
+						                . $postmeta['location_state'][0] . ' '
+						                . $postmeta['location_zip'][0];
 						break;
 
 					case 'town-province postalcode' :
-						$full_address = $postmeta['location_address'][0] . ' ' . $postmeta['location_address2'][0] . ' ' . $postmeta['location_city'][0] . '-' . $postmeta['location_state'][0] . ' ' . $postmeta['location_zip'][0];
+						$full_address = $postmeta['location_address'][0] . ' '
+						                . $postmeta['location_address2'][0]
+						                . ' ' . $postmeta['location_city'][0]
+						                . '-' . $postmeta['location_state'][0]
+						                . ' ' . $postmeta['location_zip'][0];
 						break;
 
 					case 'postalcode town-province' :
-						$full_address = $postmeta['location_address'][0] . ' ' . $postmeta['location_address2'][0] . ' ' . $postmeta['location_zip'][0] . ' ' . $postmeta['location_city'][0] . '-' . $postmeta['location_state'][0];
+						$full_address = $postmeta['location_address'][0] . ' '
+						                . $postmeta['location_address2'][0]
+						                . ' ' . $postmeta['location_zip'][0]
+						                . ' ' . $postmeta['location_city'][0]
+						                . '-' . $postmeta['location_state'][0];
 						break;
 
 					case 'postalcode town, province' :
-						$full_address = $postmeta['location_address'][0] . ' ' . $postmeta['location_address2'][0] . ' ' . $postmeta['location_zip'][0] . ' ' . $postmeta['location_city'][0] . ', ' . $postmeta['location_state'][0];
+						$full_address = $postmeta['location_address'][0] . ' '
+						                . $postmeta['location_address2'][0]
+						                . ' ' . $postmeta['location_zip'][0]
+						                . ' ' . $postmeta['location_city'][0]
+						                . ', ' . $postmeta['location_state'][0];
 						break;
 
 					case 'postalcode town' :
-						$full_address = $postmeta['location_address'][0] . ' ' . $postmeta['location_address2'][0] . ' ' . $postmeta['location_zip'][0] . ' ' . $postmeta['location_city'][0];
+						$full_address = $postmeta['location_address'][0] . ' '
+						                . $postmeta['location_address2'][0]
+						                . ' ' . $postmeta['location_zip'][0]
+						                . ' ' . $postmeta['location_city'][0];
 						break;
 
 					case 'town postalcode' :
-						$full_address = $postmeta['location_address'][0] . ' ' . $postmeta['location_address2'][0] . ' ' . $postmeta['location_city'][0] . ' ' . $postmeta['location_zip'][0];
+						$full_address = $postmeta['location_address'][0] . ' '
+						                . $postmeta['location_address2'][0]
+						                . ' ' . $postmeta['location_city'][0]
+						                . ' ' . $postmeta['location_zip'][0];
 						break;
 
 					case 'town, province postalcode' :
 					default :
-						$full_address = $postmeta['location_address'][0] . ' ' . $postmeta['location_address2'][0] . ' ' . $postmeta['location_city'][0] . ', ' . $postmeta['location_state'][0] . ' ' . $postmeta['location_zip'][0];
+						$full_address = $postmeta['location_address'][0] . ' '
+						                . $postmeta['location_address2'][0]
+						                . ' ' . $postmeta['location_city'][0]
+						                . ', ' . $postmeta['location_state'][0]
+						                . ' ' . $postmeta['location_zip'][0];
 						break;
 
 				}
@@ -181,7 +210,9 @@ if ( ! class_exists( 'SM_Location_Shortcodes' ) ) {
 				}
 
 				// Determine location IDs
-				$location_ids = empty( $args['location_ids'] ) ? array( $post->ID ) : explode( ',', $args['location_ids'] );
+				$location_ids = empty( $args['location_ids'] )
+					? array( $post->ID )
+					: explode( ',', $args['location_ids'] );
 
 				// Init the object and return the iframe source
 				$map = new SM_Map_Factory();
@@ -197,13 +228,18 @@ if ( ! class_exists( 'SM_Location_Shortcodes' ) ) {
 			}
 
 			// If the requested data is a taxonomy
-			$sm_taxes = $simple_map->get_sm_taxonomies( 'array', '', true, 'objects' ) ? $simple_map->get_sm_taxonomies( 'array', '', true, 'objects' ) : array();
+			$sm_taxes = $simple_map->get_sm_taxonomies( 'array', '', true,
+				'objects' ) ? $simple_map->get_sm_taxonomies( 'array', '', true,
+				'objects' ) : array();
 
 			foreach ( $sm_taxes as $taxonomy ) {
 				if ( $taxonomy->name == $atts['data'] ) {
 					// Forward compatible format types
-					$tax_format = ( in_array( $atts['format'], array( 'csv' ) ) ) ? $atts['format'] : 'csv';
-					if ( $terms = wp_get_object_terms( $post->ID, $taxonomy->query_var ) ) {
+					$tax_format = ( in_array( $atts['format'],
+						array( 'csv' ) ) ) ? $atts['format'] : 'csv';
+					if ( $terms = wp_get_object_terms( $post->ID,
+						$taxonomy->query_var )
+					) {
 						foreach ( $terms as $termk => $termv ) {
 							$term_names[] = $termv->name;
 						}
@@ -216,20 +252,28 @@ if ( ! class_exists( 'SM_Location_Shortcodes' ) ) {
 					switch ( $tax_format ) {
 						case 'csv':
 						default:
-							return ! empty( $term_names ) ? $args['before'] . implode( ', ', $term_names ) . $args['after'] : '';
+							return ! empty( $term_names ) ? $args['before']
+							                                . implode( ', ',
+									$term_names ) . $args['after'] : '';
 							break;
 					}
 				}
 			}
 
 			// Look for postmeta with location_ prepended to it
-			if ( $value = get_post_meta( absint( $post->ID ), 'location_' . $atts['data'], true ) ) {
-				return str_replace( '%self%', $value, $atts['before'] . $value . $atts['after'] );
+			if ( $value = get_post_meta( absint( $post->ID ),
+				'location_' . $atts['data'], true )
+			) {
+				return str_replace( '%self%', $value,
+					$atts['before'] . $value . $atts['after'] );
 			}
 
 			// Look for postmeta of another type
-			if ( $value = get_post_meta( absint( $post->ID ), $atts['data'], true ) ) {
-				return str_replace( '%self%', $value, $atts['before'] . $value . $atts['after'] );
+			if ( $value = get_post_meta( absint( $post->ID ), $atts['data'],
+				true )
+			) {
+				return str_replace( '%self%', $value,
+					$atts['before'] . $value . $atts['after'] );
 			}
 
 			return false;
@@ -248,13 +292,20 @@ if ( ! class_exists( 'SM_Location_Shortcodes' ) ) {
 
 			if ( $pm = get_metadata( 'post', $post ) ) {
 
-				$address .= empty( $pm['location_address'][0] ) ? '' : $pm['location_address'][0];
-				$address .= empty( $pm['location_city'][0] ) ? '' : ' ' . $pm['location_city'][0];
-				$address .= empty( $pm['location_state'][0] ) ? '' : ' ' . $pm['location_state'][0];
-				$address .= empty( $pm['location_zip'][0] ) ? '' : ' ' . $pm['location_zip'][0];
-				$address .= empty( $pm['location_country'][0] ) ? '' : ' ' . $pm['location_country'][0];
+				$address .= empty( $pm['location_address'][0] ) ? ''
+					: $pm['location_address'][0];
+				$address .= empty( $pm['location_city'][0] ) ? ''
+					: ' ' . $pm['location_city'][0];
+				$address .= empty( $pm['location_state'][0] ) ? ''
+					: ' ' . $pm['location_state'][0];
+				$address .= empty( $pm['location_zip'][0] ) ? ''
+					: ' ' . $pm['location_zip'][0];
+				$address .= empty( $pm['location_country'][0] ) ? ''
+					: ' ' . $pm['location_country'][0];
 
-				$directions_url = 'http://google' . $options['default_domain'] . '/maps?saddr=&daddr=' . urlencode( $address );
+				$directions_url = 'http://google' . $options['default_domain']
+				                  . '/maps?saddr=&daddr='
+				                  . urlencode( $address );
 
 			}
 

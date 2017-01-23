@@ -1,24 +1,21 @@
 <?php
 /*
 Plugin Name: SimpleMap
-Version: 2.4.10
+Version: 2.4.11
 Plugin URI: http://simplemap-plugin.com/
 Author: Michael Torbert
 Author URI: http://fullthrottledevelopment.com/
 Description: An easy-to-use international store locator plugin that uses Google Maps to display information directly on your WordPress site.
+Text Domain: simplemap
+Domain Path: /lang
 */
 
-global $wp_version, $wpdb;
-
-$exit_msg = __( 'SimpleMap requires WordPress 2.8 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update!</a>', 'SimpleMap' );
-if ( version_compare( $wp_version, "2.8", "<" ) ) {
-	exit( $exit_msg );
-}
+global $wpdb;
 
 #### CONSTANTS ####
 
 // Plugin Version Number
-define( 'SIMPLEMAP_VERSION', '2.4.10' );
+define( 'SIMPLEMAP_VERSION', '2.4.11' );
 
 if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
 	define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
@@ -47,15 +44,6 @@ define( 'SIMPLEMAP_PATH', WP_PLUGIN_DIR . '/' . $simplemap_dir );
 
 // Define plugin URL
 define( 'SIMPLEMAP_URL', plugins_url() . '/' . $simplemap_dir );
-
-// Table Names
-if ( ! defined( 'SIMPLEMAP_TABLE' ) ) {
-	define( 'SIMPLEMAP_TABLE', $wpdb->prefix . 'simple_map' );
-}
-
-if ( ! defined( 'SIMPLEMAP_CAT_TABLE' ) ) {
-	define( 'SIMPLEMAP_CAT_TABLE', $wpdb->prefix . 'simple_map_cats' );
-}
 
 // Map HOST
 if ( ! defined( 'SIMPLEMAP_MAPS_JS_API' ) ) {
@@ -149,15 +137,15 @@ if ( class_exists( 'SM_Admin' ) && ( ! isset( $sm_admin ) || ! is_object( $sm_ad
 	$sm_admin = new SM_Admin();
 }
 
-// Premium Support Client for SimpleMap
+// Premium Support Client for SimpleMap. (We may not need sm-location?)
 $config = array(
 	'server_url'              => 'http://simplemap-plugin.com',
 	'product_id'              => 1,
 	'product-slug'            => 'sm-premium',
 	'plugin_support_page_ids' => array(
-		'simplemap_page_simplemap-help',
-		'toplevel_page_simplemap',
-		'simplemap_page_simplemap-import-export',
+		'sm-location_page_simplemap-help',
+		'sm-location_page_simplemap',
+		'sm-location_page_simplemap-import-export',
 		'sm-location',
 	),
 	'plugin_basename'         => plugin_basename( SIMPLEMAP_PATH . '/simplemap.php' ),

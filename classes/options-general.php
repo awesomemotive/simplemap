@@ -14,7 +14,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 			// Delete all SimpleMap data.
 			if ( isset( $_GET['sm-action'] ) && 'delete-simplemap' == $_GET['sm-action'] ) {
 				// Confirm we have both permisssion to do this and we have intent to do this.
-				if ( current_user_can( 'manage_options' ) && ( check_admin_referer( 'delete-simplemap-locations' ) || check_admin_referer( 'delete-simplemap' ) ) ) {
+				if ( current_user_can( 'manage_options' ) && check_admin_referer( 'delete-simplemap' ) ) {
 					// Delete locations
 					while ( $locations = query_posts( array( 'post_type'      => 'sm-location',
 					                                         'posts_per_page' => 200
@@ -147,7 +147,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 			if ( $count >= 250 ) {
 				$disabled_autoload = false; // let it happen. we're limiting to 500 in the query
-				$disabledmsg       = sprintf( __( 'You have to many locations to auto-load them all. Only the closest %d will be displayed if auto-load all is selected.', 'SimpleMap' ), '250' );
+				$disabledmsg       = sprintf( __( 'You have too many locations to auto-load them all. Only the closest %d will be displayed if auto-load all is selected.', 'simplemap' ), '250' );
 			} else {
 				$disabled_autoload = false;
 				$disabledmsg       = '';
@@ -178,7 +178,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 				// Messages
 				if ( isset( $_GET['sm-msg'] ) && '1' == $_GET['sm-msg'] ) {
-					echo '<div class="updated fade"><p>' . __( 'SimpleMap settings saved.', 'SimpleMap' ) . '</p></div>';
+					echo '<div class="updated fade"><p>' . __( 'SimpleMap settings saved.', 'simplemap' ) . '</p></div>';
 				}
 
 				?>
@@ -206,7 +206,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 									<div class="postbox">
 
-										<h3 style='color:#fff;text-shadow:0 1px 0 #000;background: #fff url( <?php echo SIMPLEMAP_URL; ?>/inc/images/blue-grad.png ) top left repeat-x;'><?php _e( 'Premium Support and Features', 'SimpleMap' ); ?></h3>
+										<h3 style='color:#fff;text-shadow:0 1px 0 #000;background: #fff url( <?php echo SIMPLEMAP_URL; ?>/inc/images/blue-grad.png ) top left repeat-x;'><?php _e( 'Premium Support and Features', 'simplemap' ); ?></h3>
 
 										<div class="inside" style='padding: 0 10px 10px;'>
 
@@ -216,36 +216,36 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 											if ( ! url_has_ftps_for_item( $simplemap_ps ) ) : ?>
 
-												<h4><?php printf( __( '<strong>SimpleMap Premium Support Benefits - $30/year/domain</strong>', 'SimpleMap' ), esc_attr( site_url() ) ); ?></h4>
+												<h4><?php printf( __( '<strong>SimpleMap Premium Support Benefits - $30/year/domain</strong>', 'simplemap' ), esc_attr( site_url() ) ); ?></h4>
 												<p>
-													<?php //printf( __( 'SimpleMap now offers a premium support package for the low cost of %s per year per domain.', 'SimpleMap' ), '$30.00 USD' ); ?>
+													<?php //printf( __( 'SimpleMap now offers a premium support package for the low cost of %s per year per domain.', 'simplemap' ), '$30.00 USD' ); ?>
 												</p>
 												<p>
-													<?php _e( '<em>By signing up for SimpleMap premium support, you help to ensure future enhancements to this excellent project as well as the following benefits:</em>', 'SimpleMap' ); ?>
+													<?php _e( '<em>By signing up for SimpleMap premium support, you help to ensure future enhancements to this excellent project as well as the following benefits:</em>', 'simplemap' ); ?>
 												</p>
 
 												<ul style='margin-left:25px;list-style-type:disc'>
-													<li><?php _e( 'Around the clock access to our extensive knowledge base and support forum from within your WordPress dashboard', 'SimpleMap' ); ?></li>
-													<li><?php _e( 'Professional and timely response times to all your questions from the SimpleMap team', 'SimpleMap' ); ?></li>
-													<li><?php _e( 'A 10% discount for any custom functionality you request from the SimpleMap developers', 'SimpleMap' ); ?></li>
-													<li><?php _e( 'Advance access to new features integrated into the auto upgrade functionality of WordPress', 'SimpleMap' ); ?></li>
+													<li><?php _e( 'Around the clock access to our extensive knowledge base and support forum from within your WordPress dashboard', 'simplemap' ); ?></li>
+													<li><?php _e( 'Professional and timely response times to all your questions from the SimpleMap team', 'simplemap' ); ?></li>
+													<li><?php _e( 'A 10% discount for any custom functionality you request from the SimpleMap developers', 'simplemap' ); ?></li>
+													<li><?php _e( 'Advance access to new features integrated into the auto upgrade functionality of WordPress', 'simplemap' ); ?></li>
 												</ul>
 
 												<ul style='margin-left:25px;list-style-type:none'>
 													<li>
-														<a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'SimpleMap' ); ?></a>
+														<a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'simplemap' ); ?></a>
 													</li>
 													<li><a target='_blank'
-													       href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'SimpleMap' ); ?></a>
+													       href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'simplemap' ); ?></a>
 													</li>
 												</ul>
 											<?php else : ?>
 
 												<p class='howto'><?php printf( "Your premium support for <code>%s</code> was purchased on <code>%s</code> by <code>%s</code> (%s). It will remain valid for this URL until <code>%s</code>.", get_ftps_site( $simplemap_ps ), date( "F d, Y", get_ftps_purchase_date( $simplemap_ps ) ), get_ftps_name( $simplemap_ps ), get_ftps_email( $simplemap_ps ), date( "F d, Y", get_ftps_exp_date( $simplemap_ps ) ) ); ?></p>
 												<p><a href='#'
-												      id='premium_help'><?php _e( 'Launch Premium Support widget', 'SimpleMap' ); ?></a>
+												      id='premium_help'><?php _e( 'Launch Premium Support widget', 'simplemap' ); ?></a>
 													| <a target="blank"
-													     href="http://support.simplemap-plugin.com?sso=<?php echo get_ftps_sso_key( $simplemap_ps ); ?>"><?php _e( 'Visit Premium Support web site', 'SimpleMap' ); ?></a>
+													     href="http://support.simplemap-plugin.com?sso=<?php echo get_ftps_sso_key( $simplemap_ps ); ?>"><?php _e( 'Visit Premium Support web site', 'simplemap' ); ?></a>
 												</p>
 												<script type="text/javascript" charset="utf-8">
 													Tender = {
@@ -264,17 +264,17 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 									<div class="postbox">
 
-										<h3><?php _e( 'Location Defaults', 'SimpleMap' ); ?></h3>
+										<h3><?php _e( 'Location Defaults', 'simplemap' ); ?></h3>
 
 										<div class="inside">
-											<p class="sub"><?php _e( 'If most of your locations are in the same area, choose the country and state/province here to make adding new locations easier.', 'SimpleMap' ); ?></p>
+											<p class="sub"><?php _e( 'If most of your locations are in the same area, choose the country and state/province here to make adding new locations easier.', 'simplemap' ); ?></p>
 
 											<div class="table">
 												<table class="form-table">
 
 													<tr valign="top">
 														<td width="150"><label
-																for="default_domain"><?php _e( 'Google Maps Domain', 'SimpleMap' ); ?></label>
+																for="default_domain"><?php _e( 'Google Maps Domain', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<select name="default_domain" id="default_domain">
@@ -289,7 +289,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 													<tr valign="top">
 														<td width="150"><label
-																for="default_country"><?php _e( 'Default Country', 'SimpleMap' ); ?></label>
+																for="default_country"><?php _e( 'Default Country', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<select name="default_country" id="default_country">
@@ -304,7 +304,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 													<tr valign="top">
 														<td width="150"><label
-																for="default_language"><?php _e( 'Default Language', 'SimpleMap' ); ?></label>
+																for="default_language"><?php _e( 'Default Language', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<select name="default_language" id="default_language">
@@ -319,7 +319,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 													<tr valign="top">
 														<td scope="row"><label
-																for="default_state"><?php _e( 'Default State/Province', 'SimpleMap' ); ?></label>
+																for="default_state"><?php _e( 'Default State/Province', 'simplemap' ); ?></label>
 														</td>
 														<td><input type="text" name="default_state" id="default_state"
 														           size="30" value="<?php echo $default_state; ?>"/>
@@ -328,51 +328,51 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 													<tr valign="top">
 														<td width="150"><label
-																for="address_format"><?php _e( 'Address Format', 'SimpleMap' ); ?></label>
+																for="address_format"><?php _e( 'Address Format', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<select id="address_format" name="address_format">
 																<option
-																	value="town, province postalcode" <?php selected( $address_format, 'town, province postalcode' ); ?>><?php echo '[' . __( 'City/Town', 'SimpleMap' ) . '], [' . __( 'State/Province', 'SimpleMap' ) . ']&nbsp;&nbsp;[' . __( 'Zip/Postal Code', 'SimpleMap' ) . ']'; ?></option>
+																	value="town, province postalcode" <?php selected( $address_format, 'town, province postalcode' ); ?>><?php echo '[' . __( 'City/Town', 'simplemap' ) . '], [' . __( 'State/Province', 'simplemap' ) . ']&nbsp;&nbsp;[' . __( 'Zip/Postal Code', 'simplemap' ) . ']'; ?></option>
 
 																<option
-																	value="town province postalcode" <?php selected( $address_format, 'town province postalcode' ); ?>><?php echo '[' . __( 'City/Town', 'SimpleMap' ) . ']&nbsp;&nbsp;[' . __( 'State/Province', 'SimpleMap' ) . ']&nbsp;&nbsp;[' . __( 'Zip/Postal Code', 'SimpleMap' ) . ']'; ?></option>
+																	value="town province postalcode" <?php selected( $address_format, 'town province postalcode' ); ?>><?php echo '[' . __( 'City/Town', 'simplemap' ) . ']&nbsp;&nbsp;[' . __( 'State/Province', 'simplemap' ) . ']&nbsp;&nbsp;[' . __( 'Zip/Postal Code', 'simplemap' ) . ']'; ?></option>
 
 																<option
-																	value="town-province postalcode" <?php selected( $address_format, 'town-province postalcode' ); ?>><?php echo '[' . __( 'City/Town', 'SimpleMap' ) . '] - [' . __( 'State/Province', 'SimpleMap' ) . ']&nbsp;&nbsp;[' . __( 'Zip/Postal Code', 'SimpleMap' ) . ']'; ?></option>
+																	value="town-province postalcode" <?php selected( $address_format, 'town-province postalcode' ); ?>><?php echo '[' . __( 'City/Town', 'simplemap' ) . '] - [' . __( 'State/Province', 'simplemap' ) . ']&nbsp;&nbsp;[' . __( 'Zip/Postal Code', 'simplemap' ) . ']'; ?></option>
 
 																<option
-																	value="postalcode town-province" <?php selected( $address_format, 'postalcode town-province' ); ?>><?php echo '[' . __( 'Zip/Postal Code', 'SimpleMap' ) . ']&nbsp;&nbsp;[' . __( 'City/Town', 'SimpleMap' ) . '] - [' . __( 'State/Province', 'SimpleMap' ) . ']'; ?></option>
+																	value="postalcode town-province" <?php selected( $address_format, 'postalcode town-province' ); ?>><?php echo '[' . __( 'Zip/Postal Code', 'simplemap' ) . ']&nbsp;&nbsp;[' . __( 'City/Town', 'simplemap' ) . '] - [' . __( 'State/Province', 'simplemap' ) . ']'; ?></option>
 
 																<option
-																	value="postalcode town, province" <?php selected( $address_format, 'postalcode town, province' ); ?>><?php echo '[' . __( 'Zip/Postal Code', 'SimpleMap' ) . ']&nbsp;&nbsp;[' . __( 'City/Town', 'SimpleMap' ) . '], [' . __( 'State/Province', 'SimpleMap' ) . ']'; ?></option>
+																	value="postalcode town, province" <?php selected( $address_format, 'postalcode town, province' ); ?>><?php echo '[' . __( 'Zip/Postal Code', 'simplemap' ) . ']&nbsp;&nbsp;[' . __( 'City/Town', 'simplemap' ) . '], [' . __( 'State/Province', 'simplemap' ) . ']'; ?></option>
 
 																<option
-																	value="postalcode town" <?php selected( $address_format, 'postalcode town' ); ?>><?php echo '[' . __( 'Zip/Postal Code', 'SimpleMap' ) . ']&nbsp;&nbsp;[' . __( 'City/Town', 'SimpleMap' ) . ']'; ?></option>
+																	value="postalcode town" <?php selected( $address_format, 'postalcode town' ); ?>><?php echo '[' . __( 'Zip/Postal Code', 'simplemap' ) . ']&nbsp;&nbsp;[' . __( 'City/Town', 'simplemap' ) . ']'; ?></option>
 
 																<option
-																	value="town postalcode" <?php selected( $address_format, 'town postalcode' ); ?>><?php echo '[' . __( 'City/Town', 'SimpleMap' ) . ']&nbsp;&nbsp;[' . __( 'Zip/Postal Code', 'SimpleMap' ) . ']'; ?></option>
+																	value="town postalcode" <?php selected( $address_format, 'town postalcode' ); ?>><?php echo '[' . __( 'City/Town', 'simplemap' ) . ']&nbsp;&nbsp;[' . __( 'Zip/Postal Code', 'simplemap' ) . ']'; ?></option>
 															</select>
 															<span class="hidden"
-															      id="order_1"><br/><?php _e( 'Example', 'SimpleMap' ); ?>
+															      id="order_1"><br/><?php _e( 'Example', 'simplemap' ); ?>
 																: Minneapolis, MN 55403</span>
 															<span class="hidden"
-															      id="order_2"><br/><?php _e( 'Example', 'SimpleMap' ); ?>
+															      id="order_2"><br/><?php _e( 'Example', 'simplemap' ); ?>
 																: Minneapolis MN 55403</span>
 															<span class="hidden"
-															      id="order_3"><br/><?php _e( 'Example', 'SimpleMap' ); ?>
+															      id="order_3"><br/><?php _e( 'Example', 'simplemap' ); ?>
 																: S&atilde;o Paulo - SP 85070</span>
 															<span class="hidden"
-															      id="order_4"><br/><?php _e( 'Example', 'SimpleMap' ); ?>
+															      id="order_4"><br/><?php _e( 'Example', 'simplemap' ); ?>
 																: 85070 S&atilde;o Paulo - SP</span>
 															<span class="hidden"
-															      id="order_5"><br/><?php _e( 'Example', 'SimpleMap' ); ?>
+															      id="order_5"><br/><?php _e( 'Example', 'simplemap' ); ?>
 																: 46800 Puerto Vallarta, JAL</span>
 															<span class="hidden"
-															      id="order_6"><br/><?php _e( 'Example', 'SimpleMap' ); ?>
+															      id="order_6"><br/><?php _e( 'Example', 'simplemap' ); ?>
 																: 126 25&nbsp;&nbsp;Stockholm</span>
 															<span class="hidden"
-															      id="order_7"><br/><?php _e( 'Example', 'SimpleMap' ); ?>
+															      id="order_7"><br/><?php _e( 'Example', 'simplemap' ); ?>
 																: London&nbsp;&nbsp;EC1Y 8SY</span>
 														</td>
 													</tr>
@@ -383,7 +383,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 											<p class="submit">
 												<input type="submit" class="button-primary"
-												       value="<?php _e( 'Save Options', 'SimpleMap' ) ?>"/><br/><br/>
+												       value="<?php _e( 'Save Options', 'simplemap' ) ?>"/><br/><br/>
 											</p>
 											<div class="clear"></div>
 
@@ -394,19 +394,19 @@ if ( ! class_exists( 'SM_Options' ) ) {
 									<!-- #### MAP CONFIGURATION #### -->
 									<div class="postbox">
 
-										<h3><?php _e( 'Map Configuration', 'SimpleMap' ); ?></h3>
+										<h3><?php _e( 'Map Configuration', 'simplemap' ); ?></h3>
 
 										<div class="inside">
-											<p class="sub"><?php printf( __( 'See %s the Help page%s for an explanation of these options.', 'SimpleMap' ), '<a href="' . get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=simplemap-help">', '</a>&nbsp;' ); ?></p>
+											<p class="sub"><?php printf( __( 'See %s the Help page%s for an explanation of these options.', 'simplemap' ), '<a href="' . get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=simplemap-help">', '</a>&nbsp;' ); ?></p>
 
 											<div class="table">
 												<table class="form-table">
-													
+
 												<tr valign="top">
-													<td width="150"><label for="api_key"><?php _e( 'Google Maps API Key', 'SimpleMap' ); ?></label></td>
+													<td width="150"><label for="api_key"><?php _e( 'Google Maps API Key', 'simplemap' ); ?></label></td>
 													<td>
 														<input type="text" name="api_key" id="api_key" size="50" value="<?php echo esc_attr( $api_key ); ?>" /><br />
-														<small><em><?php printf( __( '%s Click here%s to sign up for a free Google Maps API key for your domain.', 'SimpleMap' ), '<a href="' . $simple_map->get_api_link() . '" target="_blank">', '</a>'); ?></em></small>
+														<small><em><?php printf( __( '%s Click here%s to sign up for a free Google Maps API key for your domain.', 'simplemap' ), '<a href="' . $simple_map->get_api_link() . '" target="_blank">', '</a>'); ?></em></small>
 													</td>
 												</tr>
 													<tr valign="top">
@@ -415,24 +415,24 @@ if ( ! class_exists( 'SM_Options' ) ) {
 														//TODO What the heck is this?? -Michael
 														if ( true ) {
 															$disabled_api = false;
-															$api_how_to   = __( 'Type in an address, state, or zip to geocode the default location.', 'SimpleMap' );
+															$api_how_to   = __( 'Type in an address, state, or zip to geocode the default location.', 'simplemap' );
 														} else {
 															$disabled_api = true;
-															$api_how_to   = __( 'After you enter an API Key, you can type in an address, state, or zip here to geocode the default location.', 'SimpleMap' );
+															$api_how_to   = __( 'After you enter an API Key, you can type in an address, state, or zip here to geocode the default location.', 'simplemap' );
 														}
 														?>
 
 														<td width="150"><label
-																for="default_lat"><?php _e( 'Starting Location', 'SimpleMap' ); ?></label>
+																for="default_lat"><?php _e( 'Starting Location', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<label for="default_lat"
-															       style="display: inline-block; width: 60px;"><?php _e( 'Latitude:', 'SimpleMap' ); ?> </label>
+															       style="display: inline-block; width: 60px;"><?php _e( 'Latitude:', 'simplemap' ); ?> </label>
 															<input type="text" name="default_lat" id="default_lat"
 															       size="13"
 															       value="<?php echo esc_attr( $default_lat ); ?>"/><br/>
 															<label for="default_lng"
-															       style="display: inline-block; width: 60px;"><?php _e( 'Longitude:', 'SimpleMap' ); ?> </label>
+															       style="display: inline-block; width: 60px;"><?php _e( 'Longitude:', 'simplemap' ); ?> </label>
 															<input type="text" name="default_lng" id="default_lng"
 															       size="13"
 															       value="<?php echo esc_attr( $default_lng ); ?>"/>
@@ -445,7 +445,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																                                           value=""/>&nbsp;<a
 																	class="button" <?php disabled( $disabled_api ); ?>
 																	onclick="codeAddress();return false;"
-																	href="#"><?php _e( 'Geocode Address', 'SimpleMap' ); ?></a>
+																	href="#"><?php _e( 'Geocode Address', 'simplemap' ); ?></a>
 																<br/>
 																<small><span
 																		class='howto'><?php echo $api_how_to; ?></span>
@@ -456,21 +456,21 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 													<tr valign="top">
 														<td><label
-																for="units"><?php _e( 'Distance Units', 'SimpleMap' ); ?></label>
+																for="units"><?php _e( 'Distance Units', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<select name="units" id="units">
 																<option
-																	value="mi" <?php selected( $units, 'mi' ); ?>><?php _e( 'Miles', 'SimpleMap' ); ?></option>
+																	value="mi" <?php selected( $units, 'mi' ); ?>><?php _e( 'Miles', 'simplemap' ); ?></option>
 																<option
-																	value="km" <?php selected( $units, 'km' ); ?>><?php _e( 'Kilometers', 'SimpleMap' ); ?></option>
+																	value="km" <?php selected( $units, 'km' ); ?>><?php _e( 'Kilometers', 'simplemap' ); ?></option>
 															</select>
 														</td>
 													</tr>
 
 													<tr valign="top">
 														<td><label
-																for="default_radius"><?php _e( 'Default Search Radius', 'SimpleMap' ); ?></label>
+																for="default_radius"><?php _e( 'Default Search Radius', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<select name="default_radius" id="default_radius">
@@ -485,7 +485,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 													<tr valign="top">
 														<td><label
-																for="results_limit"><?php _e( 'Number of Results to Display', 'SimpleMap' ); ?></label>
+																for="results_limit"><?php _e( 'Number of Results to Display', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<select name="results_limit" id="results_limit">
@@ -500,23 +500,23 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																?>
 															</select><br/>
 															<small><span
-																	class='howto'><?php _e( 'Select "No Limit" to display all results within the search radius.', 'SimpleMap' ); ?></span>
+																	class='howto'><?php _e( 'Select "No Limit" to display all results within the search radius.', 'simplemap' ); ?></span>
 															</small>
 														</td>
 													</tr>
 
 													<tr valign="top">
 														<td><label
-																for="autoload"><?php _e( 'Auto-Load Database', 'SimpleMap' ); ?></label>
+																for="autoload"><?php _e( 'Auto-Load Database', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<select name="autoload" id="autoload">
 																<option
-																	value="none" <?php selected( $autoload, 'none' ); ?>><?php _e( 'No auto-load', 'SimpleMap' ); ?></option>
+																	value="none" <?php selected( $autoload, 'none' ); ?>><?php _e( 'No auto-load', 'simplemap' ); ?></option>
 																<option
-																	value="some" <?php selected( $autoload, 'some' ); ?>><?php _e( 'Auto-load search results', 'SimpleMap' ); ?></option>
+																	value="some" <?php selected( $autoload, 'some' ); ?>><?php _e( 'Auto-load search results', 'simplemap' ); ?></option>
 																<option
-																	value="all" <?php selected( $autoload, 'all' ); ?> <?php disabled( $disabled_autoload ); ?>><?php _e( 'Auto-load all locations', 'SimpleMap' ); ?></option>
+																	value="all" <?php selected( $autoload, 'all' ); ?> <?php disabled( $disabled_autoload ); ?>><?php _e( 'Auto-load all locations', 'simplemap' ); ?></option>
 															</select>
 															<br/>
 															<small>
@@ -526,13 +526,13 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																echo '<br /><small style="color:red";><em>' . $disabledmsg . '</small></em>';
 															} ?>
 
-															<!--<br /><label for="lock_default_location" id="lock_default_location_label"><input type="checkbox" name="lock_default_location" id="lock_default_location" value="1" <?php checked( $lock_default_location ); ?> /> <?php _e( 'Stick to default location set above', 'SimpleMap' ); ?></label>-->
+															<!--<br /><label for="lock_default_location" id="lock_default_location_label"><input type="checkbox" name="lock_default_location" id="lock_default_location" value="1" <?php checked( $lock_default_location ); ?> /> <?php _e( 'Stick to default location set above', 'simplemap' ); ?></label>-->
 														</td>
 													</tr>
 
 													<tr valign="top">
 														<td><label
-																for="zoom_level"><?php _e( 'Default Zoom Level', 'SimpleMap' ); ?></label>
+																for="zoom_level"><?php _e( 'Default Zoom Level', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<select name="zoom_level" id="zoom_level">
@@ -546,14 +546,14 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																?>
 															</select><br/>
 															<small>
-																<em><?php _e( '1 is the most zoomed out (the whole world is visible) and 19 is the most zoomed in.', 'SimpleMap' ); ?></em>
+																<em><?php _e( '1 is the most zoomed out (the whole world is visible) and 19 is the most zoomed in.', 'simplemap' ); ?></em>
 															</small>
 														</td>
 													</tr>
 
 													<tr valign="top">
 														<td><label
-																for="special_text"><?php _e( 'Special Location Label', 'SimpleMap' ); ?></label>
+																for="special_text"><?php _e( 'Special Location Label', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<input type="text" name="special_text" id="special_text"
@@ -564,13 +564,13 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 													<tr valign="top">
 														<td><label
-																for="map_pages"><?php _e( 'Map Page IDs', 'SimpleMap' ); ?></label>
+																for="map_pages"><?php _e( 'Map Page IDs', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<input type="text" name="map_pages" id="map_pages" size="30"
 															       value="<?php echo esc_attr( $map_pages ); ?>"/><br/>
 															<small>
-																<em><?php _e( 'Enter the IDs of the pages/posts the map will appear on, separated by commas. The map scripts will only be loaded on those pages. Leave blank or enter 0 to load the scripts on all pages.', 'SimpleMap' ); ?></em>
+																<em><?php _e( 'Enter the IDs of the pages/posts the map will appear on, separated by commas. The map scripts will only be loaded on those pages. Leave blank or enter 0 to load the scripts on all pages.', 'simplemap' ); ?></em>
 															</small>
 														</td>
 													</tr>
@@ -581,7 +581,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 											<p class="submit">
 												<input type="submit" class="button-primary"
-												       value="<?php _e( 'Save Options', 'SimpleMap' ) ?>"/><br/><br/>
+												       value="<?php _e( 'Save Options', 'simplemap' ) ?>"/><br/><br/>
 											</p>
 											<div class="clear"></div>
 
@@ -591,23 +591,23 @@ if ( ! class_exists( 'SM_Options' ) ) {
 									<!-- Optional Features -->
 									<div class="postbox">
 
-										<h3><?php _e( 'Optional / Experimental Features', 'SimpleMap' ); ?></h3>
+										<h3><?php _e( 'Optional / Experimental Features', 'simplemap' ); ?></h3>
 
 										<div class="inside">
-											<p class="sub"><?php printf( __( 'See %s the Help page%s for an explanation of these options.', 'SimpleMap' ), '<a href="' . get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=simplemap-help">', '</a>&nbsp;' ); ?></p>
+											<p class="sub"><?php printf( __( 'See %s the Help page%s for an explanation of these options.', 'simplemap' ), '<a href="' . get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=simplemap-help">', '</a>&nbsp;' ); ?></p>
 
 											<div class="table">
 												<table class="form-table">
 
 													<tr valign="top">
-														<td width="150"><?php _e( 'Permalinks', 'SimpleMap' ); ?></td>
+														<td width="150"><?php _e( 'Permalinks', 'simplemap' ); ?></td>
 														<td>
 															<label for="enable_permalinks"><input type="checkbox"
 															                                      name="enable_permalinks"
-															                                      id="enable_permalinks" <?php checked( $enable_permalinks ); ?> /> <?php _e( 'Enable location permalinks?', 'SimpleMap' ); ?>
+															                                      id="enable_permalinks" <?php checked( $enable_permalinks ); ?> /> <?php _e( 'Enable location permalinks?', 'simplemap' ); ?>
 															</label>
 															<br/><label for="permalink_slug">
-																<small><?php _e( 'Location permalink folder?', 'SimpleMap' ); ?></small>
+																<small><?php _e( 'Location permalink folder?', 'simplemap' ); ?></small>
 																<input type="text" name="permalink_slug"
 																       id="permalink_slug"
 																       value="<?php echo esc_attr( $permalink_slug ); ?>"/></label>
@@ -615,7 +615,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 													</tr>
 
 													<tr valign="top">
-														<td width="150"><?php _e( 'Location Taxonomies', 'SimpleMap' ); ?></td>
+														<td width="150"><?php _e( 'Location Taxonomies', 'simplemap' ); ?></td>
 														<td>
 															<?php
 															$standard_taxonomies = $simple_map->get_taxonomy_settings();
@@ -624,14 +624,14 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																$safe   = str_replace( '-', '_', $taxonomy );
 																$label  = isset( $tax_info['description'] ) ? $tax_info['description'] : str_replace( 'sm-', '', $taxonomy );
 																$active = ! empty( $options['taxonomies'][ $taxonomy ] );
-																echo '<label for="taxonomies_' . $safe . '"><input type="checkbox" name="taxonomies[' . $taxonomy . '][active]" id="taxonomies_' . $safe . '" ' . checked( $active, true, false ) . ' /> ' . __( 'Enable ' . $label . ' taxonomies?', 'SimpleMap' ) . '</label>';
+																echo '<label for="taxonomies_' . $safe . '"><input type="checkbox" name="taxonomies[' . $taxonomy . '][active]" id="taxonomies_' . $safe . '" ' . checked( $active, true, false ) . ' /> ' . __( 'Enable ' . $label . ' taxonomies?', 'simplemap' ) . '</label>';
 																echo '<br />';
 																if ( $active && ! isset( $standard_taxonomies[ $taxonomy ] ) ) {
 																	echo '<div style="margin: 5px 0 5px 15px; padding: 5px; border: 1px solid #ccc;">';
-																	echo '<label for="taxonomies_' . $safe . '_singular">' . __( 'Singular Form', 'SimpleMap' );
+																	echo '<label for="taxonomies_' . $safe . '_singular">' . __( 'Singular Form', 'simplemap' );
 																	echo ': <input type="text" name="taxonomies[' . $taxonomy . '][singular]" id="taxonomies_' . $safe . '_singular" value="' . esc_attr( $tax_info['singular'] ) . '" /></label>';
 																	echo '<br />';
-																	echo '<label for="taxonomies_' . $safe . '_plural">' . __( 'Plural Form', 'SimpleMap' );
+																	echo '<label for="taxonomies_' . $safe . '_plural">' . __( 'Plural Form', 'simplemap' );
 																	echo ': <input type="text" name="taxonomies[' . $taxonomy . '][plural]" id="taxonomies_' . $safe . '_plural" value="' . esc_attr( $tax_info['plural'] ) . '" /></label>';
 																	echo '</div>';
 																	echo '<br />';
@@ -642,24 +642,24 @@ if ( ! class_exists( 'SM_Options' ) ) {
 													</tr>
 
 													<tr valign="top">
-														<td width="150"><?php _e( 'Google Adsense for Maps', 'SimpleMap' ); ?></td>
+														<td width="150"><?php _e( 'Google Adsense for Maps', 'simplemap' ); ?></td>
 														<td>
 															<label for="adsense_for_maps"><input type="checkbox"
 															                                     name="adsense_for_maps"
-															                                     id="adsense_for_maps" <?php checked( $adsense_for_maps ); ?> /> <?php _e( 'Enable Adense for Maps?', 'SimpleMap' ); ?>
+															                                     id="adsense_for_maps" <?php checked( $adsense_for_maps ); ?> /> <?php _e( 'Enable Adense for Maps?', 'simplemap' ); ?>
 															</label>
 															<br/><label for="adsense_pub_id">
-																<small><?php _e( 'Default Adsense Publisher ID:', 'SimpleMap' ); ?></small>
+																<small><?php _e( 'Default Adsense Publisher ID:', 'simplemap' ); ?></small>
 																<input type="text" name="adsense_pub_id"
 																       id="adsense_pub_id" size="30"
 																       value="<?php echo esc_attr( $adsense_pub_id ); ?>"/></label>
 															<br/><label for="adsense_channel_id">
-																<small><?php _e( 'Default Adsense Channel ID:', 'SimpleMap' ); ?></small>
+																<small><?php _e( 'Default Adsense Channel ID:', 'simplemap' ); ?></small>
 																<input type="text" name="adsense_channel_id"
 																       id="adsense_channel_id" size="30"
 																       value="<?php echo esc_attr( $adsense_channel_id ); ?>"/></label>
 															<br/><label for="adsense_max_ads">
-																<small><?php _e( 'Max number of ads on map:', 'SimpleMap' ); ?></small>
+																<small><?php _e( 'Max number of ads on map:', 'simplemap' ); ?></small>
 																<input type="text" name="adsense_max_ads"
 																       id="adsense_max_ads" size="10"
 																       value="<?php echo esc_attr( $adsense_max_ads ); ?>"/></label>
@@ -668,7 +668,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 													<tr valign="top">
 														<td><label
-																for="auto_locate"><?php _e( 'Auto-detect Location', 'SimpleMap' ); ?></label>
+																for="auto_locate"><?php _e( 'Auto-detect Location', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<select name="auto_locate" id="auto_locate">
@@ -692,7 +692,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 											<p class="submit">
 												<input type="submit" class="button-primary"
-												       value="<?php _e( 'Save Options', 'SimpleMap' ) ?>"/><br/><br/>
+												       value="<?php _e( 'Save Options', 'simplemap' ) ?>"/><br/><br/>
 											</p>
 
 											<div class="clear"></div>
@@ -720,37 +720,37 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 									<div class="postbox">
 
-										<h3><?php _e( 'Map Style Defaults', 'SimpleMap' ); ?></h3>
+										<h3><?php _e( 'Map Style Defaults', 'simplemap' ); ?></h3>
 
 										<div class="inside">
-											<p class="sub"><?php printf( __( 'To insert SimpleMap into a post or page, type this shortcode in the body: %s', 'SimpleMap' ), '<code>[simplemap]</code>' ); ?></p>
+											<p class="sub"><?php printf( __( 'To insert SimpleMap into a post or page, type this shortcode in the body: %s', 'simplemap' ), '<code>[simplemap]</code>' ); ?></p>
 
 											<div class="table">
 												<table class="form-table">
 
 													<tr valign="top">
 														<td width="150"><label
-																for="map_width"><?php _e( 'Map Size', 'SimpleMap' ); ?></label>
+																for="map_width"><?php _e( 'Map Size', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<label for="map_width"
-															       style="display: inline-block; width: 60px;"><?php _e( 'Width:', 'SimpleMap' ); ?> </label>
+															       style="display: inline-block; width: 60px;"><?php _e( 'Width:', 'simplemap' ); ?> </label>
 															<input type="text" name="map_width" id="map_width" size="13"
 															       value="<?php echo esc_attr( $map_width ); ?>"/><br/>
 															<label for="map_height"
-															       style="display: inline-block; width: 60px;"><?php _e( 'Height:', 'SimpleMap' ); ?> </label>
+															       style="display: inline-block; width: 60px;"><?php _e( 'Height:', 'simplemap' ); ?> </label>
 															<input type="text" name="map_height" id="map_height"
 															       size="13"
 															       value="<?php echo esc_attr( $map_height ); ?>"/><br/>
 															<small>
-																<em><?php printf( __( 'Enter a numeric value with CSS units, such as %s or %s.', 'SimpleMap' ), '</em><code>100%</code><em>', '</em><code>500px</code><em>' ); ?></em>
+																<em><?php printf( __( 'Enter a numeric value with CSS units, such as %s or %s.', 'simplemap' ), '</em><code>100%</code><em>', '</em><code>500px</code><em>' ); ?></em>
 															</small>
 														</td>
 													</tr>
 
 													<tr valign="top">
 														<td><label
-																for="map_type"><?php _e( 'Default Map Type', 'SimpleMap' ); ?></label>
+																for="map_type"><?php _e( 'Default Map Type', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<div
@@ -761,7 +761,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																	<img
 																		src="<?php echo SIMPLEMAP_URL; ?>/inc/images/map-type-normal.jpg"
 																		width="100" height="100"
-																		style="border: 1px solid #999;"/><br/><?php _e( 'Road map', 'SimpleMap' ); ?>
+																		style="border: 1px solid #999;"/><br/><?php _e( 'Road map', 'simplemap' ); ?>
 																	<br/>
 																	<input type="radio" style="border: none;"
 																	       name="map_type" id="map_type_normal"
@@ -777,7 +777,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																	<img
 																		src="<?php echo SIMPLEMAP_URL; ?>/inc/images/map-type-satellite.jpg"
 																		width="100" height="100"
-																		style="border: 1px solid #999;"/><br/><?php _e( 'Satellite map', 'SimpleMap' ); ?>
+																		style="border: 1px solid #999;"/><br/><?php _e( 'Satellite map', 'simplemap' ); ?>
 																	<br/>
 																	<input type="radio" style="border: none;"
 																	       name="map_type" id="map_type_satellite"
@@ -793,7 +793,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																	<img
 																		src="<?php echo SIMPLEMAP_URL; ?>/inc/images/map-type-hybrid.jpg"
 																		width="100" height="100"
-																		style="border: 1px solid #999;"/><br/><?php _e( 'Hybrid map', 'SimpleMap' ); ?>
+																		style="border: 1px solid #999;"/><br/><?php _e( 'Hybrid map', 'simplemap' ); ?>
 																	<br/>
 																	<input type="radio" style="border: none;"
 																	       name="map_type" id="map_type_hybrid"
@@ -809,7 +809,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																	<img
 																		src="<?php echo SIMPLEMAP_URL; ?>/inc/images/map-type-terrain.jpg"
 																		width="100" height="100"
-																		style="border: 1px solid #999;"/><br/><?php _e( 'Terrain map', 'SimpleMap' ); ?>
+																		style="border: 1px solid #999;"/><br/><?php _e( 'Terrain map', 'simplemap' ); ?>
 																	<br/>
 																	<input type="radio" style="border: none;"
 																	       name="map_type" id="map_type_terrain"
@@ -821,12 +821,12 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 													<tr valign="top">
 														<td><label
-																for="map_stylesheet"><?php _e( 'Theme', 'SimpleMap' ); ?></label>
+																for="map_stylesheet"><?php _e( 'Theme', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<select name="map_stylesheet" id="map_stylesheet">
 																<?php
-																echo '<optgroup label="' . __( 'Default Themes', 'SimpleMap' ) . '">' . "\n";
+																echo '<optgroup label="' . __( 'Default Themes', 'simplemap' ) . '">' . "\n";
 																foreach ( $themes1 as $file => $name ) {
 																	$file_full = 'inc/styles/' . $file;
 																	echo '<option value="' . esc_attr( $file_full ) . '" ' . selected( $map_stylesheet, $file_full, false ) . '>' . esc_attr( $name ) . '</option>' . "\n";
@@ -834,7 +834,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																echo '</optgroup>' . "\n";
 
 																if ( ! empty( $themes2 ) ) {
-																	echo '<optgroup label="' . __( 'Custom Themes', 'SimpleMap' ) . '">' . "\n";
+																	echo '<optgroup label="' . __( 'Custom Themes', 'simplemap' ) . '">' . "\n";
 																	foreach ( $themes2 as $file => $name ) {
 																		$file_full = 'simplemap-styles/' . $file;
 																		echo '<option value="' . esc_attr( $file_full ) . '" ' . selected( $map_stylesheet, $file_full, false ) . '>' . esc_attr( $name ) . '</option>' . "\n";
@@ -844,7 +844,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																?>
 															</select><br/>
 															<small>
-																<em><?php printf( __( 'To add your own theme, upload your own CSS file to a new directory in your plugins folder called %s simplemap-styles%s.  To give it a name, use the following header in the top of your stylesheet:', 'SimpleMap' ), '</em><code>', '</code><em>' ); ?></em>
+																<em><?php printf( __( 'To add your own theme, upload your own CSS file to a new directory in your plugins folder called %s simplemap-styles%s.  To give it a name, use the following header in the top of your stylesheet:', 'simplemap' ), '</em><code>', '</code><em>' ); ?></em>
 															</small>
 															<br/>
 															<div style="margin-left: 20px;">
@@ -858,18 +858,18 @@ if ( ! class_exists( 'SM_Options' ) ) {
 													<tr valign="middle">
 														<td>
 															<label
-																for="display_search"><?php _e( 'Display Search Form', 'SimpleMap' ); ?></label>
+																for="display_search"><?php _e( 'Display Search Form', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<label for="display_search_yes"><input type="radio"
 															                                       name="display_search"
 															                                       id="display_search_yes"
-															                                       value="show" <?php checked( $display_search, 'show' ); ?> /> <?php _e( 'Yes', 'SimpleMap' ); ?>
+															                                       value="show" <?php checked( $display_search, 'show' ); ?> /> <?php _e( 'Yes', 'simplemap' ); ?>
 															</label>&nbsp;&nbsp;
 															<label for="display_search_no"><input type="radio"
 															                                      name="display_search"
 															                                      id="display_search_no"
-															                                      value="hide" <?php checked( $display_search, 'hide' ); ?> /> <?php _e( 'No', 'SimpleMap' ); ?>
+															                                      value="hide" <?php checked( $display_search, 'hide' ); ?> /> <?php _e( 'No', 'simplemap' ); ?>
 															</label><br/>
 														</td>
 													</tr>
@@ -877,12 +877,12 @@ if ( ! class_exists( 'SM_Options' ) ) {
 													<tr valign="middle">
 														<td>
 															<label
-																for="powered_by"><?php _e( 'SimpleMap Link', 'SimpleMap' ); ?></label>
+																for="powered_by"><?php _e( 'SimpleMap Link', 'simplemap' ); ?></label>
 														</td>
 														<td>
 															<label for="powered_by"><input type="checkbox"
 															                               name="powered_by"
-															                               id="powered_by" <?php checked( $powered_by ); ?> /> <?php _e( 'Show the "Powered by SimpleMap" link', 'SimpleMap' ); ?>
+															                               id="powered_by" <?php checked( $powered_by ); ?> /> <?php _e( 'Show the "Powered by SimpleMap" link', 'simplemap' ); ?>
 															</label>
 														</td>
 													</tr>
@@ -892,7 +892,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 											<p class="submit" align="right">
 												<input type="submit" class="button-primary"
-												       value="<?php _e( 'Save Options', 'SimpleMap' ) ?>"/>&nbsp;&nbsp;
+												       value="<?php _e( 'Save Options', 'simplemap' ) ?>"/>&nbsp;&nbsp;
 											</p>
 											<div class="clear"></div>
 
@@ -901,15 +901,15 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 									<div class="postbox">
 
-										<h3><?php _e( 'Delete SimpleMap Data', 'SimpleMap' ); ?></h3>
+										<h3><?php _e( 'Delete SimpleMap Data', 'simplemap' ); ?></h3>
 
 										<div class="inside">
 											<p class="sub"><span
-													style="color: red;"><?php _e( 'CAUTION! Uninstalling SimpleMap will completely delete all current locations, categories, tags and options. This is irreversible.', 'SimpleMap' ); ?></span>
+													style="color: red;"><?php _e( 'CAUTION! Uninstalling SimpleMap will completely delete all current locations, categories, tags and options. This is irreversible.', 'simplemap' ); ?></span>
 											</p>
 											<p style='text-align:center;'><a
 													onclick="javascript:return confirm('<?php _e( 'Last chance! Pressing OK will delete all SimpleMap locations. Your settings will not be deleted.' ); ?>')"
-													href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=simplemap&sm-action=delete-simplemap&locations-only=true' ), 'delete-simplemap-locations' ); ?>"><?php _e( 'Clicking this link will remove all locations but preserve your settings.' ); ?></a>
+													href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=simplemap&sm-action=delete-simplemap&locations-only=true' ), 'delete-simplemap' ); ?>"><?php _e( 'Clicking this link will remove all locations but preserve your settings.' ); ?></a>
 											</p>
 											<p style='text-align:center;'><a
 													onclick="javascript:return confirm('<?php _e( 'Last chance! Pressing OK will delete all SimpleMap data.' ); ?>')"

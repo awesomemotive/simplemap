@@ -1,0 +1,11 @@
+<wpml-config>
+    <custom-types>
+        <custom-type translate="1">sm-location</custom-type>
+    </custom-types>
+    <taxonomies>
+        <taxonomy translate="1">sm-category</taxonomy>
+        <taxonomy translate="1">sm-tag</taxonomy>
+        <taxonomy translate="1">sm-day</taxonomy>
+        <taxonomy translate="1">sm-time</taxonomy>
+    </taxonomies>
+</wpml-config>

@@ -218,7 +218,7 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 						}</style>
 					<script
 						src="<?php echo esc_url( SIMPLEMAP_MAPS_JS_API . '?v=3&amp;sensor=false&amp;language=' . $atts['default_language'] . '&amp;region=' . $atts['default_country'] ); ?>"
-						type="text/javascript"></script>
+						type="text/javascript"></script>	
 				</head>
 				<body>
 

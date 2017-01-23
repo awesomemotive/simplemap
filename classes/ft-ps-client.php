@@ -120,7 +120,7 @@ if ( ! class_exists( 'FT_Premium_Support_Client' ) ) {
 
 							// We have a premium support license for this domain / product combination. Set the transient and property
 							set_transient( $status_key, $response->support_status, 60 * 60 * 24 );
-							//set_transient( $status_key, $response->support_status, 60 );	
+							//set_transient( $status_key, $response->support_status, 60 );
 							$this->ps_status = $response->support_status;
 
 							// Did we get a user sso back as well? Set the property if we did
