@@ -39,6 +39,14 @@ With SimpleMap, you can easily put a store locator on your WordPress site in sec
 5. Type `[simplemap]` into any Post or Page you want SimpleMap to be displayed in.
 6. Enter some locations in the database and start enjoying the plugin!
 
+== Screenshots ==
+
+1. Example of the map and results
+2. Location with an image tag in the description
+3. Location with HTML formatting in the description
+4. General Options page
+5. Managing the database
+
 == Frequently Asked Questions ==
 
 FAQs can be found on our [website](http://simplemap-plugin.com/faqs/)
