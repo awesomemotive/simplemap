@@ -39,39 +39,9 @@ With SimpleMap, you can easily put a store locator on your WordPress site in sec
 5. Type `[simplemap]` into any Post or Page you want SimpleMap to be displayed in.
 6. Enter some locations in the database and start enjoying the plugin!
 
-== Screenshots ==
-
-1. Example of the map and results
-2. Location with an image tag in the description
-3. Location with HTML formatting in the description
-4. General Options page
-5. Managing the database
-
 == Frequently Asked Questions ==
 
-= How do I put SimpleMap on my website? =
-
-Simply insert the following shortcode into any page or post: `[simplemap]`
-
-= I've put in the shortcode, but my map isn't showing up. Why? =
-
-If the search form is showing up, but the map is blank, it's probably a Javascript error. Check to see if any other plugins are throwing Javascript errors before the SimpleMap Javascript gets loaded.
-
-= What is the "Special Location Label"? =
-
-This is meant to flag certain locations with a specific label. It shows up in the search results with a gold star next to it. Originally this was developed for an organization that wanted to highlight people that had been members for more than ten years. It could be used for something like that, or for "Favorite Spots," or "Free Wi-Fi," or anything you want. You can also leave it blank to disable it.
-
-= Why can't my map load more than 100 search results at a time? =
-
-On most browsers, loading more than 100 locations at once will really slow things down. In some cases, such as a slower internet connection, it can crash the browser completely. We put that limit on there to prevent that from happening.
-
-= Can I suggest a feature for SimpleMap? =
-
-Of course! Visit [the SimpleMap home page](http://simplemap-plugin.com/) to do so.
-
-= What if I have a problem with SimpleMap, or find a bug? =
-
-Please open a ticket on [the SimpleMap project's repo on Github](https://github.com/semperfiwebdesign/simplemap/issues) if you have a bug to report. Otherwise, you may access premium support inside the plugin dashboard.
+FAQs can be found on our [website](http://simplemap-plugin.com/faqs/)
 
 == Changelog ==
 
