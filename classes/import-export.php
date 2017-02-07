@@ -501,7 +501,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 						echo '<h2>' . sprintf( __( 'View them <a href="%s">here</a>', 'SimpleMap' ), admin_url( 'edit.php?post_type=sm-location' ) ) . '</h2>';
 					}
 
-					// Import is finished, delete csv and redirect to edit locaitons page.
+					// Import is finished, delete csv and redirect to edit locations page.
 					unlink( $file_location );
 				}
 				echo '
@@ -789,10 +789,6 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 				printf( __( 'Geocoding your own data will allow you to import thousands of records very quickly. If your locations need to be geocoded by SimpleMap, any file with more than 100 records might stall your server. %s Resources for geocoding your own locations can be found here.%s', 'SimpleMap' ), '<a href="http://groups.google.com/group/Google-Maps-API/web/resources-non-google-geocoders" target="_blank">', '</a>' );
 
-				echo '</p><p>';
-
-
-				_e( 'If you are importing a file you exported from SimpleMap (and haven\'t changed since), be sure to check the box below since the locations are already geocoded.', 'SimpleMap' );
 				echo '</p>
 <form name="import_form" method="post"
       action="';
@@ -826,7 +822,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 				_e( 'Import CSV File', 'SimpleMap' );
 				echo '"/>';
 				if ( '' == $options['api_key'] ) : ?>
-															   <?php printf( __( "Warning: You still need to enter an <a href='%s'>API key</a> if you need your locaitons geocoded.", 'SimpleMap' ), admin_url( "admin.php?page=simplemap" ) ); ?>
+															   <?php printf( __( "Warning: You still need to enter an <a href='%s'>API key</a> if you need your locations geocoded.", 'SimpleMap' ), admin_url( "admin.php?page=simplemap" ) ); ?>
 														   <?php endif;
 
 				echo '</form>
