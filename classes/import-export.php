@@ -501,7 +501,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 						echo '<h2>' . sprintf( __( 'View them <a href="%s">here</a>', 'SimpleMap' ), admin_url( 'edit.php?post_type=sm-location' ) ) . '</h2>';
 					}
 
-					// Import is finished, delete csv and redirect to edit locaitons page.
+					// Import is finished, delete csv and redirect to edit locations page.
 					unlink( $file_location );
 				}
 				echo '
@@ -826,7 +826,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 				_e( 'Import CSV File', 'SimpleMap' );
 				echo '"/>';
 				if ( '' == $options['api_key'] ) : ?>
-															   <?php printf( __( "Warning: You still need to enter an <a href='%s'>API key</a> if you need your locaitons geocoded.", 'SimpleMap' ), admin_url( "admin.php?page=simplemap" ) ); ?>
+															   <?php printf( __( "Warning: You still need to enter an <a href='%s'>API key</a> if you need your locations geocoded.", 'SimpleMap' ), admin_url( "admin.php?page=simplemap" ) ); ?>
 														   <?php endif;
 
 				echo '</form>
