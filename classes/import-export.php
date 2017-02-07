@@ -789,10 +789,6 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 				printf( __( 'Geocoding your own data will allow you to import thousands of records very quickly. If your locations need to be geocoded by SimpleMap, any file with more than 100 records might stall your server. %s Resources for geocoding your own locations can be found here.%s', 'SimpleMap' ), '<a href="http://groups.google.com/group/Google-Maps-API/web/resources-non-google-geocoders" target="_blank">', '</a>' );
 
-				echo '</p><p>';
-
-
-				_e( 'If you are importing a file you exported from SimpleMap (and haven\'t changed since), be sure to check the box below since the locations are already geocoded.', 'SimpleMap' );
 				echo '</p>
 <form name="import_form" method="post"
       action="';
