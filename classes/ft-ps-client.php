@@ -102,7 +102,7 @@ if ( ! class_exists( 'FT_Premium_Support_Client' ) ) {
 				// Ping server for response
 				if ( $request = wp_remote_post( $this->server_url, array( 'body' => $body, 'timeout' => 20 ) ) ) {
 
-					if ( isset( $request['response']['code'] ) && 200 == $request['response']['code'] ) {
+					if ( ! is_wp_error( $request ) && isset( $request['response']['code'] ) && 200 == $request['response']['code'] ) {
 
 						// Response found a server, lets see if it hit a script we recognize
 						$response = json_decode( $request['body'] );
