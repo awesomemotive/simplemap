@@ -252,3 +252,8 @@ border-left: 20px solid rgba(0, 0, 0, 0);
 border-right: 20px solid rgba(0, 0, 0, 0);
 border-top: 20px solid #FFF;
 }
+
+.infoBox .markertext ul,
+.infoBox .markertext ol {
+margin-left: 15px;
+}
