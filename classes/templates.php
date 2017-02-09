@@ -110,7 +110,7 @@ if ( ! class_exists( 'SM_Template_Factory' ) ) {
 				$return .= "<div class='sm-single-map'>[sm-location data='iframe-map' map_width='100px' map_height='100px']<a href=\"[sm-location data='directions']\" target=\"_blank\"></a></div>";
 				$return .= "<div class='sm-single-location-data'>[sm-location data='full-address']";
 				$return .= "<br /><a href=\"[sm-location data='directions']\" target=\"_blank\">Get Directions</a>";
-				$return .= "<ul class='sm-single-location-data-ul'>[sm-location data='phone' before='<li>' after='</li>'] [sm-location data='email' before='<li><a href=\"mailto:%self%\">' after='</a></li>'] [sm-location data='sm_category' format='csv' before='<li>Categories: ' after='</li>'] [sm-location data='sm_tag' format='csv' before='<li>Tags: ' after='</li>']</ul>";
+				$return .= "<ul class='sm-single-location-data-ul'>[sm-location data='phone' before='<li><span class=\"sm-list-title\">Phone: </span>' after='</li>'] [sm-location data='fax' before='<li><span class=\"sm-list-title\">Fax: </span>' after='</li>'] [sm-location data='email' before='<li><span class=\"sm-list-title\">Email: </span><a href=\"mailto:%self%\">' after='</a></li>'] [sm-location data='url' before='<li><span class=\"sm-list-title\">Website: </span><a target=\"_blank\" href=\"%self%\">' after='</a></li>'] [sm-location data='sm_category' format='csv' before='<li><span class=\"sm-list-title\">Categories: </span>' after='</li>'] [sm-location data='sm_tag' format='csv' before='<li><span class=\"sm-list-title\">Tags: </span>' after='</li>']</ul>";
 				$return .= "</div>";
 				$return .= "<hr style='clear:both;' />";
 				$return .= "</div>";
