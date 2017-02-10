@@ -1567,13 +1567,13 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 				// Phone, email, and fax numbers
 				html += '<div class="result_phone">';
 				if (locationData.phone != null && locationData.phone != '') {
-					html += '<span class="result_phone"><br />' + phone_text + ': <a href="tel:' + locationData.phone + '">' + locationData.phone + '</a></span>';
+					html += '<span class="result_phone">' + phone_text + ': <a href="tel:' + locationData.phone + '">' + locationData.phone + '</a></span>';
 				}
 				if (locationData.email != null && locationData.email != '') {
-					html += '<span class="result_email"><br />' + email_text + ': <a href="mailto:' + locationData.email + '">' + locationData.email + '</a></span>';
+					html += '<span class="result_email">' + email_text + ': <a href="mailto:' + locationData.email + '">' + locationData.email + '</a></span>';
 				}
 				if (locationData.fax != null && locationData.fax != '') {
-					html += '<span class="result_fax"><br />' + fax_text + ': ' + locationData.fax + '</span>';
+					html += '<span class="result_fax">' + fax_text + ': ' + locationData.fax + '</span>';
 				}
 				html += '</div>';
 

@@ -258,6 +258,12 @@ border-top: 20px solid #FFF;
 margin-left: 15px;
 }
 
+div.result div.result_phone span.result_phone,
+div.result div.result_phone span.result_email,
+div.result div.result_phone span.result_fax {
+	display: block;
+}
+
 /*** Responsive styles ***/
 @media screen and (max-width: 800px) {
 	table.location_search th,
@@ -271,19 +277,34 @@ margin-left: 15px;
 	}
 	div.result div.result_phone {
 		width: 70%;
+		min-height: 0.1em;
 	}
 	div.result div.result_links {
 		width: 30%;
 	}
-	div.result div.result_name,
-	div.result div.result_phone span {
-		margin-bottom: 5px;
+	div.result div.result_name {
+		margin-bottom: 10px;
+	}
+	div.result div.result_phone span.result_phone,
+	div.result div.result_phone span.result_email,
+	div.result div.result_phone span.result_fax,
+	div.result div.result_links div.result_website,
+	div.result div.result_links div.result_directions {
+		display: block;
+		margin: 5px 0;
+	}
+	div.result div.sm_category_list,
+	div.result div.sm_tag_list,
+	div.result div.sm_day_list,
+	div.result div.sm_time_list {
+		margin: 5px 0;
 	}
 }
 @media screen and (max-width: 480px) {
 	div.result div.result_phone,
 	div.result div.result_links {
 		width: 100%;
+		min-height: 0;
 		float: none;
 		text-align: left;
 	}
