@@ -301,6 +301,13 @@ div.result div.result_phone span.result_fax {
 	}
 }
 @media screen and (max-width: 480px) {
+	table.location_search td#location_search_sm-category_fields label,
+	table.location_search td#location_search_sm-tag_fields label,
+	table.location_search td#location_search_sm-day_fields label,
+	table.location_search td#location_search_sm-time_fields label {
+		display: block;
+		float: none;
+	}
 	div.result div.result_phone,
 	div.result div.result_links {
 		width: 100%;
