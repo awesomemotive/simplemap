@@ -257,3 +257,34 @@ border-top: 20px solid #FFF;
 .infoBox .markertext ol {
 margin-left: 15px;
 }
+
+/*** Responsive styles ***/
+@media screen and (max-width: 800px) {
+	table.location_search th,
+	table.location_search td {
+		width: 100%;
+		display: inline-block;
+	}
+	div.result div.result_address {
+		width: 100%;
+		float: none;
+	}
+	div.result div.result_phone {
+		width: 70%;
+	}
+	div.result div.result_links {
+		width: 30%;
+	}
+	div.result div.result_name,
+	div.result div.result_phone span {
+		margin-bottom: 5px;
+	}
+}
+@media screen and (max-width: 480px) {
+	div.result div.result_phone,
+	div.result div.result_links {
+		width: 100%;
+		float: none;
+		text-align: left;
+	}
+}
