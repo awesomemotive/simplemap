@@ -90,8 +90,6 @@ if ( ! class_exists( 'SM_Location_Shortcodes' ) ) {
 				'data'              => '',
 				'before'            => '',
 				'after'             => '',
-				'map_width'         => '75px',
-				'map_height'        => '75px',
 				'default_lat'       => get_post_meta( $post->ID, 'location_lat',
 					true ),
 				'default_lng'       => get_post_meta( $post->ID, 'location_lng',
@@ -188,8 +186,6 @@ if ( ! class_exists( 'SM_Location_Shortcodes' ) ) {
 
 				// Args we need to make the map itself - not the locations on the map.
 				$build_att_array = array(
-					'map_width',
-					'map_height',
 					'panControl',
 					'default_lat',
 					'default_lng',
