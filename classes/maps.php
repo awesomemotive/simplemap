@@ -220,7 +220,7 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 							padding: 0;
 						}</style>
 					<script
-						src="<?php echo esc_url( SIMPLEMAP_MAPS_JS_API . '?v=3&amp;sensor=false&amp;language=' . $atts['default_language'] . '&amp;region=' . $atts['default_country'] . '&amp;key=' . $atts['api_key'] ); ?>"
+						src="<?php echo esc_url( SIMPLEMAP_MAPS_JS_API . '?v=3&amp;language=' . $atts['default_language'] . '&amp;region=' . $atts['default_country'] . '&amp;key=' . $atts['api_key'] ); ?>"
 						type="text/javascript"></script>	
 				</head>
 				<body>
