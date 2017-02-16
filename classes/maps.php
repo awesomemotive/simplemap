@@ -82,6 +82,9 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 			// Do atts for iframes
 			if ( isset( $_GET['sm_map_iframe'] ) ) {
 				// Set atts from GET vars
+				if ( ! empty( $_GET['api_key'] ) ) {
+					$atts['api_key'] = $_GET['api_key'];
+				}
 				if ( ! empty( $_GET['map_width'] ) ) {
 					$atts['map_width'] = $_GET['map_width'];
 				}
@@ -217,7 +220,7 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 							padding: 0;
 						}</style>
 					<script
-						src="<?php echo esc_url( SIMPLEMAP_MAPS_JS_API . '?v=3&amp;sensor=false&amp;language=' . $atts['default_language'] . '&amp;region=' . $atts['default_country'] ); ?>"
+						src="<?php echo esc_url( SIMPLEMAP_MAPS_JS_API . '?v=3&amp;sensor=false&amp;language=' . $atts['default_language'] . '&amp;region=' . $atts['default_country'] . '&amp;key=' . $atts['api_key'] ); ?>"
 						type="text/javascript"></script>	
 				</head>
 				<body>
