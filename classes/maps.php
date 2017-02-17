@@ -215,13 +215,14 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 				<html style='margin-top:0 !important;padding-top:0 !important;'>
 				<head>
 					<?php wp_head(); ?>
-					<style type='text/css'>* {
+					<style type='text/css'>
+						body {
+							background: transparent;
 							margin: 0;
 							padding: 0;
-						}</style>
-					<script
-						src="<?php echo esc_url( SIMPLEMAP_MAPS_JS_API . '?v=3&amp;language=' . $atts['default_language'] . '&amp;region=' . $atts['default_country'] . '&amp;key=' . $atts['api_key'] ); ?>"
-						type="text/javascript"></script>	
+						}
+					</style>
+					<script src="<?php echo esc_url( SIMPLEMAP_MAPS_JS_API . '?v=3&amp;language=' . $atts['default_language'] . '&amp;region=' . $atts['default_country'] . '&amp;key=' . $atts['api_key'] ); ?>" type="text/javascript"></script>	
 				</head>
 				<body>
 
