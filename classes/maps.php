@@ -235,13 +235,13 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 						var myOptions = {
 							zoom: parseInt(<?php echo esc_js( $atts['zoom_level'] ); ?>),
 							center: latlng,
-							panControl: <?php echo ( $atts['panControl'] ) ? 'true' : 'false'; ?>,
-							zoomControl: <?php echo ( $atts['zoomControl'] ) ? 'true' : 'false'; ?>,
-							scaleControl: <?php echo ( $atts['scaleControl'] ) ? 'true' : 'false'; ?>,
-							streetViewControl: <?php echo ( $atts['streetViewControl'] ) ? 'true' : 'false'; ?>,
-							mapTypeControl: <?php echo ( $atts['mapTypeControl'] ) ? 'true' : 'false'; ?>,
+							panControl: true,
+							zoomControl: true,
+							scaleControl: true,
+							streetViewControl: true,
+							mapTypeControl: true,
 							mapTypeId: google.maps.MapTypeId.ROADMAP,
-							draggable: false
+							draggable: true
 						};
 
 						map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
