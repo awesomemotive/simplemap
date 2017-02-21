@@ -208,11 +208,9 @@ padding:3px;
 
 .sm-single-map {
 position: relative;
-padding-bottom: 56.25%;
-padding-top: 35px;
+padding-bottom: 90%;
 height: 0;
 overflow: hidden;
-margin-bottom: 20px;
 }
 
 .sm-single-map iframe {
@@ -221,6 +219,10 @@ top:0;
 left: 0;
 width: 100%;
 height: 100%;
+}
+
+.sm-single-location-data {
+margin-top: 30px;
 }
 
 .sm-single-location-data-ul {

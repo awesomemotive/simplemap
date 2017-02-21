@@ -44,8 +44,6 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 		/**
 		 * This loads all the attributes for the map itself
 		 *
-		 * 'map_width'
-		 * 'map_height'
 		 * 'default_lat'
 		 * 'default_lng'
 		 * 'zoom_level'
@@ -84,12 +82,6 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 				// Set atts from GET vars
 				if ( ! empty( $_GET['api_key'] ) ) {
 					$atts['api_key'] = $_GET['api_key'];
-				}
-				if ( ! empty( $_GET['map_width'] ) ) {
-					$atts['map_width'] = $_GET['map_width'];
-				}
-				if ( ! empty( $_GET['map_height'] ) ) {
-					$atts['map_height'] = $_GET['map_height'];
 				}
 				if ( ! empty( $_GET['pan_control'] ) ) {
 					$atts['panControl'] = $_GET['pan_control'];
@@ -192,7 +184,7 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 			$atts      = $this->map_atts;
 			$locations = array_keys( $this->locations );
 
-			$iframe = '<iframe width="' . $atts['map_width'] . '" height="' . $atts['map_height'] . '" frameborder=0 scrolling="no" src="' . esc_url( site_url() ) . '?sm_map_iframe=1&map_width=' . esc_attr( $atts['map_width'] ) . '&map_height=' . esc_attr( $atts['map_height'] ) . '&location_ids=' . esc_attr( implode( ',', $locations ) ) . '"></iframe>';
+			$iframe = '<iframe frameborder=0 scrolling="no" src="' . esc_url( site_url() ) . '?sm_map_iframe=1&location_ids=' . esc_attr( implode( ',', $locations ) ) . '"></iframe>';
 
 			return $iframe;
 
@@ -289,8 +281,7 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 
 				</script>
 
-				<div id="map_canvas"
-				     style="height: <?php echo esc_attr( $_GET['map_height'] ); ?>; width: <?php echo esc_attr( $_GET['map_width'] ); ?>; border: 1px solid #eee; overflow: hidden"></div>
+				<div id="map_canvas" style="height: 100%; width: 100%; border: 1px solid #eee; overflow: hidden"></div>
 
 				</body>
 				</html>
