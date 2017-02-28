@@ -1,6 +1,6 @@
 <?php
 /**
- * This file creates maps for us. We're all about generating some maps.
+ * This handles ONLY single location maps.
  */
 
 /**
@@ -214,7 +214,7 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 							padding: 0;
 						}
 					</style>
-					<script src="<?php echo esc_url( SIMPLEMAP_MAPS_JS_API . '?v=3&amp;language=' . $atts['default_language'] . '&amp;region=' . $atts['default_country'] . '&amp;key=' . $atts['api_key'] ); ?>" type="text/javascript"></script>	
+					<script src="<?php echo esc_url( SIMPLEMAP_MAPS_JS_API . '?v=3&amp;language=' . $atts['default_language'] . '&amp;region=' . $atts['default_country'] . '&amp;key=' . $atts['api_key'] ); ?>" type="text/javascript"></script>
 				</head>
 				<body>
 
