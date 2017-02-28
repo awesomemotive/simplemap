@@ -1643,7 +1643,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			$to_geocode = urlencode( implode( ', ', array_filter( compact( 'address', 'city', 'state', 'zip', 'country' ) ) ) );
 
 			// Base URL.
-			$base_url = SIMPLEMAP_MAPS_WS_API . 'geocode/json?sensor=false&region=' . substr( $options['default_domain'], strrpos( $options['default_domain'], '.' ) + 1 );
+			$base_url = SIMPLEMAP_MAPS_WS_API . 'geocode/json?region=' . substr( $options['default_domain'], strrpos( $options['default_domain'], '.' ) + 1 );
 
 			// Add query.
 			$request_url = $base_url . '&address=' . $to_geocode;
