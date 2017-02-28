@@ -613,13 +613,6 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			global $post;
 			$options = $this->get_options();
 
-			// Rewrite rules if we've changed the location permalink slug.
-			if ( get_option( 'sm-rewrite-rules' ) ) {
-				global $wp_rewrite;
-				$wp_rewrite->flush_rules();
-				delete_option( 'sm-rewrite-rules' );
-			}
-
 			// Frontend only.
 			if ( ! is_admin() && is_object( $post ) || apply_filters( 'sm-force-frontend-js', '__return_false' ) ) {
 				// Bail if we're not showing on all pages and this isn't a map page.
@@ -1650,7 +1643,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			$to_geocode = urlencode( implode( ', ', array_filter( compact( 'address', 'city', 'state', 'zip', 'country' ) ) ) );
 
 			// Base URL.
-			$base_url = SIMPLEMAP_MAPS_WS_API . 'geocode/json?region=' . substr( $options['default_domain'], strrpos( $options['default_domain'], '.' ) + 1 );
+			$base_url = SIMPLEMAP_MAPS_WS_API . 'geocode/json?sensor=false&region=' . substr( $options['default_domain'], strrpos( $options['default_domain'], '.' ) + 1 );
 
 			// Add query.
 			$request_url = $base_url . '&address=' . $to_geocode;

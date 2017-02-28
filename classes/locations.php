@@ -51,6 +51,12 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 			);
 		}
 
+		// Rewrite rules if we've changed the location permalink slug.
+		if ( get_option( 'sm-rewrite-rules' ) ) {
+				flush_rewrite_rules();
+				delete_option( 'sm-rewrite-rules' );
+			}
+
 		$args += array(
 			'public'               => true,
 			'publicly_queryable'   => false,
