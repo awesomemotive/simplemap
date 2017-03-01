@@ -184,7 +184,7 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 			$atts      = $this->map_atts;
 			$locations = array_keys( $this->locations );
 
-			$iframe = '<iframe frameborder=0 scrolling="no" src="' . esc_url( site_url() ) . '?sm_single=1&sm_map_iframe=1&location_ids=' . esc_attr( implode( ',', $locations ) ) . '"></iframe>';
+			$iframe = '<iframe frameborder=0 scrolling="no" src="' . esc_url( site_url() ) . '?sm_map_iframe=1&location_ids=' . esc_attr( implode( ',', $locations ) ) . '"></iframe>';
 
 			return $iframe;
 
