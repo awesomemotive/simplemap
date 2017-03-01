@@ -1,6 +1,6 @@
 <?php
 /**
- * This file creates maps for us. We're all about generating some maps.
+ * This handles ONLY single location maps.
  */
 
 /**
@@ -44,8 +44,6 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 		/**
 		 * This loads all the attributes for the map itself
 		 *
-		 * 'map_width'
-		 * 'map_height'
 		 * 'default_lat'
 		 * 'default_lng'
 		 * 'zoom_level'
@@ -82,11 +80,8 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 			// Do atts for iframes
 			if ( isset( $_GET['sm_map_iframe'] ) ) {
 				// Set atts from GET vars
-				if ( ! empty( $_GET['map_width'] ) ) {
-					$atts['map_width'] = $_GET['map_width'];
-				}
-				if ( ! empty( $_GET['map_height'] ) ) {
-					$atts['map_height'] = $_GET['map_height'];
+				if ( ! empty( $_GET['api_key'] ) ) {
+					$atts['api_key'] = $_GET['api_key'];
 				}
 				if ( ! empty( $_GET['pan_control'] ) ) {
 					$atts['panControl'] = $_GET['pan_control'];
@@ -189,7 +184,7 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 			$atts      = $this->map_atts;
 			$locations = array_keys( $this->locations );
 
-			$iframe = '<iframe width="' . $atts['map_width'] . '" height="' . $atts['map_height'] . '" frameborder=0 scrolling="no" src="' . esc_url( site_url() ) . '?sm_map_iframe=1&map_width=' . esc_attr( $atts['map_width'] ) . '&map_height=' . esc_attr( $atts['map_height'] ) . '&location_ids=' . esc_attr( implode( ',', $locations ) ) . '"></iframe>';
+			$iframe = '<iframe frameborder=0 scrolling="no" src="' . esc_url( site_url() ) . '?sm_map_iframe=1&location_ids=' . esc_attr( implode( ',', $locations ) ) . '"></iframe>';
 
 			return $iframe;
 
@@ -212,13 +207,13 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 				<html style='margin-top:0 !important;padding-top:0 !important;'>
 				<head>
 					<?php wp_head(); ?>
-					<style type='text/css'>* {
+					<style type='text/css'>
+						body {
+							background: transparent;
 							margin: 0;
 							padding: 0;
-						}</style>
-					<script
-						src="<?php echo esc_url( SIMPLEMAP_MAPS_JS_API . '?v=3&amp;sensor=false&amp;language=' . $atts['default_language'] . '&amp;region=' . $atts['default_country'] ); ?>"
-						type="text/javascript"></script>	
+						}
+					</style>
 				</head>
 				<body>
 
@@ -232,13 +227,13 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 						var myOptions = {
 							zoom: parseInt(<?php echo esc_js( $atts['zoom_level'] ); ?>),
 							center: latlng,
-							panControl: <?php echo ( $atts['panControl'] ) ? 'true' : 'false'; ?>,
-							zoomControl: <?php echo ( $atts['zoomControl'] ) ? 'true' : 'false'; ?>,
-							scaleControl: <?php echo ( $atts['scaleControl'] ) ? 'true' : 'false'; ?>,
-							streetViewControl: <?php echo ( $atts['streetViewControl'] ) ? 'true' : 'false'; ?>,
-							mapTypeControl: <?php echo ( $atts['mapTypeControl'] ) ? 'true' : 'false'; ?>,
+							panControl: true,
+							zoomControl: true,
+							scaleControl: true,
+							streetViewControl: true,
+							mapTypeControl: true,
 							mapTypeId: google.maps.MapTypeId.ROADMAP,
-							draggable: false
+							draggable: true
 						};
 
 						map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
@@ -285,8 +280,7 @@ if ( ! class_exists( 'SM_Map_Factory' ) ) {
 
 				</script>
 
-				<div id="map_canvas"
-				     style="height: <?php echo esc_attr( $_GET['map_height'] ); ?>; width: <?php echo esc_attr( $_GET['map_width'] ); ?>; border: 1px solid #eee; overflow: hidden"></div>
+				<div id="map_canvas" style="height: 100%; width: 100%; border: 1px solid #eee; overflow: hidden"></div>
 
 				</body>
 				</html>

@@ -613,17 +613,10 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			global $post;
 			$options = $this->get_options();
 
-			// Rewrite rules if we've changed the location permalink slug.
-			if ( get_option( 'sm-rewrite-rules' ) ) {
-				global $wp_rewrite;
-				$wp_rewrite->flush_rules();
-				delete_option( 'sm-rewrite-rules' );
-			}
-
 			// Frontend only.
 			if ( ! is_admin() && is_object( $post ) || apply_filters( 'sm-force-frontend-js', '__return_false' ) ) {
 				// Bail if we're not showing on all pages and this isn't a map page.
-				if ( ! in_array( $post->ID, explode( ',', $options['map_pages'] ) ) && ! in_array( 0, explode( ',', $options['map_pages'] ) ) ) {
+				if ( ! in_array( $post->ID, explode( ',', $options['map_pages'] ) ) && ! in_array( 0, explode( ',', $options['map_pages'] ) ) && !is_singular( 'sm-location' ) && empty( $_GET[ 'sm_map_iframe' ] ) ) {
 					return false;
 				}
 
@@ -1567,13 +1560,13 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 				// Phone, email, and fax numbers
 				html += '<div class="result_phone">';
 				if (locationData.phone != null && locationData.phone != '') {
-					html += phone_text + ': ' + locationData.phone;
+					html += '<span class="result_phone">' + phone_text + ': <a href="tel:' + locationData.phone + '">' + locationData.phone + '</a></span>';
 				}
 				if (locationData.email != null && locationData.email != '') {
-					html += '<span class="result_email"><br />' + email_text + ': <a href="mailto:' + locationData.email + '">' + locationData.email + '</a></span>';
+					html += '<span class="result_email">' + email_text + ': <a href="mailto:' + locationData.email + '">' + locationData.email + '</a></span>';
 				}
 				if (locationData.fax != null && locationData.fax != '') {
-					html += '<span class="result_fax"><br />' + fax_text + ': ' + locationData.fax + '</span>';
+					html += '<span class="result_fax">' + fax_text + ': ' + locationData.fax + '</span>';
 				}
 				html += '</div>';
 
@@ -1650,7 +1643,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			$to_geocode = urlencode( implode( ', ', array_filter( compact( 'address', 'city', 'state', 'zip', 'country' ) ) ) );
 
 			// Base URL.
-			$base_url = SIMPLEMAP_MAPS_WS_API . 'geocode/json?sensor=false&region=' . substr( $options['default_domain'], strrpos( $options['default_domain'], '.' ) + 1 );
+			$base_url = SIMPLEMAP_MAPS_WS_API . 'geocode/json?region=' . substr( $options['default_domain'], strrpos( $options['default_domain'], '.' ) + 1 );
 
 			// Add query.
 			$request_url = $base_url . '&address=' . $to_geocode;
@@ -1789,7 +1782,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					'lock_default_location' => false,
 					'results_limit'         => '20',
 					'address_format'        => 'town, province postalcode',
-					'powered_by'            => 0,
+					'powered_by'            => 1,
 					'enable_permalinks'     => 0,
 					'permalink_slug'        => 'location',
 					'display_search'        => 'show',

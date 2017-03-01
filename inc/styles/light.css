@@ -107,7 +107,7 @@ line-height: 1.2em !important;
 }
 
 .markertext p {
-margin-bottom: 1em;
+margin-bottom: 1em !important;
 }
 
 .markertext .search-term {
@@ -206,24 +206,23 @@ white-space:nowrap;
 padding:3px;
 }
 
-div.sm-single-map {
+.sm-single-map {
 position: relative;
-float:left;
-width:105px;
+padding-bottom: 90%;
+height: 0;
+overflow: hidden;
 }
 
-div.sm-single-map a {
+.sm-single-map iframe {
 position: absolute;
-display: inline-block;
-width: 100px;
-height: 100px;
-top: 0;
+top:0;
 left: 0;
-z-index: 5;
+width: 100%;
+height: 100%;
 }
 
 .sm-single-location-data {
-margin-left:105px;
+margin-top: 30px;
 }
 
 .sm-single-location-data-ul {
@@ -233,21 +232,87 @@ margin-left:0;
 }
 
 .infoBox {
-	background-color: #fff;
+background-color: #fff;
 }
+
 .infoBox:after {
-	position: relative;
-	top: 20px;
-	left: 60px;
-	border-top: 0px;
-	border-left: 0px;
-	padding: 0px;
-	content: '';
-	overflow: hidden;
+position: relative;
+top: 20px;
+left: 60px;
+border-top: 0px;
+border-left: 0px;
+padding: 0px;
+content: '';
+overflow: hidden;
+display: block;
+width: 0;
+height: 0;
+border-left: 20px solid rgba(0, 0, 0, 0);
+border-right: 20px solid rgba(0, 0, 0, 0);
+border-top: 20px solid #FFF;
+}
+
+.infoBox .markertext ul,
+.infoBox .markertext ol {
+margin-left: 15px;
+}
+
+div.result div.result_phone span.result_phone,
+div.result div.result_phone span.result_email,
+div.result div.result_phone span.result_fax {
 	display: block;
-	width: 0;
-	height: 0;
-	border-left: 20px solid rgba(0, 0, 0, 0);
-	border-right: 20px solid rgba(0, 0, 0, 0);
-	border-top: 20px solid #FFF;
+}
+
+/*** Responsive styles ***/
+@media screen and (max-width: 800px) {
+	table.location_search th,
+	table.location_search td {
+		width: 100%;
+		display: inline-block;
+		padding: 0;
+	}
+	div.result div.result_address {
+		width: 100%;
+		float: none;
+	}
+	div.result div.result_phone {
+		width: 70%;
+		min-height: 0.1em;
+	}
+	div.result div.result_links {
+		width: 30%;
+	}
+	div.result div.result_name {
+		margin-bottom: 10px;
+	}
+	div.result div.result_phone span.result_phone,
+	div.result div.result_phone span.result_email,
+	div.result div.result_phone span.result_fax,
+	div.result div.result_links div.result_website,
+	div.result div.result_links div.result_directions {
+		display: block;
+		margin: 5px 0;
+	}
+	div.result div.sm_category_list,
+	div.result div.sm_tag_list,
+	div.result div.sm_day_list,
+	div.result div.sm_time_list {
+		margin: 5px 0;
+	}
+}
+@media screen and (max-width: 480px) {
+	table.location_search td#location_search_sm-category_fields label,
+	table.location_search td#location_search_sm-tag_fields label,
+	table.location_search td#location_search_sm-day_fields label,
+	table.location_search td#location_search_sm-time_fields label {
+		display: block;
+		float: none;
+	}
+	div.result div.result_phone,
+	div.result div.result_links {
+		width: 100%;
+		min-height: 0;
+		float: none;
+		text-align: left;
+	}
 }

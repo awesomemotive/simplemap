@@ -51,6 +51,12 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 			);
 		}
 
+		// Rewrite rules if we've changed the location permalink slug.
+		if ( get_option( 'sm-rewrite-rules' ) ) {
+				flush_rewrite_rules();
+				delete_option( 'sm-rewrite-rules' );
+			}
+
 		$args += array(
 			'public'               => true,
 			'publicly_queryable'   => false,
@@ -63,7 +69,7 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 			'register_meta_box_cb' => array( &$this, 'location_meta_cb' ),
 			'supports'             => array( 'title','author', 'editor'),
 			'labels'               => array(
-				'name'               => 'SimpleMap',
+				'name'               => 'SimpleMap Locations',
 				'singular_name'      => 'Location',
 				'add_new_item'       => 'Add New Location',
 				'all_items'         => 'Locations',
@@ -73,6 +79,7 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 				'search_items'       => 'Search Locations',
 				'not_found'          => 'No Locations found',
 				'not_found_in_trash' => 'No Locations found in trash',
+				'menu_name'          => 'SimpleMap',
 			),
 			'menu_icon'             => 'dashicons-location-alt',
 		);
