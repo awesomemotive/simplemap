@@ -617,7 +617,6 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			if ( ! is_admin() && is_object( $post ) || apply_filters( 'sm-force-frontend-js', '__return_false' ) ) {
 				// Bail if we're not showing on all pages and this isn't a map page.
 				if ( ! in_array( $post->ID, explode( ',', $options['map_pages'] ) ) && ! in_array( 0, explode( ',', $options['map_pages'] ) ) && !is_singular( 'sm-location' ) && empty( $_GET[ 'sm_single' ] ) ) {
-				   // error_log(print_r($GLOBALS, true));
 					return false;
 				}
 
