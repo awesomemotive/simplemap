@@ -1782,7 +1782,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					'lock_default_location' => false,
 					'results_limit'         => '20',
 					'address_format'        => 'town, province postalcode',
-					'powered_by'            => 0,
+					'powered_by'            => 1,
 					'enable_permalinks'     => 0,
 					'permalink_slug'        => 'location',
 					'display_search'        => 'show',
