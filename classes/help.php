@@ -25,10 +25,10 @@ if ( ! class_exists( 'SM_Help' ) ) {
 				$simple_map->show_toolbar( $sm_page_title );
 				?>
 
-				<div><p><?php _e( 'Jump to a section:', 'simplemap' ); // XSS ok. ?> <a
-							href="#displaying_your_map"><?php _e( 'Displaying Your Map', 'simplemap' ); // XSS ok. ?></a> | <a
-							href="#general_options"><?php _e( 'General Options', 'simplemap' ); // XSS ok. ?></a> | <a
-							href="#adding_a_location"><?php _e( 'Adding a Location', 'simplemap' ); // XSS ok. ?></a></p></div>
+				<div><p><?php _e( 'Jump to a section:', 'SimpleMap' ); // XSS ok. ?> <a
+							href="#displaying_your_map"><?php _e( 'Displaying Your Map', 'SimpleMap' ); // XSS ok. ?></a> | <a
+							href="#general_options"><?php _e( 'General Options', 'SimpleMap' ); // XSS ok. ?></a> | <a
+							href="#adding_a_location"><?php _e( 'Adding a Location', 'SimpleMap' ); // XSS ok. ?></a></p></div>
 
 				<div id="dashboard-widgets-wrap" class="clear">
 
@@ -41,7 +41,7 @@ if ( ! class_exists( 'SM_Help' ) ) {
 								<a name="premium_features"></a>
 								<div class="postbox">
 
-									<h3><?php _e( 'Premium Features', 'simplemap' ); // XSS ok. ?></h3>
+									<h3><?php _e( 'Premium Features', 'SimpleMap' ); // XSS ok. ?></h3>
 
 									<div class="inside" style="padding: 0 10px 10px 10px;">
 
