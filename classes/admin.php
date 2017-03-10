@@ -25,23 +25,23 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 			$options = $simple_map->get_options();
 
 			add_submenu_page( 'edit.php?post_type=sm-location',
-				__( 'SimpleMap: General Options', 'simplemap' ),
-				__( 'General Options', 'simplemap' ),
+				__( 'SimpleMap: General Options', 'SimpleMap' ),
+				__( 'General Options', 'SimpleMap' ),
 				apply_filters( 'sm-admin-permissions-sm-options',
 					'manage_options' ), 'simplemap', array(
 					&$sm_options,
 					'print_page',
 				) );
 			add_submenu_page( 'edit.php?post_type=sm-location',
-				__( 'SimpleMap: Import / Export CSV', 'simplemap' ),
-				__( 'Import / Export CSV', 'simplemap' ), 'publish_posts',
+				__( 'SimpleMap: Import / Export CSV', 'SimpleMap' ),
+				__( 'Import / Export CSV', 'SimpleMap' ), 'publish_posts',
 				'simplemap-import-export', array(
 					&$sm_import_export,
 					'print_page',
 				) );
 			add_submenu_page( 'edit.php?post_type=sm-location',
-				__( 'SimpleMap: Premium Support', 'simplemap' ),
-				__( 'Premium Support', 'simplemap' ), 'publish_posts',
+				__( 'SimpleMap: Premium Support', 'SimpleMap' ),
+				__( 'Premium Support', 'SimpleMap' ), 'publish_posts',
 				'simplemap-help', array(
 					&$sm_help,
 					'print_page',
