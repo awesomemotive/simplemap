@@ -265,27 +265,18 @@ div.result div.result_phone span.result_fax {
 
 /* ROW  */
 div.location_search > div {
-    clear: both;
-    overflow: hidden;
 }
 /* COL */
 div.location_search div > div {
-    display: block;
-    float: left;
-    margin: 0% 0% 1% 1%;
-    width: 32%;
 }
 
 div.location_search div:first-child {
-    margin-left: 0px;
 }
 
 /*** Responsive styles ***/
 @media screen and (max-width: 800px) {
 	div.location_search div > div {
-		display: block;
 		float: left;
-		margin: 1% 1% 1% 0%;
 		width: 100%;
 	}
 	div.result div.result_address {
