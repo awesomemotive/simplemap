@@ -264,19 +264,30 @@ div.result div.result_phone span.result_fax {
 }
 
 /* ROW  */
+div.location_search {
+	display: table;
+	width: 100%;
+}
+
 div.location_search > div {
+	display: table-row;
 }
 /* COL */
+
 div.location_search div > div {
+	display: table-cell;
+	padding: 0% 0% 1% 1%;
 }
 
 div.location_search div:first-child {
+	padding-left: 0px;
 }
 
 /*** Responsive styles ***/
 @media screen and (max-width: 800px) {
 	div.location_search div > div {
 		float: left;
+		padding-left: 0%;
 		width: 100%;
 	}
 	div.result div.result_address {
