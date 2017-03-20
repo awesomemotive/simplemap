@@ -279,12 +279,11 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			$location_search = '<div id="map_search" >';
 			$location_search .= '<a id="map_top"></a>';
 			$location_search .= '<form ' . $on_submit . ' name="location_search_form" id="location_search_form" action="' . $action . '" method="' . $method . '">';
-
-			$location_search .= '<table class="location_search"' . $hidesearch . '>';
+			$location_search .= '<div class="location_search"' . $hidesearch . '>';
 
 			$location_search .= apply_filters( 'sm-location-search-table-top', '', $post );
 
-			$location_search .= '<tr><td colspan="' . $search_form_cols . '" class="location_search_title">' . apply_filters( 'sm-location-search-title', $search_title, $post->ID ) . '</td></tr>';
+			$location_search .= '<div><div class="location_search_title">' . apply_filters( 'sm-location-search-title', $search_title, $post->ID ) . '</div></div>';
 
 			// Loop through field inputs and print table.
 			$search_form_tr  = 0;
@@ -312,7 +311,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 					case 'labeltd_' :
 						$field_label = true;
-						$field_br    = "</td>\n\t\t<td>";
+						$field_br    = "</div>\n\t\t<div>";
 						$field_value = substr( $field_labelvalue, 8 );
 						break;
 
@@ -345,13 +344,13 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 				// Print open TR if on column 1.
 				if ( 1 === $search_field_td ) {
-					$search_form_tr_data = "\n\t<tr id='location_search_" . esc_attr( $search_form_tr ) . "_tr' class='location_search_row'>";
+					$search_form_tr_data = "\n\t<div id='location_search_" . esc_attr( $search_form_tr ) . "_tr' class='location_search_row'>";
 					$search_form_tr ++;
 				}
 
 				// Print field for this position.
 				if ( 'span' == $field_value ) {
-					if ( $tr_data_array = explode( '<td ', $search_form_tr_data ) ) {
+					if ( $tr_data_array = explode( '<div ', $search_form_tr_data ) ) {
 						$target_td = end( $tr_data_array );
 
 						end( $tr_data_array );
@@ -364,13 +363,13 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 							$tr_data_array[ $key ] = substr_replace( $target_td, $numcells + 1, 9, 1 );
 						}
 
-						$search_form_tr_data = implode( '<td ', $tr_data_array );
+						$search_form_tr_data = implode( '<div ', $tr_data_array );
 					}
 				} else {
 					// The extra column needs to be counted independent of whether the field_value isset so that we don't lose count.
-					if ( "</td>\n\t\t<td>" == $field_br ) {
+					if ( "</div>\n\t\t<div>" == $field_br ) {
 						$search_field_td ++;
-						$field_br = "</td>\n\t\t<td id='location_search_" . esc_attr( substr( $field_labelvalue, 8 ) ) . "_fields'>";
+						$field_br = "</div>\n\t\t<div id='location_search_" . esc_attr( substr( $field_labelvalue, 8 ) ) . "_fields'>";
 					}
 
 					if ( isset( $ffi[ $field_value ] ) && 'empty' != $field_value && 'span' != $field_value ) {
@@ -380,7 +379,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 						}
 
 						$taxonomy_class = ( isset( $options['taxonomies'][ $field_value ] ) ? 'location_search_taxonomy_cell' : '' );
-						$search_form_tr_data .= "\n\t\t<td class='location_search_" . esc_attr( $class_value ) . "_cell $taxonomy_class location_search_cell'>";
+						$search_form_tr_data .= "\n\t\t<div class='location_search_" . esc_attr( $class_value ) . "_cell $taxonomy_class location_search_cell'>";
 
 						if ( $field_label ) {
 							if ( isset( $ffi[ $field_value ]['label'] ) ) {
@@ -388,15 +387,15 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 							}
 							$search_form_tr_data .= $field_br;
 						}
-						$search_form_tr_data .= isset( $ffi[ $field_value ]['input'] ) ? $ffi[ $field_value ]['input'] . '</td>' : '</td>';
+						$search_form_tr_data .= isset( $ffi[ $field_value ]['input'] ) ? $ffi[ $field_value ]['input'] . '</div>' : '</div>';
 					} else {
-						$search_form_tr_data .= "\n\t\t<td class='location_search_empty_cell location_search_cell'></td>";
+						$search_form_tr_data .= "\n\t\t<div class='location_search_empty_cell location_search_cell'></div>";
 					}
 				}
 
 				// Print close TR if on column 3 or higher (for safety).
 				if ( $search_form_cols <= $search_field_td ) {
-					$search_form_tr_data .= "\n\t</tr>";
+					$search_form_tr_data .= "\n\t</div>";
 					$search_field_td = 0;
 
 					// Only keep the rows that contain an actionable item.
@@ -416,8 +415,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 			$location_search .= apply_filters( 'sm-location-search-before-submit', '', $post );
 
-			$location_search .= '</table>';
-
+			$location_search .= '</div>';
 			// Add hidden fields.
 			if ( ! empty( $hidden_fields ) ) {
 				$location_search .= implode( ' ', $hidden_fields );

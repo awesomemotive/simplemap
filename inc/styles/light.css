@@ -263,13 +263,30 @@ div.result div.result_phone span.result_fax {
 	display: block;
 }
 
+/* ROW  */
+div.location_search > div {
+    clear: both;
+    overflow: hidden;
+}
+/* COL */
+div.location_search div > div {
+    display: block;
+    float: left;
+    margin: 0% 0% 1% 1%;
+    width: 32%;
+}
+
+div.location_search div:first-child {
+    margin-left: 0px;
+}
+
 /*** Responsive styles ***/
 @media screen and (max-width: 800px) {
-	table.location_search th,
-	table.location_search td {
+	div.location_search div > div {
+		display: block;
+		float: left;
+		margin: 1% 1% 1% 0%;
 		width: 100%;
-		display: inline-block;
-		padding: 0;
 	}
 	div.result div.result_address {
 		width: 100%;
@@ -301,10 +318,10 @@ div.result div.result_phone span.result_fax {
 	}
 }
 @media screen and (max-width: 480px) {
-	table.location_search td#location_search_sm-category_fields label,
-	table.location_search td#location_search_sm-tag_fields label,
-	table.location_search td#location_search_sm-day_fields label,
-	table.location_search td#location_search_sm-time_fields label {
+	div.location_search div#location_search_sm-category_fields label,
+	div.location_search div#location_search_sm-tag_fields label,
+	div.location_search div#location_search_sm-day_fields label,
+	div.location_search div#location_search_sm-time_fields label {
 		display: block;
 		float: none;
 	}
