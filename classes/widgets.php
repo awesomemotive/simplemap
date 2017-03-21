@@ -120,13 +120,13 @@ class SM_Search_Widget extends WP_Widget {
 
 		foreach ( $options['taxonomies'] as $taxonomy => $tax_info ) {
 			// Place available values in array.
-			$available = explode( ',', $available[ $taxonomy ] );
+			$available_terms = explode( ',', $available[ $taxonomy ] );
 			$valid     = array();
 
 			// Loop through all days and create array of available days.
 			if ( $all_terms = get_terms( $taxonomy ) ) {
 				foreach ( $all_terms as $key => $value ) {
-					if ( '' === $available[0] || in_array( $value->term_id, $available ) ) {
+					if ( '' === $available_terms[0] || in_array( $value->term_id, $available_terms ) ) {
 						$valid[] = $value->term_id;
 					}
 				}
