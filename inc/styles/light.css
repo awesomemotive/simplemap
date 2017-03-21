@@ -267,15 +267,15 @@ div.location_search {
 	display: table;
 	width: 100%;
 }
-/* HEADER */
+
 div.location_search div:first-child div {
 	display: table-header-group;
 }
-/* ROW  */
+
 div.location_search > div {
 	display: table-row;
 }
-/* COL */
+
 div.location_search div > div {
 	display: table-cell;
 	padding: 0% 0% 1% 1%;
@@ -284,22 +284,22 @@ div.location_search div > div {
 div.location_search > div div:first-child {
 	padding-left: 0px;
 }
-/* 1 cols */
+
 div.location_search > div div:first-child:nth-last-child(1), 
 div.location_search > div div:first-child:nth-last-child(1) ~ div {
 	width: 100%;
 }
-/* 2 cols */
+
 div.location_search > div div:first-child:nth-last-child(2), 
 div.location_search > div div:first-child:nth-last-child(2) ~ div {
 	width: 49%;
 }
-/* 3 cols */
+
 div.location_search > div div:first-child:nth-last-child(3), 
 div.location_search > div div:first-child:nth-last-child(3) ~ div {
 	width: 32%;
 }
-/* 4 cols */
+
 div.location_search > div div:first-child:nth-last-child(4), 
 div.location_search > div div:first-child:nth-last-child(4) ~ div {
 	width: 24%;
