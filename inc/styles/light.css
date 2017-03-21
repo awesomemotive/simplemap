@@ -304,6 +304,17 @@ div.location_search > div div:first-child:nth-last-child(4),
 div.location_search > div div:first-child:nth-last-child(4) ~ div {
 	width: 24%;
 }
+
+div.location_search > div div:first-child:nth-last-child(5), 
+div.location_search > div div:first-child:nth-last-child(5) ~ div {
+	width: 19%;
+}
+
+div.location_search > div div:first-child:nth-last-child(6), 
+div.location_search > div div:first-child:nth-last-child(6) ~ div {
+	width: 15%;
+}
+
 /*** Responsive styles ***/
 @media screen and (max-width: 800px) {
 	div.location_search div > div {
