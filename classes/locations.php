@@ -653,19 +653,19 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 			$api_key = ( isset( $options['api_key'] ) && !empty( $options['api_key'] ) ) ? $options['api_key'] : '';
 
 			// Grab old data.
-			$location_address  = get_post_meta( $post, 'location_address', true ) ?: ' ';
-			$location_address2 = get_post_meta( $post, 'location_address2', true ) ?: ' ';
-			$location_city     = get_post_meta( $post, 'location_city', true ) ?: ' ';
+			$location_address  = get_post_meta( $post, 'location_address', true ) ?: '';
+			$location_address2 = get_post_meta( $post, 'location_address2', true ) ?: '';
+			$location_city     = get_post_meta( $post, 'location_city', true ) ?: '';
 			$location_state    = get_post_meta( $post, 'location_state', true ) ?: $options['default_state'];
-			$location_zip      = get_post_meta( $post, 'location_zip', true ) ?: ' ';
+			$location_zip      = get_post_meta( $post, 'location_zip', true ) ?: '';
 			$location_country  = get_post_meta( $post, 'location_country', true ) ?: $options['default_country'];
-			$location_lat      = get_post_meta( $post, 'location_lat', true ) ?: ' ';
-			$location_lng      = get_post_meta( $post, 'location_lng', true ) ?: ' ';
-			$location_phone    = get_post_meta( $post, 'location_phone', true ) ?: ' ';
-			$location_fax      = get_post_meta( $post, 'location_fax', true ) ?: ' ';
-			$location_url      = get_post_meta( $post, 'location_url', true ) ?: ' ';
-			$location_email    = get_post_meta( $post, 'location_email', true ) ?: ' ';
-			$location_special  = get_post_meta( $post, 'location_special', true ) ?: ' ';
+			$location_lat      = get_post_meta( $post, 'location_lat', true ) ?: '';
+			$location_lng      = get_post_meta( $post, 'location_lng', true ) ?: '';
+			$location_phone    = get_post_meta( $post, 'location_phone', true ) ?: '';
+			$location_fax      = get_post_meta( $post, 'location_fax', true ) ?: '';
+			$location_url      = get_post_meta( $post, 'location_url', true ) ?: '';
+			$location_email    = get_post_meta( $post, 'location_email', true ) ?: '';
+			$location_special  = get_post_meta( $post, 'location_special', true ) ?: '';
 			// If adding new field that has a default (like state and country above), you must modify the update section below accordingly!
 
 			// Grab new data.
