@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: SimpleMap
-Version: 2.5
+Version: 2.5.1
 Plugin URI: http://simplemap-plugin.com/
 Author: Michael Torbert
 Author URI: http://fullthrottledevelopment.com/
@@ -15,7 +15,7 @@ global $wpdb;
 #### CONSTANTS ####
 
 // Plugin Version Number
-define( 'SIMPLEMAP_VERSION', '2.4.11.1' );
+define( 'SIMPLEMAP_VERSION', '2.5.1' );
 
 if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
 	define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
