@@ -785,11 +785,6 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			zoom_level = shortcode_zoom_level;
 			autoload = shortcode_autoload;
 			<?php
-			if ( '' == $options['api_key'] ) {
-				?>
-				jQuery( "#simplemap" ).html( "<p style='padding:10px;'><?php printf( __( 'You must enter an API Key in <a href=\"%s\">General Settings</a> before your maps will work.', 'simplemap' ), admin_url( 'admin.php?page=simplemap' ) ); ?></p>" );
-			<?php
-			}
 
 			do_action( 'sm-load-simplemap-js-top' );
 			?>
@@ -2308,8 +2303,6 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			</table>
 
 			<?php
-			if ( !isset( $options['api_key'] ) || $options['api_key'] == '' )
-				echo '<div class="error"><p>' . __( 'You must enter an API key for your domain.', 'simplemap' ).' <a href="' . admin_url( 'admin.php?page=simplemap' ) . '">' . __( 'Enter a key on the General Options page.', 'simplemap' ) . '</a></p></div>';
 		}
 
 		/**
