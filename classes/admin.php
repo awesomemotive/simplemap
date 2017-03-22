@@ -48,15 +48,15 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 				) );
         }
 
-		/**
-		 * TODO: Currently this loads on toplevel_page_simplemap... but that could change once we redo the menus.
-		 */
 		public function load_admin_scripts() {
 			// Print admin scripts.
 			global $current_screen;
 
 			// General options page.
 			if ( 'toplevel_page_simplemap' === $current_screen->id ) :
+				/**
+				 * TODO: Currently this loads on toplevel_page_simplemap... but that could change once we redo the menus.
+				 */
 				?>
 				<script type="text/javascript">
 					jQuery(document).ready(function ($) {
