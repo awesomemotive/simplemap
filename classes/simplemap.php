@@ -1805,6 +1805,9 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					'G_PHYSICAL_MAP'  => 'TERRAIN',
 				);
 
+				if ( empty( $options['map_type'] ) ) {
+					$options['map_type'] = $default['map_type'];
+				}
 				if ( empty( $valid_map_type_map[ $options['map_type'] ] ) ) {
 					$options['map_type'] = $default['map_type'];
 				} else {
