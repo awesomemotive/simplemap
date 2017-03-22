@@ -355,7 +355,11 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 							// Use the information the user gave me via select boxes to map columns to correct attributes.
 							foreach ( $columns as $key => $column ) {
 								if ( isset( $location[ $column ] ) ) {
-									$to_insert[ $key ] = trim( $location[ $column ] );
+									if ( 'description' === $key ) {
+										$to_insert[ $key ] = trim( html_entity_decode( $location[ $column ] ) );
+									} else {
+										$to_insert[ $key ] = trim( $location[ $column ] );
+									}
 								} else {
 									$to_insert[ $key ] = '';
 								}
