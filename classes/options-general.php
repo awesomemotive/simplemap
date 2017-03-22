@@ -55,7 +55,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 					do_action( 'sm-delete-all-data' );
 
-					wp_safe_redirect( admin_url( 'admin.php?page=simplemap' ) );
+					wp_safe_redirect( admin_url( 'edit.php?post_type=sm-location&page=simplemap' ) );
 				}
 			}
 
@@ -128,7 +128,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 					}
 
 					do_action( 'sm-general-options-updated' );
-					wp_redirect( admin_url( 'admin.php?page=simplemap&sm-msg=1' ) );
+					wp_redirect( admin_url( 'edit.php?post_type=sm-location&page=simplemap&sm-msg=1' ) );
 					die();
 				}
 			}
@@ -397,7 +397,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 										<h3><?php _e( 'Map Configuration', 'simplemap' ); ?></h3>
 
 										<div class="inside">
-											<p class="sub"><?php printf( __( 'See %s the Help page%s for an explanation of these options.', 'simplemap' ), '<a href="' . get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=simplemap-help">', '</a>&nbsp;' ); ?></p>
+											<p class="sub"><?php printf( __( 'See %s the Help page%s for an explanation of these options.', 'simplemap' ), '<a href="' . get_bloginfo( 'wpurl' ) . '/wp-admin/edit.php?post_type=sm-location&page=simplemap-help">', '</a>&nbsp;' ); ?></p>
 
 											<div class="table">
 												<table class="form-table">
@@ -594,7 +594,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 										<h3><?php _e( 'Optional / Experimental Features', 'simplemap' ); ?></h3>
 
 										<div class="inside">
-											<p class="sub"><?php printf( __( 'See %s the Help page%s for an explanation of these options.', 'simplemap' ), '<a href="' . get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=simplemap-help">', '</a>&nbsp;' ); ?></p>
+											<p class="sub"><?php printf( __( 'See %s the Help page%s for an explanation of these options.', 'simplemap' ), '<a href="' . get_bloginfo( 'wpurl' ) . '/wp-admin/edit.php?post_type=sm-location&page=simplemap-help">', '</a>&nbsp;' ); ?></p>
 
 											<div class="table">
 												<table class="form-table">
@@ -909,11 +909,11 @@ if ( ! class_exists( 'SM_Options' ) ) {
 											</p>
 											<p style='text-align:center;'><a
 													onclick="javascript:return confirm('<?php _e( 'Last chance! Pressing OK will delete all SimpleMap locations. Your settings will not be deleted.' ); ?>')"
-													href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=simplemap&sm-action=delete-simplemap&locations-only=true' ), 'delete-simplemap' ); ?>"><?php _e( 'Clicking this link will remove all locations but preserve your settings.' ); ?></a>
+													href="<?php echo wp_nonce_url( admin_url( 'edit.php?post_type=sm-location&page=simplemap&sm-action=delete-simplemap&locations-only=true' ), 'delete-simplemap' ); ?>"><?php _e( 'Clicking this link will remove all locations but preserve your settings.' ); ?></a>
 											</p>
 											<p style='text-align:center;'><a
 													onclick="javascript:return confirm('<?php _e( 'Last chance! Pressing OK will delete all SimpleMap data.' ); ?>')"
-													href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=simplemap&sm-action=delete-simplemap' ), 'delete-simplemap' ); ?>"><?php _e( 'Clicking this link will remove all data from the database.' ); ?></a>
+													href="<?php echo wp_nonce_url( admin_url( 'edit.php?post_type=sm-location&page=simplemap&sm-action=delete-simplemap' ), 'delete-simplemap' ); ?>"><?php _e( 'Clicking this link will remove all data from the database.' ); ?></a>
 											</p>
 										</div>
 									</div>
