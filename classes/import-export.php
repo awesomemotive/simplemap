@@ -356,6 +356,10 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 							foreach ( $columns as $key => $column ) {
 								if ( isset( $location[ $column ] ) ) {
 									$to_insert[ $key ] = trim( $location[ $column ] );
+                                                                        //Simply overwritting just 'description', but should __() applied to all?
+                                                                        if ( 'description' == $key ){
+                                                                            $to_insert[ $key ] = trim( html_entity_decode($location[ $column ]) );
+                                                                        }
 								} else {
 									$to_insert[ $key ] = '';
 								}
