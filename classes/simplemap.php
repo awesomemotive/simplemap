@@ -1794,22 +1794,6 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					),
 				);
 
-				$valid_map_type_map = array(
-					'ROADMAP'         => 'ROADMAP',
-					'SATELLITE'       => 'SATELLITE',
-					'HYBRID'          => 'HYBRID',
-					'TERRAIN'         => 'TERRAIN',
-					'G_NORMAL_MAP'    => 'ROADMAP',
-					'G_SATELLITE_MAP' => 'SATELLITE',
-					'G_HYBRID_MAP'    => 'HYBRID',
-					'G_PHYSICAL_MAP'  => 'TERRAIN',
-				);
-
-				if ( empty( $valid_map_type_map[ $options['map_type'] ] ) ) {
-					$options['map_type'] = $default['map_type'];
-				} else {
-					$options['map_type'] = $valid_map_type_map[ $options['map_type'] ];
-				}
 			}
 
 			$options += $default;
