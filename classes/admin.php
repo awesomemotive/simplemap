@@ -28,7 +28,7 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 
 			if ( empty( $options['api_key'] ) ) {
 				?>
-                <div class="notice notice-info">
+                <div class="error">
                     <p>
 						<?php echo __( 'You must enter an API key for your domain.',
 								'simplemap' ) .
