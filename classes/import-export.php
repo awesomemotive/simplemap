@@ -68,8 +68,19 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 					foreach ( $taxonomies as $tax ) {
 						$term_value = '';
-						if ( $terms = wp_get_object_terms( $location->ID, $tax, array( 'fields' => 'names' ) ) ) {
-							$term_value = implode( ',', $terms );
+						if ( $terms = wp_get_object_terms( $location->ID, $tax ) ) {
+                            $term_array = array();
+                            foreach ( $terms as $term ) {
+                                $prepend        = '';
+                                if ( ! empty( $term->parent ) ) {
+                                    $parent     = get_term_by( 'id', $term->parent, $tax );
+                                    if ( $parent ) {
+                                        $prepend    = $parent->name . ' | ';
+                                    }
+                                }
+                                $term_array[]   = $prepend . $term->name;
+                            }
+							$term_value = implode( ',', $term_array );
 						}
 						$location_data[ "tax_$tax" ] = esc_attr( $term_value );
 					}
@@ -469,11 +480,34 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 													continue;
 												}
 
+                                                // check if it is parent > child type of entry
+                                                $args           = array();
+                                                $parent_child   = array_map( 'trim', explode( '|', $name ) );
+                                                // check if the parent is a non-empty string
+                                                if ( 2 == count( $parent_child ) && ! empty( $parent_child[0] ) ) {
+                                                    // create the parent if not already created and store it for future use
+                                                    if ( $term_obj = get_term_by( 'name', $parent_child[0], $taxonomy ) ) {
+                                                        $parent_id = $term_obj->term_id;
+                                                    } else {
+                                                        $term_array = wp_insert_term( $parent_child[0], $taxonomy );
+                                                        if ( is_wp_error( $term_array ) ) {
+                                                            continue;
+                                                        }
+                                                        $parent_id  = $term_array['term_id'];
+                                                    }
+                                                    $args       = array(
+                                                        'parent'    => $parent_id,
+                                                    );
+
+                                                    // set the name back to the child term
+                                                    $name       = $parent_child[1];
+                                                }
+
 												// Grab or create and grab the category ID.
 												if ( $term_obj = get_term_by( 'name', $name, $taxonomy ) ) {
 													$term_id = $term_obj->term_id;
 												} else {
-													$term_array = wp_insert_term( $name, $taxonomy );
+													$term_array = wp_insert_term( $name, $taxonomy, $args );
 													if ( is_wp_error( $term_array ) ) {
 														continue;
 													}
