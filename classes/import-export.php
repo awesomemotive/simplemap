@@ -68,8 +68,26 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 					foreach ( $taxonomies as $tax ) {
 						$term_value = '';
-						if ( $terms = wp_get_object_terms( $location->ID, $tax, array( 'fields' => 'names' ) ) ) {
-							$term_value = implode( ',', $terms );
+						if ( $terms = wp_get_object_terms( $location->ID, $tax ) ) {
+                            $term_array = array();
+                            foreach ( $terms as $term ) {
+                                $parent_tree    = array();
+                                $child          = $term;
+                                while ( ! empty( $child->parent ) ) {
+                                    $parent     = get_term_by( 'id', $child->parent, $tax );
+                                    if ( $parent ) {
+                                        $parent_tree[]  = $parent->name;
+                                        $child      = $parent;
+                                    }
+                                }
+                                $prepend            = '';
+                                if ( $parent_tree ) {
+                                    $parent_tree    = array_reverse( $parent_tree );
+                                    $prepend        = implode( ' | ', $parent_tree ) . ' | ';
+                                }
+                                $term_array[]   = $prepend . $term->name;
+                            }
+							$term_value = implode( ',', $term_array );
 						}
 						$location_data[ "tax_$tax" ] = esc_attr( $term_value );
 					}
@@ -469,11 +487,38 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 													continue;
 												}
 
+                                                // check if it is parent | child type of entry
+                                                $args           = array();
+                                                $parent_tree    = array_map( 'trim', explode( '|', $name ) );
+                                                if ( count( $parent_tree ) > 1 ) {
+                                                    // pop the last element as this will be handled outside the if
+                                                    $name       = array_pop( $parent_tree );
+                                                    $parent_id  = 0;
+                                                    foreach ( $parent_tree as $parent ) {
+                                                        $args       = array(
+                                                            'parent'    => $parent_id,
+                                                        );
+                                                        // create the parent if not already created and store it for future use
+                                                        if ( $term_obj = get_term_by( 'name', $parent, $taxonomy ) ) {
+                                                            $parent_id = $term_obj->term_id;
+                                                        } else {
+                                                            $term_array = wp_insert_term( $parent, $taxonomy, $args );
+                                                            if ( is_wp_error( $term_array ) ) {
+                                                                continue;
+                                                            }
+                                                            $parent_id  = $term_array['term_id'];
+                                                        }
+                                                    }
+                                                    $args       = array(
+                                                        'parent'    => $parent_id,
+                                                    );
+                                                }
+
 												// Grab or create and grab the category ID.
 												if ( $term_obj = get_term_by( 'name', $name, $taxonomy ) ) {
 													$term_id = $term_obj->term_id;
 												} else {
-													$term_array = wp_insert_term( $name, $taxonomy );
+													$term_array = wp_insert_term( $name, $taxonomy, $args );
 													if ( is_wp_error( $term_array ) ) {
 														continue;
 													}
