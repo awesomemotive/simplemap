@@ -2274,7 +2274,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 						   title="<?php _e( 'Go to our website', 'simplemap' ); ?>">SimpleMap <?php _e( 'Home Page', 'simplemap' ); ?></a>
 					</td>
 					<td class="sm-toolbar-item">
-						<a href="<?php echo admin_url( 'admin.php?page=simplemap-help' ); ?>"
+						<a href="<?php echo admin_url( 'edit.php?post_type=sm-location&page=simplemap-help' ); ?>"
 						   title="<?php _e( 'Premium Support', 'simplemap' ); ?>"><?php _e( 'Premium Support', 'simplemap' ); ?></a>
 					</td>
 					<td class="sm-toolbar-item">
