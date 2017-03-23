@@ -25,10 +25,10 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			add_shortcode( 'simplemap', array( &$this, 'display_map' ) );
 
 			// Enqueue frontend scripts & styles into <head>.
-			add_action( 'template_redirect', array( &$this, 'enqueue_frontend_scripts_styles' ) );
+			add_action( 'wp_enqueue_scripts', array( &$this, 'enqueue_frontend_scripts_styles' ) );
 
 			// Enqueue backend scripts.
-			add_action( 'init', array( &$this, 'enqueue_backend_scripts_styles' ) );
+			add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_backend_scripts_styles' ) );
 
 			// Add hook for master js file.
 			add_action( 'template_redirect', array( &$this, 'google_map_js_script' ) );
