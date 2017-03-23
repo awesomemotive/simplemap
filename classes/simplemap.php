@@ -915,6 +915,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			}
 
 			function searchLocations( is_search ) {
+            clearInfoWindows();
 			// Init searchData
 			var searchData = {};
 			searchData.taxes = {};
