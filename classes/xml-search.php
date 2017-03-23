@@ -135,7 +135,7 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 				$sql = apply_filters( 'sm-xml-search-locations-sql', $sql );
 
 				// TODO: Consider using this to generate the marker node attributes in print_xml().
-				$location_field_map = array(
+				$location_fields = array(
 					'location_address'  => 'address',
 					'location_address2' => 'address2',
 					'location_city'     => 'city',
@@ -148,6 +148,8 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 					'location_url'      => 'url',
 					'location_special'  => 'special',
 				);
+
+				$location_field_map = apply_filters( 'sm_location_fields', $location_field_map );
 
 				$options        = $simple_map->get_options();
 				$show_permalink = ! empty( $options['enable_permalinks'] );
