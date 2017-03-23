@@ -149,7 +149,7 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 					'location_special'  => 'special',
 				);
 
-				$location_field_map = apply_filters( 'sm_location_fields', $location_field_map );
+				$location_field_map = apply_filters( 'sm_location_fields', $location_fields );
 
 				$options        = $simple_map->get_options();
 				$show_permalink = ! empty( $options['enable_permalinks'] );
