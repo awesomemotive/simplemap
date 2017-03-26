@@ -14,7 +14,107 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 			add_action( 'admin_head', array( &$this, 'load_admin_scripts' ) );
 			add_action( 'admin_menu', array( &$this, 'add_addl_menus' ), 20 );
 			add_action( 'admin_notices', array( $this, 'admin_notices' ) );
+
+			// Add a button to the TinyMCE console
+			add_action( 'admin_head', array( &$this, 'register_shortcode_button' ) );
 		}
+
+		/**
+		 * This method adds a button that helps the user insert a shortcode intstead of having to memorize it
+		 *
+		 * @since 2.5.1
+		 */
+        function register_shortcode_button() {
+            if ( ! current_user_can( 'edit_posts' ) && ! current_user_can( 'edit_pages' ) && get_user_option( 'rich_editing' ) == 'true') {
+                return;
+            }
+
+            wp_enqueue_script( 'jquery-chosen', SIMPLEMAP_URL . '/inc/js/chosen.jquery.min.js' );
+            wp_enqueue_style( 'simplemap-admin-shortcode', SIMPLEMAP_URL . '/inc/styles/shortcode.css' );
+            wp_enqueue_style( 'jquery-chosen', SIMPLEMAP_URL . '/inc/styles/chosen.min.css' );
+
+            add_filter( 'mce_external_plugins', array( &$this, 'mce_external_plugins' ) );
+            add_filter( 'mce_buttons', array( &$this, 'mce_buttons' ) );
+
+            // Let's get the html content of the modal
+            ob_start();
+            include_once SIMPLEMAP_PATH . '/inc/templates/shortcode.php';
+            $html   = ob_get_clean();
+
+            $params = array(
+                'i10n'  => array(
+                    'title_button'          => __( 'Add a SimpleMap', 'SimpleMap' ),
+                    'title_window'          => __( 'Add a SimpleMap', 'SimpleMap' ),
+                    'title_insert_button'   => __( 'Insert SimpleMap', 'SimpleMap' ),
+                    'title_cancel_button'   => __( 'Cancel', 'SimpleMap' ),
+                ),
+                'html'  => esc_js($html),
+            );
+?>
+    <script type='text/javascript'>
+        var simple_map_js_array = JSON.parse( '<?php echo json_encode( $params );?>' );
+
+        function sm_initChosen($) {
+            $( '.simplemap-chosen' ).chosen({
+                width           : '60%'
+            });
+        }
+
+        function sm_getAttributes($) {
+            var atts        = '';
+            var categories  = $( '#simplemap_category' ).val();
+            var tags        = $( '#simplemap_location' ).val();
+            var lat         = $( '#default_lat' ).val().trim();
+            var lon         = $( '#default_lon' ).val().trim();
+
+            if (categories) {
+                atts        += ' categories=' + categories.join( ',' );
+            }
+            if (tags) {
+                atts        += ' tags=' + tags.join( ',' );
+            }
+            if (lat != '') {
+                atts        += ' default_lat="' + lat + '"';
+            }
+            if (lon != '') {
+                atts        += ' default_lng="' + lon + '"';
+            }
+
+            // define all radio buttons here along with their default value
+            // will include the value in the shortcode only when its a non-default value
+            var radios      = {'show_categories_filter':'true', 'show_tags_filter':'true', 'hide_map':'false', 'hide_list':'false'};
+            for ( var prop in radios ) {
+                var val     = $( 'input[name="' + prop + '"]:checked' ).val();
+                var def     = radios[prop];
+                if ( val !== def) {
+                    atts        += ' ' + prop + '=' + val;
+                }
+            }
+            return '[simplemap' + atts + ']';
+        }
+    </script>
+<?php
+        }
+
+		/**
+		 * This method adds a callback to register our tinymce plugin 
+		 *
+		 * @since 2.5.1
+		 */
+        function mce_external_plugins( $plugin_array ) {
+            $plugin_array['simplemap_button'] = SIMPLEMAP_URL . '/inc/js/shortcode.js';
+            return $plugin_array;
+        }
+
+		/**
+		 * This method add a callback to add our button to the TinyMCE toolbar
+		 *
+		 * @since 2.5.1
+		 */
+        function mce_buttons($buttons) {
+            $buttons[] = 'simplemap_button';
+            return $buttons;
+        }
 
 		/**
 		 * Adds admin notices.
