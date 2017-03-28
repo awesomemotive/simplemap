@@ -25,13 +25,20 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 		 * @since 2.5.1
 		 */
         function register_shortcode_button() {
+            global $current_screen;
+            $screen = $current_screen->base;
+            
+            if ( ! ( is_admin() && ( $screen == 'post' || $screen == 'page' ) ) ) {
+                return;
+            }
+
             if ( ! current_user_can( 'edit_posts' ) && ! current_user_can( 'edit_pages' ) && get_user_option( 'rich_editing' ) == 'true') {
                 return;
             }
 
-            wp_enqueue_script( 'jquery-chosen', SIMPLEMAP_URL . '/inc/js/chosen.jquery.min.js' );
-            wp_enqueue_style( 'simplemap-admin-shortcode', SIMPLEMAP_URL . '/inc/styles/shortcode.css' );
+            wp_enqueue_script( 'jquery-chosen', SIMPLEMAP_URL . '/inc/js/chosen.jquery.min.js', array( 'jquery' ) );
             wp_enqueue_style( 'jquery-chosen', SIMPLEMAP_URL . '/inc/styles/chosen.min.css' );
+            wp_enqueue_style( 'simplemap-admin-shortcode', SIMPLEMAP_URL . '/inc/styles/shortcode.css', array( 'jquery-chosen' ) );
 
             add_filter( 'mce_external_plugins', array( &$this, 'mce_external_plugins' ) );
             add_filter( 'mce_buttons', array( &$this, 'mce_buttons' ) );
