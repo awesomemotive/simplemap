@@ -2,20 +2,21 @@
 
 Contributors: hallsofmontezuma, fullthrottledevelopment, wpsmort, arnaudbroes
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=SimpleMap&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8
-Tags: map, maps, store locator, database, locations, stores, Google maps, locator
+Tags: map, maps, store locator, database, local seo, locations, stores, Google maps, locator
 Requires at least: 3.3
 Tested up to: 4.7
 Stable tag: 2.5.1
 
-Easy to use Store Locator plugin (supports international stores) using Google Maps
+Easy to use Store Locator / Local SEO plugin (supports international stores) using Google Maps
 
 == Description ==
 
-SimpleMap is a *powerful* and *easy-to-use* international store locator plugin. It has an intuitive interface and is completely customizable. Its search features make it easy for your users to find your locations quickly.
+SimpleMap Local SEO is a *powerful* and *easy-to-use* international store locator plugin. It has an intuitive interface and is completely customizable. Its search features make it easy for your users to find your locations quickly.
 
 Key features include:
 
 * Manage locations from any country supported by Google Maps
+* Awesome SEO optimizations for your business
 * Manage an unlimited number of locations
 * Put a Google Map on any page or post that gives instant results to users
 * Users can enter a street address, city, state, or zip to search the database
