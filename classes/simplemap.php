@@ -87,6 +87,11 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 			$to_display .= '<div id="simplemap" style="' . $hidemap . 'width: ' . $map_width . '; height: ' . $map_height . ';"></div>';
 			$to_display .= '<div id="results" style="' . $hidelist . 'width: ' . $map_width . ';"></div>';
+			$to_display .= '<div style="' . $hidelist . 'width: ' . $map_width . '; text-align: center;">';
+			$to_display .= '<a href="javascript:prevPage()" id="btn_prev" class="location_search_prev_page" style="float: left;">Prev</a>';
+			$to_display .= '<div id="sm_page_num" class="location_search_page_num" style="display: inline-block;">Page 1</div>';
+			$to_display .= '<a href="javascript:nextPage()" id="btn_next" class="location_search_next_page" style="float: right;">Next</a>';
+			$to_display .= '</div>';
 			$to_display .= '<script type="text/javascript">';
 			$to_display .= '(function($) { ';
 
@@ -215,7 +220,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			$form_field_names = $this->get_form_field_names_from_shortcode_atts( $search_fields );
 
 			// Form onsubmit, action, and method values.
-			$on_submit = apply_filters( 'sm-location-search-onsubmit', ' onsubmit="searchLocations( 1 ); return false; "', $post->ID );
+			$on_submit = apply_filters( 'sm-location-search-onsubmit', ' onsubmit="searchOnSubmit(); return false; "', $post->ID );
 			$action    = apply_filters( 'sm-locaiton-search-action', get_permalink(), $post->ID );
 			$method    = apply_filters( 'sm-location-search-method', 'post', $post->ID );
 
@@ -427,6 +432,8 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 			// Hidden value for limit.
 			$location_search .= "<input type='hidden' id='location_search_limit' value='" . $limit_value . "' />";
+			$location_search .= "<input type='hidden' id='location_search_page_num' value='1' />";
+			$location_search .= "<input type='hidden' id='location_search_num_of_pages' value='0' />";
 
 			// Hidden value set to true if we got here via search.
 			$location_search .= "<input type='hidden' id='location_is_search_results' name='sm-location-search' value='" . $is_sm_search . "' />";
@@ -954,6 +961,8 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			searchData.lat            = document.getElementById('location_search_default_lat').value;
 			searchData.lng            = document.getElementById('location_search_default_lng').value;
 			searchData.limit        = document.getElementById('location_search_limit').value;
+			searchData.page_num     = document.getElementById('location_search_page_num').value;
+			searchData.num_of_pages = document.getElementById('location_search_num_of_pages').value;
 			searchData.searching    = document.getElementById('location_is_search_results').value;
 
 			// Do SimpleMap Taxonomies
@@ -1124,7 +1133,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			}
 			?>
 
-			var searchUrl = siteurl + '/?sm-xml-search=1&<?php echo $wpmlquery;  ?>lat=' + searchData.center.lat() + '&lng=' + searchData.center.lng() + '&radius=' + searchData.radius + '&namequery=' + searchData.homeAddress + '&query_type=' + searchData.query_type  + '&limit=' + searchData.limit + <?php echo $js_tax_string; ?>'&address=' + searchData.address + '&city=' + searchData.city + '&state=' + searchData.state + '&zip=' + searchData.zip + '&pid=<?php echo esc_js( absint( $_GET['smpid'] ) ); ?>';
+			var searchUrl = siteurl + '/?sm-xml-search=1&<?php echo $wpmlquery;  ?>lat=' + searchData.center.lat() + '&lng=' + searchData.center.lng() + '&radius=' + searchData.radius + '&namequery=' + searchData.homeAddress + '&query_type=' + searchData.query_type  + '&limit=' + searchData.limit + '&page_num=' + searchData.page_num + '&num_of_pages=' + searchData.num_of_pages + <?php echo $js_tax_string; ?>'&address=' + searchData.address + '&city=' + searchData.city + '&state=' + searchData.state + '&zip=' + searchData.zip + '&pid=<?php echo esc_js( absint( $_GET['smpid'] ) ); ?>';
 
 			<?php if ( apply_filters( 'sm-use-updating-image', true ) ) : ?>
 				// Display Updating Message and hide search results
@@ -1137,6 +1146,9 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 			jQuery.get( searchUrl, {}, function(data) {
 			<?php if ( apply_filters( 'sm-use-updating-image', true ) ) : ?>
+				number_of_pages = data.shift();
+				data = data.shift();
+				document.getElementById('location_search_num_of_pages').value = number_of_pages;
 				// Hide Updating Message
 				if ( jQuery( "#simplemap-updating" ).is(":visible") ) {
 				jQuery( "#simplemap-updating" ).hide();
@@ -1614,6 +1626,36 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					google.maps.event.trigger(marker, 'click');
 				});
 				return div;
+			}
+			function prevPage() {
+				var page_num = parseInt( document.getElementById('location_search_page_num').value );
+
+				if (page_num > 1) {
+					page_num--;
+					document.getElementById('location_search_page_num').value = page_num;
+					jQuery("#sm_page_num").html( "Page " + page_num );
+
+					searchLocations( 1 );
+				}
+			}
+
+			function nextPage() {
+				var page_num = parseInt( document.getElementById('location_search_page_num').value );
+				var num_of_pages = parseInt( document.getElementById('location_search_num_of_pages').value );
+
+				if ( page_num < num_of_pages ) {
+					page_num++;
+					document.getElementById('location_search_page_num').value = page_num;
+					jQuery("#sm_page_num").html( "Page " + page_num );
+
+					searchLocations( 1 );
+				}
+			}
+			function searchOnSubmit() {
+				document.getElementById('location_search_page_num').value = 1;
+				document.getElementById('location_search_num_of_pages').value = 0;
+
+				searchLocations( 1 );
 			}
 			<?php
 			die();

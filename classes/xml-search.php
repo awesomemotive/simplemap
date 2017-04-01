@@ -13,19 +13,21 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 				remove_filter( 'the_title', 'at_title_check' );
 
 				$defaults = array(
-					'lat'        => false,
-					'lng'        => false,
-					'radius'     => false,
-					'namequery'  => false,
-					'query_type' => 'distance',
-					'address'    => false,
-					'city'       => false,
-					'state'      => false,
-					'zip'        => false,
-					'onlyzip'    => false,
-					'country'    => false,
-					'limit'      => false,
-					'pid'        => 0,
+					'lat'           => false,
+					'lng'           => false,
+					'radius'        => false,
+					'namequery'     => false,
+					'query_type'    => 'distance',
+					'address'       => false,
+					'city'          => false,
+					'state'         => false,
+					'zip'           => false,
+					'onlyzip'       => false,
+					'country'       => false,
+					'limit'         => false,
+					'page_num'      => 0,
+					'num_of_pages'  => 0,
+					'pid'           => 0,
 				);
 				$input    = array_filter( array_intersect_key( $_GET, $defaults ) ) + $defaults;
 
@@ -130,8 +132,21 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 					GROUP BY
 						posts.ID
 						$distance_having
-					ORDER BY " . apply_filters( 'sm-location-sort-order', $distance_order . ' posts.post_name ASC', $input ) . " " . $limit;
+					ORDER BY " . apply_filters( 'sm-location-sort-order', $distance_order . ' posts.post_name ASC', $input ) . " " . $limit . " OFFSET " . ( absint( $input['limit'] ) * ( absint( $input['page_num'] ) - 1 ) );
 
+				$input['limit'] = intval( $input['limit'] );
+				$input['page_num'] = intval( $input['page_num'] );
+				$num_of_pages = intval( $input['num_of_pages'] );
+
+				$total_locations = 0;
+				if ( 1 === $input['page_num'] ) {
+					$total_sql = '';
+					$total_sql = substr( $sql, 0, strrpos( $sql, ' LIMIT' ) );
+
+					$total_locations = sizeof( $wpdb->get_results( $total_sql ) );
+
+					$num_of_pages = (int) ceil( $total_locations / $input['limit'] );
+				}
 				$sql = apply_filters( 'sm-xml-search-locations-sql', $sql );
 
 				// TODO: Consider using this to generate the marker node attributes in print_xml().
@@ -202,18 +217,19 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 				}
 
 				$locations = apply_filters( 'sm-xml-search-locations', $locations );
-				$this->print_json( $locations, $smtaxes );
+				$this->print_json( $locations, $smtaxes, $num_of_pages );
 			}
 		}
 
 		// Prints the JSON output
-		function print_json( $dataset, $smtaxes ) {
+		function print_json( $locations, $smtaxes, $num_of_pages ) {
 			header( 'Status: 200 OK', false, 200 );
 			header( 'Content-type: application/json' );
 			do_action( 'sm-xml-search-headers' );
 
-			do_action( 'sm-print-json', $dataset, $smtaxes );
+			do_action( 'sm-print-json', $locations, $smtaxes );
 
+            $dataset = array( $num_of_pages, $locations );
 			echo json_encode( $dataset );
 			die();
 		}
