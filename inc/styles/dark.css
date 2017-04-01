@@ -198,6 +198,18 @@ font-weight:bold;
 vertical-align:top;
 }
 
+.location-search-prev-page {
+	float: left;
+}
+
+.location-search-next-page {
+	float: right;
+}
+
+.location-search-page-num {
+	display: inline-block;
+}
+
 .no-linebreak {
 white-space:nowrap;
 }
