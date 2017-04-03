@@ -688,20 +688,28 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			do_action( 'sm-general-options-js' );
 			?>
 			function codeAddress() {
-			// if this is modified, modify mirror function in master-js php function
-			var d_address = document.getElementById("default_address").value;
+				var gm_api_key = document.getElementById("api_key").value;
+				// if this is modified, modify mirror function in master-js php function
+				var d_address = document.getElementById("default_address").value;
 
-			geocoder = new google.maps.Geocoder();
-			geocoder.geocode( { 'address': d_address }, function( results, status ) {
-			if ( status == google.maps.GeocoderStatus.OK ) {
-			var latlng = results[0].geometry.location;
-			document.getElementById("default_lat").value = latlng.lat();
-			document.getElementById("default_lng").value = latlng.lng();
-			} else {
-			alert("Geocode was not successful for the following reason: " + status);
+				if ( gm_api_key ) {
+					geocoder = new google.maps.Geocoder();
+					var a = geocoder.geocode( { 'address': d_address }, function( results, status ) {
+						if ( status == google.maps.GeocoderStatus.OK ) {
+							var latlng = results[0].geometry.location;
+							document.getElementById("default_lat").value = latlng.lat();
+							document.getElementById("default_lng").value = latlng.lng();
+						} else {
+							alert("Geocode was not successful for the following reason: " + status);
+						}
+					});
+				} else {
+					gm_authFailure();
+				}
 			}
-			});
-			}
+			function gm_authFailure() {
+				alert("Google Maps API Key is Required within Map Configuration.");
+			};
 			<?php
 			die();
 		}
