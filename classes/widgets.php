@@ -53,6 +53,7 @@ class SM_Search_Widget extends WP_Widget {
 		 * Same with $this->form method.
 		 */
 		// Search Form Options.
+		$show_name      = $instance['show_name'];
 		$show_address   = $instance['show_address'];
 		$show_city      = $instance['show_city'];
 		$show_state     = $instance['show_state'];
@@ -81,6 +82,7 @@ class SM_Search_Widget extends WP_Widget {
 		}
 
 		// Form Field Values.
+		$name_value = isset( $_REQUEST['location_search_name'] ) ? $_REQUEST['location_search_name'] : '';
 		$address_value = isset( $_REQUEST['location_search_address'] ) ? $_REQUEST['location_search_address'] : '';
 		$city_value    = isset( $_REQUEST['location_search_city'] ) ? $_REQUEST['location_search_city'] : '';
 		$state_value   = isset( $_REQUEST['location_search_state'] ) ? $_REQUEST['location_search_state'] : '';
@@ -103,6 +105,9 @@ class SM_Search_Widget extends WP_Widget {
 
 		$location_search .= apply_filters( 'sm-location-search-widget-table-top', '' );
 
+		if ( $show_name ) {
+			$location_search .= '<tr><td class="location_search_widget_name_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-name', __( 'Place', 'simplemap' ) ) . ':<br /><input type="text" id="location_search_widget_name_field" name="location_search_name" /></td></tr>';
+		}
 		if ( $show_address ) {
 			$location_search .= '<tr><td class="location_search_widget_address_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-street', __( 'Street', 'simplemap' ) ) . ':<br /><input type="text" id="location_search_widget_address_field" name="location_search_address" /></td></tr>';
 		}
@@ -224,6 +229,7 @@ class SM_Search_Widget extends WP_Widget {
 		$instance = $this->set_instance( $instance );
 
 		$title          = esc_attr( $instance['title'] );
+		$show_name      = $instance['show_name'];
 		$show_address   = $instance['show_address'];
 		$show_city      = $instance['show_city'];
 		$show_state     = $instance['show_state'];
@@ -239,7 +245,12 @@ class SM_Search_Widget extends WP_Widget {
 			       name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>"/>
 		</p>
 
-		<p><input type="checkbox" class="checkbox" id="<?php echo esc_attr(  $this->get_field_id( 'show_address' ) ); ?>"
+		<p><input type="checkbox" class="checkbox" id="<?php echo esc_attr(  $this->get_field_id( 'show_name' ) ); ?>"
+		          name="<?php echo esc_attr( $this->get_field_name( 'show_name' ) ); ?>"<?php checked( $show_name ); ?> />
+			<label
+				for="<?php echo esc_attr( $this->get_field_id( 'show_name' ) ); ?>"><?php _e( 'Show Place', 'simplemap' ); ?></label><br/>
+
+			<input type="checkbox" class="checkbox" id="<?php echo esc_attr(  $this->get_field_id( 'show_address' ) ); ?>"
 		          name="<?php echo esc_attr( $this->get_field_name( 'show_address' ) ); ?>"<?php checked( $show_address ); ?> />
 			<label
 				for="<?php echo esc_attr( $this->get_field_id( 'show_address' ) ); ?>"><?php _e( 'Show Address', 'simplemap' ); ?></label><br/>
@@ -324,6 +335,7 @@ class SM_Search_Widget extends WP_Widget {
 	private function set_instance( $instance, $old_instance = array() ) {
 		$default = array(
 			'title'             => '',
+			'show_name'         => false,
 			'show_address'      => false,
 			'show_city'         => false,
 			'show_state'        => false,

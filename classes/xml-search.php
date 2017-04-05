@@ -18,6 +18,7 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 					'radius'     => false,
 					'namequery'  => false,
 					'query_type' => 'distance',
+					'locname'    => false,
 					'address'    => false,
 					'city'       => false,
 					'state'      => false,
@@ -56,7 +57,7 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 
 				if ( $input['radius'] ) {
 					$input['radius'] = ( $input['radius'] < 1 ) ? 1 : $input['radius'];
-					$distance_having = $wpdb->prepare( "HAVING distance < %d", $input['radius'] );
+					$distance_having = $wpdb->prepare( "HAVING distance < %d OR posts.post_title LIKE '%s'", $input['radius'], '%' . $input['locname'] . '%' );
 				}
 
 				$i             = 1;
