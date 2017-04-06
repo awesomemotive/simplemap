@@ -74,6 +74,8 @@ if ( ! class_exists( 'SM_Options' ) ) {
 				$new_options['default_lat']           = ( ! empty( $_POST['default_lat'] ) ) ? $_POST['default_lat'] : $options['default_lat'];
 				$new_options['default_lng']           = ( ! empty( $_POST['default_lng'] ) ) ? $_POST['default_lng'] : $options['default_lng'];
 				$new_options['zoom_level']            = ( isset( $_POST['zoom_level'] ) ) ? absint( $_POST['zoom_level'] ) : $options['zoom_level'];
+				$new_options['scrollwheel']           = ( isset( $_POST['scrollwheel'] ) && 'on' == $_POST['scrollwheel'] ) ? 1 : 0;
+				$new_options['draggable']             = ( isset( $_POST['draggable'] ) && 'on' == $_POST['draggable'] ) ? 1 : 0;
 				$new_options['default_radius']        = ( ! empty( $_POST['default_radius'] ) ) ? absint( $_POST['default_radius'] ) : $options['default_radius'];
 				$new_options['map_type']              = ( ! empty( $_POST['map_type'] ) ) ? $_POST['map_type'] : $options['map_type'];
 				$new_options['special_text']          = ( isset( $_POST['special_text'] ) ) ? $_POST['special_text'] : $options['special_text'];
@@ -548,6 +550,26 @@ if ( ! class_exists( 'SM_Options' ) ) {
 															<small>
 																<em><?php _e( '1 is the most zoomed out (the whole world is visible) and 19 is the most zoomed in.', 'simplemap' ); ?></em>
 															</small>
+														</td>
+													</tr>
+
+													<tr valign="top">
+														<td width="150"><?php _e( 'Scroll Wheel', 'simplemap' ); ?></td>
+														<td>
+															<label for="scrollwheel"><input type="checkbox"
+														                                      name="scrollwheel"
+														                                      id="scrollwheel" <?php checked( $scrollwheel ); ?> /> <?php _e( 'Enable scroll wheel?', 'simplemap' ); ?>
+															</label>
+														</td>
+													</tr>
+
+													<tr valign="top">
+														<td width="150"><?php _e( 'Map Dragging', 'simplemap' ); ?></td>
+														<td>
+															<label for="draggable"><input type="checkbox"
+														                                      name="draggable"
+														                                      id="draggable" <?php checked( $draggable ); ?> /> <?php _e( 'Enable map dragging?', 'simplemap' ); ?>
+															</label>
 														</td>
 													</tr>
 
