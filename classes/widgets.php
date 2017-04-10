@@ -82,7 +82,7 @@ class SM_Search_Widget extends WP_Widget {
 		}
 
 		// Form Field Values.
-		$name_value = isset( $_REQUEST['location_search_name'] ) ? $_REQUEST['location_search_name'] : '';
+		$name_value    = isset( $_REQUEST['location_search_name'] ) ? $_REQUEST['location_search_name'] : '';
 		$address_value = isset( $_REQUEST['location_search_address'] ) ? $_REQUEST['location_search_address'] : '';
 		$city_value    = isset( $_REQUEST['location_search_city'] ) ? $_REQUEST['location_search_city'] : '';
 		$state_value   = isset( $_REQUEST['location_search_state'] ) ? $_REQUEST['location_search_state'] : '';
