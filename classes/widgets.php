@@ -57,6 +57,7 @@ class SM_Search_Widget extends WP_Widget {
 		$show_city      = $instance['show_city'];
 		$show_state     = $instance['show_state'];
 		$show_zip       = $instance['show_zip'];
+		$show_country   = $instance['show_country'];
 		$show_distance  = $instance['show_distance'];
 
 		$default_lat    = $instance['default_lat'];
@@ -85,6 +86,7 @@ class SM_Search_Widget extends WP_Widget {
 		$city_value    = isset( $_REQUEST['location_search_city'] ) ? $_REQUEST['location_search_city'] : '';
 		$state_value   = isset( $_REQUEST['location_search_state'] ) ? $_REQUEST['location_search_state'] : '';
 		$zip_value     = isset( $_REQUEST['location_search_zip'] ) ? $_REQUEST['location_search_zip'] : '';
+		$country_value = isset( $_REQUEST['location_search_country'] ) ? $_REQUEST['location_search_country'] : $options['default_country'];
 		$radius_value  = isset( $_REQUEST['location_search_distance'] ) ? $_REQUEST['location_search_distance'] : $options['default_radius'];
 		$limit_value   = isset( $_REQUEST['location_search_limit'] ) ? $_REQUEST['location_search_limit'] : $options['results_limit'];
 
@@ -114,6 +116,15 @@ class SM_Search_Widget extends WP_Widget {
 		}
 		if ( $show_zip ) {
 			$location_search .= '<tr><td class="location_search_widget_zip_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-zip', __( 'Zip', 'simplemap' ) ) . ':<br /><input type="text" id="location_search_widget_zip_field" name="location_search_zip" /></td></tr>';
+		}
+		if ( $show_country ) {
+			$location_search .= '<tr><td class="location_search_widget_country_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-country', __( 'Country', 'simplemap' ) ) . ':<br /><select id="location_search_widget_country_field" name="location_search_country">';
+
+			foreach ( $simple_map->get_search_countries() as $key => $value ) {
+				$location_search .= '<option value="' . $key . '"' . selected( $country_value, $key, false ) . '>' . $value . "</option>\n";
+			}
+
+			$location_search .= '</select></td></tr>';
 		}
 		if ( $show_distance ) {
 			$location_search .= '<tr><td class="location_search_widget_distance_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-distance', __( 'Select a distance', 'simplemap' ) ) . ':<br /><select id="location_search_widget_distance_field" name="location_search_distance" >';
@@ -228,6 +239,7 @@ class SM_Search_Widget extends WP_Widget {
 		$show_city      = $instance['show_city'];
 		$show_state     = $instance['show_state'];
 		$show_zip       = $instance['show_zip'];
+		$show_country   = $instance['show_country'];
 		$show_distance  = $instance['show_distance'];
 		$default_lat    = ! empty( $instance['default_lat'] ) ? esc_attr( $instance['default_lat'] ) : 0;
 		$default_lng    = ! empty( $instance['default_lng'] ) ? esc_attr( $instance['default_lng'] ) : 0;
@@ -258,6 +270,11 @@ class SM_Search_Widget extends WP_Widget {
 			       name="<?php echo esc_attr( $this->get_field_name( 'show_zip' ) ); ?>"<?php checked( $show_zip ); ?> />
 			<label
 				for="<?php echo $this->get_field_id( 'show_zip' ); ?>"><?php _e( 'Show Zip', 'simplemap' ); ?></label><br/>
+
+			<input type="checkbox" class="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_country' ) ); ?>"
+			       name="<?php echo esc_attr( $this->get_field_name( 'show_country' ) ); ?>"<?php checked( $show_country ); ?> />
+			<label
+				for="<?php echo $this->get_field_id( 'show_country' ); ?>"><?php _e( 'Show Country', 'simplemap' ); ?></label><br/>
 
 			<input type="checkbox" class="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_distance' ) ); ?>"
 			       name="<?php echo $this->get_field_name( 'show_distance' ); ?>"<?php checked( $show_distance ); ?> />
@@ -328,6 +345,7 @@ class SM_Search_Widget extends WP_Widget {
 			'show_city'         => false,
 			'show_state'        => false,
 			'show_zip'          => false,
+			'show_country'      => false,
 			'show_distance'     => false,
 			'default_lat'       => 0,
 			'default_lng'       => 0,
