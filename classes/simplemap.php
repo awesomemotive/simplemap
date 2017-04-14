@@ -629,7 +629,9 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				wp_enqueue_style( 'simplemap-map-style', $style_url );
 
 				$mylang = '';
-				if ( isset( $_GET['lang'] ) ) {
+				if ( defined( 'ICL_LANGUAGE_CODE' ) ) {
+					$mylang = 'wpml=' . ICL_LANGUAGE_CODE . '&';
+				} elseif ( isset( $_GET['lang'] ) ) {
 					$mylang = 'wpml=' . $_GET['lang'] . '&';
 				}
 
@@ -718,6 +720,8 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 			if ( isset( $_GET['wpml'] ) ) {
 				$wpmllang = $_GET['wpml'];
+			} elseif ( defined( 'ICL_LANGUAGE_CODE' ) ) {
+				$wpmllang = ICL_LANGUAGE_CODE;
 			}
 			?>
 			var default_lat            = <?php echo esc_js( $options['default_lat'] ); ?>;

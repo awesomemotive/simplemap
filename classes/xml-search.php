@@ -97,10 +97,10 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 
 					if ( isset( $_GET['wpml'] ) ) {
 						$wpml_sm_lang = $_GET['wpml'];
-					}
-
-					if ( isset( $_GET['lang'] ) ) {
+					} elseif ( isset( $_GET['lang'] ) ) {
 						$wpml_sm_lang = $_GET['lang'];
+					} elseif ( defined( 'ICL_LANGUAGE_CODE' ) ) {
+						$wpml_sm_lang = ICL_LANGUAGE_CODE;
 					}
 
 					if ( isset( $wpml_sm_lang ) ) {
