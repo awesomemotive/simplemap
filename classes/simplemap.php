@@ -226,7 +226,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			$city_value    = isset( $_REQUEST['location_search_city'] ) ? $_REQUEST['location_search_city'] : '';
 			$state_value   = isset( $_REQUEST['location_search_state'] ) ? $_REQUEST['location_search_state'] : '';
 			$zip_value     = get_query_var( 'location_search_zip' );
-			$country_value = get_query_var( 'location_search_country' );
+			$country_value = isset( $_REQUEST['location_search_country'] ) ? $_REQUEST['location_search_country'] : $options['default_country'];
 			$radius_value  = isset( $_REQUEST['location_search_distance'] ) ? $_REQUEST['location_search_distance'] : $radius;
 			$limit_value   = isset( $_REQUEST['location_search_limit'] ) ? $_REQUEST['location_search_limit'] : $limit;
 			$is_sm_search  = isset( $_REQUEST['location_is_search_results'] ) ? 1 : 0;
@@ -248,10 +248,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				'label' => apply_filters( 'sm-search-label-zip', __( 'Zip: ', 'simplemap' ), $post ),
 				'input' => '<input type="text" id="location_search_zip_field" name="location_search_zip" value="' . esc_attr( $zip_value ) . '" />',
 			);
-			$ffi['country']  = array(
-				'label' => apply_filters( 'sm-search-label-country', __( 'Country: ', 'simplemap' ), $post ),
-				'input' => '<input type="text" id="location_search_country_field" name="location_search_country" value="' . esc_attr( $country_value ) . '" />',
-			);
+			$ffi['country']  = $this->add_country_field( $country_value );
 			$ffi['empty']    = array( 'label' => '', 'input' => '', );
 			$ffi['submit']   = array(
 				'label' => '',
@@ -520,6 +517,28 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				'input' => $distance_input
 			);
 
+		}
+
+		/**
+		 * Adds Country field to form.
+		 *
+		 * @param $country_value
+		 *
+		 * @return array
+		 */
+		function add_country_field( $country_value ) {
+			global $post;
+
+			$country_input = '<select id="location_search_country_field" name="location_search_country">';
+			foreach ( $this->get_search_countries() as $key => $value ) {
+				$country_input .= '<option value="' . $key . '"' . selected( $country_value, $key, false ) . '>' . $value . "</option>\n";
+			}
+			$country_input .= '</select>';
+
+			return array(
+				'label' => apply_filters( 'sm-search-label-country', __( 'Country: ', 'simplemap' ), $post ),
+				'input' => $country_input,
+			);
 		}
 
 		/**
@@ -1132,7 +1151,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			}
 			?>
 
-			var searchUrl = siteurl + '/?sm-xml-search=1&<?php echo $wpmlquery;  ?>lat=' + searchData.center.lat() + '&lng=' + searchData.center.lng() + '&radius=' + searchData.radius + '&namequery=' + searchData.homeAddress + '&query_type=' + searchData.query_type  + '&limit=' + searchData.limit + <?php echo $js_tax_string; ?>'&address=' + searchData.address + '&city=' + searchData.city + '&state=' + searchData.state + '&zip=' + searchData.zip + '&pid=<?php echo esc_js( absint( $_GET['smpid'] ) ); ?>';
+			var searchUrl = siteurl + '/?sm-xml-search=1&<?php echo $wpmlquery;  ?>lat=' + searchData.center.lat() + '&lng=' + searchData.center.lng() + '&radius=' + searchData.radius + '&namequery=' + searchData.homeAddress + '&query_type=' + searchData.query_type  + '&limit=' + searchData.limit + <?php echo $js_tax_string; ?>'&address=' + searchData.address + '&city=' + searchData.city + '&state=' + searchData.state + '&zip=' + searchData.zip + '&country=' + searchData.country + '&pid=<?php echo esc_js( absint( $_GET['smpid'] ) ); ?>';
 
 			<?php if ( apply_filters( 'sm-use-updating-image', true ) ) : ?>
 				// Display Updating Message and hide search results
@@ -2248,6 +2267,34 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 		}
 
 		/**
+		 * Get the search countries.
+		 *
+		 * Returns the countries that have been populated.
+		 * @return array
+		 */
+		function get_search_countries() {
+			$countries = array();
+			$all_countries = $this->get_country_options();
+			$args = array(
+				'post_type'      => 'sm-location',
+				'post_status'    => 'publish',
+				'posts_per_page' => '-1',
+			);
+			$locations = get_posts( $args );
+
+			foreach ( $locations as $key => $location ) {
+				$country_code = get_post_meta( $location->ID, 'location_country', true );
+				if ( ! isset( $countries[ $country_code ] ) ) {
+					$countries[ $country_code ] = $all_countries[ $country_code ];
+				}
+			}
+
+			asort($countries);
+
+			return $countries;
+		}
+
+		/**
 		 * Get auto locate options.
 		 *
 		 * @return mixed|void
@@ -2374,6 +2421,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			$vars[] = 'location_search_city';
 			$vars[] = 'location_search_state';
 			$vars[] = 'location_search_zip';
+			$vars[] = 'location_search_country';
 			$vars[] = 'location_search_distance';
 			$vars[] = 'location_search_limit';
 			$vars[] = 'location_is_search_results';
@@ -2573,7 +2621,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					'search_title'         => __( 'Find Locations Near:', 'simplemap' ),
 					'search_form_type'     => 'table',
 					'search_form_cols'     => 3,
-					'search_fields'        => 'labelbr_street||labelbr_city||labelbr_state||labelbr_zip||empty||empty||labeltd_distance||empty' . implode( '', $tax_search_fields ) . '||submit||empty||empty',
+					'search_fields'        => 'labelbr_street||labelbr_city||labelbr_state||labelbr_zip||labelbr_country||empty||empty||labeltd_distance||empty' . implode( '', $tax_search_fields ) . '||submit||empty||empty',
 					'taxonomy_field_type'  => 'checkboxes',
 					'hide_search'          => '',
 					'hide_map'             => 0,
