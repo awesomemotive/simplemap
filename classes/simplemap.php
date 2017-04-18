@@ -1009,10 +1009,6 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			var query = '';
 			var start = 0;
 
-			if ( searchData.name && searchData.name != '' ) {
-			query += searchData.name + ', ';
-			}
-
 			if ( searchData.address && searchData.address != '' ) {
 			query += searchData.address + ', ';
 			}
