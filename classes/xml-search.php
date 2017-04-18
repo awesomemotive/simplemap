@@ -60,7 +60,7 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 					$distance_having = $wpdb->prepare( "HAVING distance < %d", $input['radius'] );
 					$input['locname'] = trim( $input['locname'] );
 					if ( ! empty( $input['locname'] ) ) {
-						$distance_having .= $wpdb->prepare( " OR LOWER( posts.post_title ) LIKE '%s'", '%' . strtolower( $input['locname'] ) . '%' );
+						$distance_having .= $wpdb->prepare( " AND LOWER( posts.post_title ) LIKE '%s'", '%' . strtolower( $input['locname'] ) . '%' );
 					}
 				}
 
