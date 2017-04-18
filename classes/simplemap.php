@@ -95,7 +95,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 
 			$do_search_function = '
-				load_simplemap( lat, lng, aspid, ascid, asma, shortcode_zoom_level, map_type, shortcode_autoload );
+				load_simplemap( lat, lng, aspid, ascid, asma, shortcode_zoom_level, map_type, shortcode_autoload, shortcode_scrollwheel, shortcode_draggable );
 				//searchLocations( ' . absint( $is_sm_search ) . ' );
 			';
 
@@ -108,6 +108,8 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				var shortcode_zoom_level = "' . esc_js( $zoom_level ) . '";
 				var map_type = "' . esc_js( $map_type ) . '";
 				var shortcode_autoload = "' . esc_js( $autoload ) . '";
+				var shortcode_scrollwheel = "' . esc_js( $scrollwheel ) . '";
+				var shortcode_draggable = "' . esc_js( $draggable ) . '";
 				var auto_locate = "' . esc_js( $options['auto_locate'] ) . '";
 				var sm_autolocate_complete = false;
 				geocoder = new google.maps.Geocoder();
@@ -729,6 +731,8 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			var default_lng            = <?php echo esc_js( $options['default_lng'] ); ?>;
 			var default_radius            = <?php echo esc_js( $options['default_radius'] ); ?>;
 			var zoom_level                = '<?php echo esc_js( $options['zoom_level'] ); ?>';
+			var scrollwheel            = '<?php echo esc_js( $options['scrollwheel'] ); ?>';
+			var draggable              = '<?php echo esc_js( $options['draggable'] ); ?>';
 			var map_width                = '<?php echo esc_js( $options['map_width'] ); ?>';
 			var map_height                = '<?php echo esc_js( $options['map_height'] ); ?>';
 			var special_text            = '<?php echo esc_js( $options['special_text'] ); ?>';
@@ -783,10 +787,12 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			}
 
 			//function load_simplemap( lat, lng, aspid, ascid, asma ) {
-			function load_simplemap( lat, lng, aspid, ascid, asma, shortcode_zoom_level, map_type, shortcode_autoload ) {
+			function load_simplemap( lat, lng, aspid, ascid, asma, shortcode_zoom_level, map_type, shortcode_autoload, shortcode_scrollwheel, shortcode_draggable ) {
 
-			zoom_level = shortcode_zoom_level;
-			autoload = shortcode_autoload;
+			zoom_level  = shortcode_zoom_level;
+			autoload    = shortcode_autoload;
+			scrollwheel = shortcode_scrollwheel;
+			draggable   = shortcode_draggable;
 			<?php
 
 			do_action( 'sm-load-simplemap-js-top' );
@@ -804,6 +810,8 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			var myOptions = {
 			zoom: parseInt(zoom_level),
 			center: latlng,
+			scrollwheel: scrollwheel,
+			draggable: draggable,
 			mapTypeId: google.maps.MapTypeId[map_type]
 			};
 			map = new google.maps.Map( document.getElementById( "simplemap" ), myOptions );
@@ -1777,6 +1785,8 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					'default_lat'           => '44.968684',
 					'default_lng'           => '-93.215561',
 					'zoom_level'            => '10',
+					'scrollwheel'           => 1,
+					'draggable'             => 1,
 					'default_radius'        => '10',
 					'map_type'              => 'ROADMAP',
 					'special_text'          => '',
@@ -2514,6 +2524,40 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 				$atts['autoload'] = $options['autoload'];
 			}
 
+			// Allow scroll wheel on a map
+			if ( '' == $atts['scrollwheel'] ) {
+
+				// Use default value.
+				$atts['scrollwheel'] = $options['scrollwheel'];
+
+			} else {
+
+				// Use shortcode.
+				if ( 0 == $atts['scrollwheel'] ) {
+					$atts['scrollwheel'] = 0;
+				} else {
+					$atts['scrollwheel'] = 1;
+				}
+
+			}
+
+			// Allow map dragging
+			if ( '' == $atts['draggable'] ) {
+
+				// Use default value.
+				$atts['draggable'] = $options['draggable'];
+
+			} else {
+
+				// Use shortcode.
+				if ( 0 == $atts['draggable'] ) {
+					$atts['draggable'] = 0;
+				} else {
+					$atts['draggable'] = 1;
+				}
+
+			}
+
 			// Return final array.
 			return $atts;
 		}
@@ -2561,6 +2605,8 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					'limit'                => '',
 					'autoload'             => '',
 					'zoom_level'           => '',
+					'scrollwheel'          => '',
+					'draggable'            => '',
 					'map_type'             => '',
 					'powered_by'           => '',
 					'sm_day'               => '',
