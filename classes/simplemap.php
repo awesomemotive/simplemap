@@ -222,6 +222,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			$method    = apply_filters( 'sm-location-search-method', 'post', $post->ID );
 
 			// Form Field Values.
+			$name_value    = get_query_var( 'location_search_name' );
 			$address_value = get_query_var( 'location_search_address' );
 			$city_value    = isset( $_REQUEST['location_search_city'] ) ? $_REQUEST['location_search_city'] : '';
 			$state_value   = isset( $_REQUEST['location_search_state'] ) ? $_REQUEST['location_search_state'] : '';
@@ -232,6 +233,10 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			$is_sm_search  = isset( $_REQUEST['location_is_search_results'] ) ? 1 : 0;
 
 			// Normal Field inputs.
+			$ffi['name']   = array(
+				'label' => apply_filters( 'sm-search-label-name', __( 'Place: ', 'simplemap' ), $post ),
+				'input' => '<input type="text" id="location_search_name_field" name="location_search_name" value="' . esc_attr( $name_value ) . '" />',
+			);
 			$ffi['street']   = array(
 				'label' => apply_filters( 'sm-search-label-street', __( 'Street: ', 'simplemap' ), $post ),
 				'input' => '<input type="text" id="location_search_address_field" name="location_search_address" value="' . esc_attr( $address_value ) . '" />',
@@ -929,11 +934,16 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			searchData.taxes = {};
 
 			// Set defaults for search form fields
+			searchData.name    = '';
 			searchData.address    = '';
 			searchData.city    = '';
 			searchData.state    = '';
 			searchData.zip        = '';
 			searchData.country    = '';
+
+			if ( null != document.getElementById('location_search_name_field') ) {
+			searchData.name = document.getElementById('location_search_name_field').value;
+			}
 
 			if ( null != document.getElementById('location_search_address_field') ) {
 			searchData.address = document.getElementById('location_search_address_field').value;
@@ -998,6 +1008,10 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 			var query = '';
 			var start = 0;
+
+			if ( searchData.name && searchData.name != '' ) {
+			query += searchData.name + ', ';
+			}
 
 			if ( searchData.address && searchData.address != '' ) {
 			query += searchData.address + ', ';
@@ -1132,7 +1146,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			}
 			?>
 
-			var searchUrl = siteurl + '/?sm-xml-search=1&<?php echo $wpmlquery;  ?>lat=' + searchData.center.lat() + '&lng=' + searchData.center.lng() + '&radius=' + searchData.radius + '&namequery=' + searchData.homeAddress + '&query_type=' + searchData.query_type  + '&limit=' + searchData.limit + <?php echo $js_tax_string; ?>'&address=' + searchData.address + '&city=' + searchData.city + '&state=' + searchData.state + '&zip=' + searchData.zip + '&pid=<?php echo esc_js( absint( $_GET['smpid'] ) ); ?>';
+			var searchUrl = siteurl + '/?sm-xml-search=1&<?php echo $wpmlquery;  ?>lat=' + searchData.center.lat() + '&lng=' + searchData.center.lng() + '&radius=' + searchData.radius + '&namequery=' + searchData.homeAddress + '&query_type=' + searchData.query_type  + '&limit=' + searchData.limit + <?php echo $js_tax_string; ?>'&locname=' + searchData.name + '&address=' + searchData.address + '&city=' + searchData.city + '&state=' + searchData.state + '&zip=' + searchData.zip + '&pid=<?php echo esc_js( absint( $_GET['smpid'] ) ); ?>';
 
 			<?php if ( apply_filters( 'sm-use-updating-image', true ) ) : ?>
 				// Display Updating Message and hide search results
@@ -2370,6 +2384,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 		 */
 		function register_query_vars( $vars ) {
 
+			$vars[] = 'location_search_name';
 			$vars[] = 'location_search_address';
 			$vars[] = 'location_search_city';
 			$vars[] = 'location_search_state';
@@ -2573,7 +2588,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					'search_title'         => __( 'Find Locations Near:', 'simplemap' ),
 					'search_form_type'     => 'table',
 					'search_form_cols'     => 3,
-					'search_fields'        => 'labelbr_street||labelbr_city||labelbr_state||labelbr_zip||empty||empty||labeltd_distance||empty' . implode( '', $tax_search_fields ) . '||submit||empty||empty',
+					'search_fields'        => 'labelbr_name||labelbr_street||labelbr_city||labelbr_state||labelbr_zip||empty||empty||labeltd_distance||empty' . implode( '', $tax_search_fields ) . '||submit||empty||empty',
 					'taxonomy_field_type'  => 'checkboxes',
 					'hide_search'          => '',
 					'hide_map'             => 0,
