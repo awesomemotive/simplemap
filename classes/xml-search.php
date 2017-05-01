@@ -18,6 +18,7 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 					'radius'     => false,
 					'namequery'  => false,
 					'query_type' => 'distance',
+					'locname'    => false,
 					'address'    => false,
 					'city'       => false,
 					'state'      => false,
@@ -39,7 +40,7 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 				}
 
 				// Define my empty strings
-				$distance_select = $distance_having = $distance_order = '';
+				$additional_select = $having = $distance_order = '';
 
 				// We're going to do a hard limit to 5000 for now.
 				if ( ! $input['limit'] || $input['limit'] > 250 ) {
@@ -51,12 +52,12 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 				$limit = apply_filters( 'sm-xml-search-limit', $limit );
 
 				// Locations within specific distance or just get them all?
-				$distance_select = $wpdb->prepare( "( 3959 * ACOS( COS( RADIANS(%s) ) * COS( RADIANS( lat_tbl.meta_value ) ) * COS( RADIANS( lng_tbl.meta_value ) - RADIANS(%s) ) + SIN( RADIANS(%s) ) * SIN( RADIANS( lat_tbl.meta_value ) ) ) ) AS distance", $input['lat'], $input['lng'], $input['lat'] ) . ', ';
+				$additional_select = $wpdb->prepare( "( 3959 * ACOS( COS( RADIANS(%s) ) * COS( RADIANS( lat_tbl.meta_value ) ) * COS( RADIANS( lng_tbl.meta_value ) - RADIANS(%s) ) + SIN( RADIANS(%s) ) * SIN( RADIANS( lat_tbl.meta_value ) ) ) ) AS distance", $input['lat'], $input['lng'], $input['lat'] ) . ', ';
 				$distance_order  = 'distance, ';
 
 				if ( $input['radius'] ) {
 					$input['radius'] = ( $input['radius'] < 1 ) ? 1 : $input['radius'];
-					$distance_having = $wpdb->prepare( "HAVING distance < %d", $input['radius'] );
+					$having = $wpdb->prepare( "HAVING distance < %d", $input['radius'] );
 				}
 
 				$i             = 1;
@@ -89,6 +90,42 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 					}
 				}
 
+				// Locations by name or category name or tag name
+				$input['locname'] = trim( $input['locname'] );
+				if ( ! empty( $input['locname'] ) ) {
+					$sql_locname_having = $wpdb->prepare( "LOWER( posts.post_title ) LIKE '%s'", '%' . strtolower( $input['locname'] ) . '%' );
+
+					$sm_terms_by_name = array();
+					foreach ( $smtaxes as $smtax => $ids ) {
+						$sm_terms = get_terms( array(
+							'taxonomy' => $smtax,
+							'fields'   => 'id=>name',
+							'name'     => $input['locname'],
+						) );
+						if ( ! empty( $sm_terms ) ) {
+							$sm_terms_by_name[ $smtax ] = implode( ',', array_map( 'intval', array_keys( $sm_terms ) ) );
+							$smtax_slug = str_replace( 'sm-', '', $smtax );
+							$taxonomy_join .= "
+								INNER JOIN
+									$wpdb->term_relationships AS term_rel_$smtax_slug ON posts.ID = term_rel_$smtax_slug.object_id
+								INNER JOIN
+									$wpdb->term_taxonomy AS tax_$smtax_slug ON
+										term_rel_$smtax_slug.term_taxonomy_id = tax_$smtax_slug.term_taxonomy_id
+										AND tax_$smtax_slug.taxonomy = '$smtax'
+										AND tax_$smtax_slug.term_id IN ( {$sm_terms_by_name[ $smtax ]} )
+							";
+
+							$additional_select .= "tax_$smtax_slug.term_id as {$smtax_slug}_term_id, ";
+							$sql_locname_having .= $wpdb->prepare( " OR {$smtax_slug}_term_id IN ( %s ) ", $sm_terms_by_name[ $smtax ] );
+						}
+					}
+
+					if ( ! empty( $having ) ) {
+						$having .= " AND ( " . $sql_locname_having . " )";
+					} else {
+						$having = "HAVING " . $sql_locname_having;
+					}
+				}
 
 				// Compatibility with WPML
 				$wpml_join = "";
@@ -112,7 +149,7 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 				$sql = "SELECT
 						lat_tbl.meta_value AS lat,
 						lng_tbl.meta_value AS lng,
-						$distance_select
+						$additional_select
 						posts.ID,
 						posts.post_content,
 						posts.post_title
@@ -129,7 +166,7 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 						AND posts.post_status = 'publish'
 					GROUP BY
 						posts.ID
-						$distance_having
+						$having
 					ORDER BY " . apply_filters( 'sm-location-sort-order', $distance_order . ' posts.post_name ASC', $input ) . " " . $limit;
 
 				$sql = apply_filters( 'sm-xml-search-locations-sql', $sql );
