@@ -1,3 +1,28 @@
 i.mce-i-simplemap:before {
-	content: "\f231";
+	content: "\f279";
+}
+
+.sm-mce-shortcode {
+    width: 94%;
+    margin: 2% 3%;
+}
+
+.sm-mce-shortcode fieldset {
+    margin-bottom: 9px;
+}
+
+.sm-mce-shortcode fieldset > *:first-child {
+    float: left;
+    display: block;
+    width: 25%;
+}
+
+.sm-mce-shortcode fieldset > div {
+    float: left;
+    width: 75%;
+}
+
+.sm-mce-shortcode fieldset > div > label {
+    float: left;
+    width: 25%;
 }

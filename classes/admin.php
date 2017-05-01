@@ -16,11 +16,11 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 			add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 
 			// Add a button to the TinyMCE console
-			add_action( 'admin_head', array( &$this, 'register_shortcode_button' ) );
+			add_action( 'edit_form_after_title', array( &$this, 'register_shortcode_button' ) );
 		}
 
 		/**
-		 * This method adds a button that helps the user insert a shortcode intstead of having to memorize it
+		 * This method adds a button that helps the user insert a shortcode instead of having to memorize it
 		 *
 		 * @since 2.5.1
 		 */
@@ -40,6 +40,7 @@ if ( ! class_exists( 'SM_Admin' ) ) {
             wp_enqueue_style( 'jquery-chosen', SIMPLEMAP_URL . '/inc/styles/chosen.min.css' );
             wp_enqueue_style( 'simplemap-admin-shortcode', SIMPLEMAP_URL . '/inc/styles/shortcode.css', array( 'jquery-chosen' ) );
 
+			wp_enqueue_style( 'simplemap-awesome-font', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' );
             add_filter( 'mce_external_plugins', array( &$this, 'mce_external_plugins' ) );
             add_filter( 'mce_buttons', array( &$this, 'mce_buttons' ) );
 
@@ -54,6 +55,7 @@ if ( ! class_exists( 'SM_Admin' ) ) {
                     'title_window'          => __( 'Add a SimpleMap', 'SimpleMap' ),
                     'title_insert_button'   => __( 'Insert SimpleMap', 'SimpleMap' ),
                     'title_cancel_button'   => __( 'Cancel', 'SimpleMap' ),
+					'mce_icon_classes'      => __( 'simplemap fa fa-map', 'SimpleMap' ),
                 ),
                 'html'  => esc_js($html),
             );
