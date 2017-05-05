@@ -55,7 +55,6 @@ if ( ! class_exists( 'SM_Admin' ) ) {
                     'title_window'          => __( 'Add a SimpleMap', 'SimpleMap' ),
                     'title_insert_button'   => __( 'Insert SimpleMap', 'SimpleMap' ),
                     'title_cancel_button'   => __( 'Cancel', 'SimpleMap' ),
-					'mce_icon_classes'      => __( 'simplemap fa fa-map', 'SimpleMap' ),
                 ),
                 'html'  => esc_js($html),
             );

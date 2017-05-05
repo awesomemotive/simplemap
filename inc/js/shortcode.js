@@ -4,7 +4,7 @@
 (function ($) {
     tinymce.PluginManager.add('simplemap_button', function(editor, url) {
         editor.addButton('simplemap_button', {
-            icon    : simple_map_js_array.i10n['mce_icon_classes'],
+            icon    : 'simplemap dashicons-before dashicons-location-alt',
             tooltip : simple_map_js_array.i10n['title_button'],
             onclick : function (e) {
                 editor.windowManager.open( {
