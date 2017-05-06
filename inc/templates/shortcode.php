@@ -3,7 +3,7 @@ $categories = get_categories( array( 'taxonomy' => 'sm-category', 'hide_empty' =
 $tags       = get_terms( array( 'taxonomy' => 'sm-tag', 'hide_empty' => false, 'fields' => 'id=>name' ) );
 ?>
 
-<div id="simplemap-button-modal">
+<div id="simplemap-button-modal" class="sm-mce-shortcode">
     <form id="simple_map_shortcode">
     <fieldset>
         <label for="simplemap_category"><?php _e( 'Category', 'SimpleMap' );?></label>
@@ -57,11 +57,13 @@ $tags       = get_terms( array( 'taxonomy' => 'sm-tag', 'hide_empty' => false, '
         <label for="simplemap_list_hide"><?php _e( 'Hide', 'SimpleMap' );?></label>
         <input type="radio" id="simplemap_list_hide" name="hide_list" value="true">
     </fieldset>
-    <fieldset>
-        <label for="default_lat"><?php _e( 'Default Lat', 'SimpleMap' );?></label>
-        <input type="text" id="default_lat" name="default_lat">
-        <label for="default_lon"><?php _e( 'Default Lon', 'SimpleMap' );?></label>
-        <input type="text" id="default_lon" name="default_lon">
+    <fieldset><legend><?php _e( 'Default Location', 'SimpleMap' );?></legend>
+<div>
+<label for="default_lat"><?php _e( 'Latitude', 'SimpleMap' );?></label>
+<input type="text" id="default_lat" name="default_lat" style="margin-bottom: 5px;"><br>
+<label for="default_lon"><?php _e( 'Longitude', 'SimpleMap' );?></label>
+<input type="text" id="default_lon" name="default_lon">
+</div>       
     </fieldset>
     </form>
 </div>

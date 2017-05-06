@@ -16,11 +16,11 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 			add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 
 			// Add a button to the TinyMCE console
-			add_action( 'admin_head', array( &$this, 'register_shortcode_button' ) );
+			add_action( 'edit_form_after_title', array( &$this, 'register_shortcode_button' ) );
 		}
 
 		/**
-		 * This method adds a button that helps the user insert a shortcode intstead of having to memorize it
+		 * This method adds a button that helps the user insert a shortcode instead of having to memorize it
 		 *
 		 * @since 2.5.1
 		 */
