@@ -83,6 +83,10 @@ span#ala {
 	cursor: default !important;
 }
 
+.postbox code {
+	font-size: 14px;
+}
+
 form.inabox {
 	padding: 10px;
 	background: #ffffe0;

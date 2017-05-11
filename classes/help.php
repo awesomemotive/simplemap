@@ -82,41 +82,41 @@ if ( ! class_exists( 'SM_Help' ) ) {
 
 												<tr>
 													<td><?php _e( 'To show your map on any post or page, insert the shortcode in the body:', 'simplemap' ); // XSS ok. ?>
-														<code style="font-size: 1.2em; background: #ffffe0;">[simplemap]</code>
+														<code>[simplemap]</code>
 													</td>
 												</tr>
 
 												<tr>
 													<td><?php _e( 'If you want only certain categories or tags to show on a map, insert shortcode like this, where the numbers are replaced with the ID numbers of your desired categories and tags:', 'simplemap' ); // XSS ok. ?>
-														<code style="font-size: 1.2em; background: #ffffe0;">[simplemap categories=2,5,14 tags=3,6,15]</code>
+														<code>[simplemap categories=2,5,14 tags=3,6,15]</code>
 													</td>
 												</tr>
 
 												<tr>
 													<td><?php _e( 'If you want to hide the category or tag filters on the search form, insert shortcode like this:', 'simplemap' ); // XSS ok. ?>
-														<code style="font-size: 1.2em; background: #ffffe0;">[simplemap show_categories_filter=false show_tags_filter=false]</code>
+														<code>[simplemap show_categories_filter=false show_tags_filter=false]</code>
 													</td>
 												</tr>
 
 												<tr>
 													<td><?php _e( 'If you want to hide the map, insert shortcode like this:', 'simplemap' ); // XSS ok. ?>
-														<code style="font-size: 1.2em; background: #ffffe0;">[simplemap hide_map=true]</code></td>
+														<code>[simplemap hide_map=true]</code></td>
 												</tr>
 
 												<tr>
 													<td><?php _e( 'If you want to hide the list of results, insert shortcode like this:', 'simplemap' ); // XSS ok. ?>
-														<code style="font-size: 1.2em; background: #ffffe0;">[simplemap hide_list=true]</code></td>
+														<code>[simplemap hide_list=true]</code></td>
 												</tr>
 
 												<tr>
 													<td><?php _e( 'If you want to override the default lat / lng for a specific map, insert shortcode like this:', 'simplemap' ); // XSS ok. ?>
-														<code style="font-size: 1.2em; background: #ffffe0;">[simplemap default_lat='34.1346702' default_lng='-118.4389877']</code>
+														<code>[simplemap default_lat='34.1346702' default_lng='-118.4389877']</code>
 													</td>
 												</tr>
 
 												<tr>
 													<td><?php _e( 'You can combine tag attributes as needed:', 'simplemap' ); // XSS ok. ?>
-														<code style="font-size: 1.2em; background: #ffffe0;">[simplemap categories=2,5,14 show_tags_filter=false]</code></td>
+														<code>[simplemap categories=2,5,14 show_tags_filter=false]</code></td>
 												</tr>
 
 												<tr>
