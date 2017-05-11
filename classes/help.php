@@ -213,8 +213,10 @@ if ( ! class_exists( 'SM_Help' ) ) {
 													<td>
 														<?php _e( 'To properly add a new location, you must enter one or both of the following:', 'simplemap' ); // XSS ok. ?>
 														<br/>
-														<span style="padding-left: 20px;"><?php _e( '1. A full address', 'simplemap' ); // XSS ok. ?></span><br/>
-														<span style="padding-left: 20px;"><?php _e( '2. A latitude and longitude', 'simplemap' ); // XSS ok. ?></span><br/>
+														<ol>
+															<li><?php _e( 'A full address', 'simplemap' ); // XSS ok. ?></li>
+															<li><?php _e( 'A latitude and longitude', 'simplemap' ); // XSS ok. ?></li>
+														</ol>
 														<?php _e( 'If you enter a latitude and longitude, then the address will not be geocoded, and your custom values will be left in place. Entering an address without latitude or longitude will result in the address being geocoded before it is submitted to the database.', 'simplemap' ); // XSS ok. ?>
 													</td>
 												</tr>
