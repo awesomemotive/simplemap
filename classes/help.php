@@ -31,7 +31,7 @@ if ( ! class_exists( 'SM_Help' ) ) {
 
 					<div id='dashboard-widgets' class='metabox-holder'>
 
-						<div class='postbox-container' style='width:49%;'>
+						<div class='postbox-container'>
 
 							<div id='normal-sortables' class='meta-box-sortables ui-sortable'>
 
@@ -244,7 +244,7 @@ if ( ! class_exists( 'SM_Help' ) ) {
 
 						</div> <!-- postbox-container -->
 
-						<div class='postbox-container' style='width:49%;'>
+						<div class='postbox-container'>
 
 							<div id='side-sortables' class='meta-box-sortables ui-sortable'>
 
@@ -254,7 +254,7 @@ if ( ! class_exists( 'SM_Help' ) ) {
 
 								<div class="postbox">
 
-									<h3 style='color:#fff;text-shadow:0 1px 0 #000;background: #fff url( <?php echo SIMPLEMAP_URL; ?>/inc/images/blue-grad.png ) top left repeat-x;'><?php _e( 'Premium Support and Features', 'simplemap' ); // XSS ok. ?></h3>
+									<h3 class='blue-bg'><?php _e( 'Premium Support and Features', 'simplemap' ); // XSS ok. ?></h3>
 
 									<div class="inside">
 
@@ -272,20 +272,14 @@ if ( ! class_exists( 'SM_Help' ) ) {
 												<?php _e( 'By signing up for SimpleMap premium support, you help to ensure future enhancements to this excellent project as well as the following benefits:', 'simplemap' ); // XSS ok. ?>
 											</p>
 
-											<ul style='margin-left:25px;list-style-type:disc'>
+											<ul>
 												<li><?php _e( 'Around the clock access to our extensive knowledge base and support forum from within your WordPress dashboard', 'simplemap' ); // XSS ok. ?></li>
 												<li><?php _e( 'Professional and timely response times to all your questions from the SimpleMap team', 'simplemap' ); // XSS ok. ?></li>
 												<li><?php _e( 'A 10% discount for any custom functionality you request from the SimpleMap developers', 'simplemap' ); // XSS ok. ?></li>
 												<li><?php _e( 'A 6-12 month advance access to new features integrated into the auto upgrade functionality of WordPress', 'simplemap' ); // XSS ok. ?></li>
 											</ul>
 
-											<ul style='margin-left:25px;list-style-type:none'>
-												<li>
-													<a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'simplemap' ); // XSS ok. ?></a>
-												</li>
-												<li><a target='_blank' href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'simplemap' ); // XSS ok. ?></a>
-												</li>
-											</ul>
+											<p><a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'simplemap' ); // XSS ok. ?></a> or <a target='_blank' href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'simplemap' ); // XSS ok. ?></a></p>
 										<?php else : ?>
 
 											<p class='howto'><?php printf( 'Your premium support for <code>%s</code> was purchased on <code>%s</code> by <code>%s</code> (%s). It will remain valid for this URL until <code>%s</code>.', get_ftps_site( $simplemap_ps ), date( 'F d, Y', get_ftps_purchase_date( $simplemap_ps ) ), get_ftps_name( $simplemap_ps ), get_ftps_email( $simplemap_ps ), date( 'F d, Y', get_ftps_exp_date( $simplemap_ps ) ) ); ?></p>
