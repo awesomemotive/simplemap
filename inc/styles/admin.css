@@ -66,6 +66,10 @@ span#ala {
 	padding-left: 10px;
 }
 
+.postbox .inside.padding-10 {
+	padding: 10px;
+}
+
 .postbox .sub {
 	color: rgb(119, 119, 119);
 	font-family: Georgia, 'Times New Roman', 'Bitstream Charter', Times, serif;
