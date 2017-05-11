@@ -197,7 +197,11 @@ table.server-tests td {
 	text-shadow:0 1px 0 #000;
 }
 
-body.sm-location_page_simplemap-import-export #wpbody-content #dashboard-widgets .postbox-container {
+body.sm-location_page_simplemap-import-export #wpbody-content #dashboard-widgets .postbox-container.half-width {
+	width: 49%;
+}
+
+body.sm-location_page_simplemap-import-export #wpbody-content #dashboard-widgets .postbox-container.full-width {
 	width: 100%;
 }
 body.sm-location_page_simplemap-import-export #dashboard-widgets .postbox .inside.sm-scroll {
