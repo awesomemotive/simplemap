@@ -180,21 +180,14 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 			<?php _e( 'By signing up for SimpleMap premium support, you help to ensure future enhancements to this excellent project as well as the following benefits:', 'simplemap' ); ?>
 		</p>
 
-		<ul style='margin-left:25px;list-style-type:disc'>
+		<ul>
 			<li><?php _e( 'Around the clock access to our extensive knowledge base and support forum from within your WordPress dashboard', 'simplemap' ); ?></li>
 			<li><?php _e( 'Professional and timely response times to all your questions from the SimpleMap team', 'simplemap' ); ?></li>
 			<li><?php _e( 'A 10% discount for any custom functionality you request from the SimpleMap developers', 'simplemap' ); ?></li>
 			<li><?php _e( 'A 6-12 month advance access to new features integrated into the auto upgrade functionality of WordPress', 'simplemap' ); ?></li>
 		</ul>
 
-		<ul style='margin-left:25px;list-style-type:none'>
-			<li>
-				<a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'simplemap' ); ?></a>
-			</li>
-			<li><a target='_blank'
-				   href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'simplemap' ); ?></a>
-			</li>
-		</ul>
+		<p><a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'simplemap' ); ?></a> or <a target='_blank' href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'simplemap' ); ?></a></p>
 
 		<?php
 
@@ -202,11 +195,9 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 
 	?>
 	<p class='howto aligncenter'><?php printf( __( 'Your premium support license for %s is valid until %s', 'simplemap' ), get_ftps_site( $simplemap_ps ), date( 'F d, Y', get_ftps_exp_date( $simplemap_ps ) ) ); ?></p>
-	<ul style='margin-left:25px;list-style-type:disc'>
+	<ul>
 		<li><a href="#" id="simplemap-pss"><?php _e( 'Launch Premium Support widget', 'simplemap' ); ?></a></li>
-		<li><a target='_blank'
-			   href="http://support.simplemap-plugin.com?sso=<?php echo get_ftps_sso_key( $simplemap_ps ); ?>"><?php _e( 'Visit Premium Support web site', 'simplemap' ); ?></a>
-		</li>
+		<li><a target='_blank' href="http://support.simplemap-plugin.com?sso=<?php echo get_ftps_sso_key( $simplemap_ps ); ?>"><?php _e( 'Visit Premium Support web site', 'simplemap' ); ?></a></li>
 		<script type="text/javascript" charset="utf-8">
 			Tender = {
 				hideToggle: true,
@@ -219,7 +210,6 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 
 		endif;
 		}
-
 
 		function geo_location( $post ) {
 			// Geographic Location Information.
@@ -250,31 +240,25 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 					<!-- Store Address -->
 					<tr valign="top">
 						<td width="150"><label for="location_address"><?php _e( 'Address', 'simplemap' ); ?></label></td>
-						<td><input type="text" name="location_address" id="location_address" size="30"
-								   value="<?php echo esc_attr( $location_address ); ?>"/><br/>
-							<input type="text" name="location_address2" size="30"
-								   value="<?php echo esc_attr( $location_address2 ); ?>"/></td>
+						<td><input type="text" name="location_address" id="location_address" size="30" value="<?php echo esc_attr( $location_address ); ?>"/><br/><input type="text" name="location_address2" size="30" value="<?php echo esc_attr( $location_address2 ); ?>"/></td>
 					</tr>
 
 					<!-- City / Town -->
 					<tr valign="top">
 						<td><label for="location_city"><?php _e( 'City/Town', 'simplemap' ); ?></label></td>
-						<td><input type="text" name="location_city" id="location_city"
-								   value="<?php echo esc_attr( $location_city ); ?>" size="30"/></td>
+						<td><input type="text" name="location_city" id="location_city" value="<?php echo esc_attr( $location_city ); ?>" size="30"/></td>
 					</tr>
 
 					<!-- State / Providence -->
 					<tr valign="top">
 						<td><label for="location_state"><?php _e( 'State/Province', 'simplemap' ); ?></label></td>
-						<td><input type="text" name="location_state" id="location_state"
-								   value="<?php echo esc_attr( $location_state ); ?>" size="30"/></td>
+						<td><input type="text" name="location_state" id="location_state" value="<?php echo esc_attr( $location_state ); ?>" size="30"/></td>
 					</tr>
 
 					<!-- Zip / Postal Code -->
 					<tr valign="top">
 						<td><label for="location_zip"><?php _e( 'Zip/Postal Code', 'simplemap' ); ?></label></td>
-						<td><input type="text" name="location_zip" id="location_zip"
-								   value="<?php echo esc_attr( $location_zip ); ?>" size="30" maxlength="20"/></td>
+						<td><input type="text" name="location_zip" id="location_zip" value="<?php echo esc_attr( $location_zip ); ?>" size="30" maxlength="20"/></td>
 					</tr>
 
 					<!-- Country -->
@@ -294,18 +278,13 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 					<!-- Lat / Lng -->
 					<tr valign="top">
 						<td><label for="location_lat"><?php _e( 'Latitude/Longitude', 'simplemap' ); ?></label></td>
-						<td><input type="text" name="location_lat" id="location_lat" size="14"
-								   value="<?php echo esc_attr( $location_lat ); ?>"/>
-							<input type="text" name="location_lng" id="location_lng" size="14"
-								   value="<?php echo esc_attr( $location_lng ); ?>"/> <span id='latlng_updated'
-																							class='updated'
-																							style='display:none;color:#666666;font-style:italic;font-size:11px;'>Lat / Lng updated. Update address too? <a
-									href='#'
-									onclick="dragDropUpdateAddress();jQuery('#latlng_updated').hide();jQuery('#latlng_dontforget').fadeIn();return false;">yes</a> | <a
-									href='#'
-									onclick="jQuery('#latlng_updated').hide();jQuery('#latlng_dontforget').fadeIn();return false;">no</a></span>
-							<span id='latlng_dontforget' class='error'
-								  style='display:none;color:#666666;font-style:italic;font-size:11px;'>Changes aren't saved until you update or publish</span>
+						<td><input type="text" name="location_lat" id="location_lat" size="14" value="<?php echo esc_attr( $location_lat ); ?>"/>
+							<input type="text" name="location_lng" id="location_lng" size="14" value="<?php echo esc_attr( $location_lng ); ?>"/>
+							<span id='latlng_updated' class='updated' style='display:none;'>Lat / Lng updated. Update address too? 
+								<a href='#' onclick="dragDropUpdateAddress();jQuery('#latlng_updated').hide();jQuery('#latlng_dontforget').fadeIn();return false;">yes</a> | 
+								<a href='#' onclick="jQuery('#latlng_updated').hide();jQuery('#latlng_dontforget').fadeIn();return false;">no</a>
+							</span>
+							<span id='latlng_dontforget' class='error' style='display:none;'>Changes aren't saved until you update or publish</span>
 						</td>
 					</tr>
 
@@ -336,38 +315,32 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 					<!-- Phone -->
 					<tr valign="top">
 						<td width="150"><label for="location_phone"><?php _e( 'Phone', 'simplemap' ); ?></label></td>
-						<td><input type="text" id="location_phone" name="location_phone" size="30" maxlength="28"
-								   value="<?php echo esc_attr( $location_phone ); ?>"/></td>
+						<td><input type="text" id="location_phone" name="location_phone" size="30" maxlength="28" value="<?php echo esc_attr( $location_phone ); ?>"/></td>
 					</tr>
 
 					<!-- Email -->
 					<tr valign="top">
 						<td><label for="location_email"><?php _e( 'Email', 'simplemap' ); ?></label></td>
-						<td><input type="text" name="location_email" id="location_email" size="30"
-								   value="<?php echo esc_attr( $location_email ); ?>"/>
+						<td><input type="text" name="location_email" id="location_email" size="30" value="<?php echo esc_attr( $location_email ); ?>"/>
 					</tr>
 
 					<!-- URL -->
 					<tr valign="top">
 						<td><label for="location_url"><?php _e( 'URL', 'simplemap' ); ?></label></td>
-						<td><input type="text" name="location_url" id="location_url" size="30"
-								   value="<?php echo esc_attr( $location_url ); ?>"/>
-							<br/><?php _e( 'Please include <strong>http://</strong>', 'simplemap' ); ?></td>
+						<td><input type="text" name="location_url" id="location_url" size="30" value="<?php echo esc_attr( $location_url ); ?>"/><br/><?php _e( 'Please include <strong>http://</strong>', 'simplemap' ); ?></td>
 					</tr>
 
 					<!-- Fax -->
 					<tr valign="top">
 						<td><label for="location_fax"><?php _e( 'Fax', 'simplemap' ); ?></label></td>
-						<td><input type="text" id="location_fax" name="location_fax" size="30" maxlength="28"
-								   value="<?php echo esc_attr( $location_fax ); ?>"/></td>
+						<td><input type="text" id="location_fax" name="location_fax" size="30" maxlength="28" value="<?php echo esc_attr( $location_fax ); ?>"/></td>
 					</tr>
 
 					<!-- Store Special -->
 					<?php if ( $options['special_text'] != '' ) { ?>
 						<tr valign="top">
 							<td><label for="location_special"><?php echo $options['special_text']; ?></label></td>
-							<td><input type="checkbox" id="location_special" name="location_special"
-									   value="1" <?php checked( $location_special ); ?> /></td>
+							<td><input type="checkbox" id="location_special" name="location_special" value="1" <?php checked( $location_special ); ?> /></td>
 						</tr>
 					<?php } ?>
 
@@ -398,7 +371,7 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 
 			?>
 			<p class='howto'>Drag the marker to fine tune your location's placement on the map</p>
-			<div id="dragdrop_map_canvas" style="width:267px;height:200px;"></div>
+			<div id="dragdrop_map_canvas"></div>
 			<?php
 		}
 

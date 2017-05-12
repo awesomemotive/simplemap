@@ -197,6 +197,20 @@ table.server-tests td {
 	text-shadow:0 1px 0 #000;
 }
 
+#dragdrop_map_canvas {
+	width: 267px;
+	height: 200px;
+	position: relative;
+	overflow: hidden;
+}
+
+#latlng_updated.updated,
+#latlng_dontforget.error {
+	color: #666666;
+	font-style: italic;
+	font-size: 11px;
+}
+
 body.sm-location_page_simplemap-import-export #wpbody-content #dashboard-widgets .postbox-container.half-width {
 	width: 49%;
 }
