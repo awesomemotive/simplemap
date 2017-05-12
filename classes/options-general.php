@@ -198,7 +198,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 							<?php do_action( 'sm-general-options-dash-widgets-top' ); ?>
 
-							<div class='postbox-container' style='width:49%;'>
+							<div class='postbox-container'>
 
 								<div id='normal-sortables' class='meta-box-sortables ui-sortable'>
 
@@ -208,9 +208,9 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 									<div class="postbox">
 
-										<h3 style='color:#fff;text-shadow:0 1px 0 #000;background: #fff url( <?php echo SIMPLEMAP_URL; ?>/inc/images/blue-grad.png ) top left repeat-x;'><?php _e( 'Premium Support and Features', 'simplemap' ); ?></h3>
+										<h3 class='blue-bg'><?php _e( 'Premium Support and Features', 'simplemap' ); ?></h3>
 
-										<div class="inside" style='padding: 0 10px 10px;'>
+										<div class="inside">
 
 											<?php
 											// Check for premium support status
@@ -226,21 +226,15 @@ if ( ! class_exists( 'SM_Options' ) ) {
 													<?php _e( '<em>By signing up for SimpleMap premium support, you help to ensure future enhancements to this excellent project as well as the following benefits:</em>', 'simplemap' ); ?>
 												</p>
 
-												<ul style='margin-left:25px;list-style-type:disc'>
+												<ul>
 													<li><?php _e( 'Around the clock access to our extensive knowledge base and support forum from within your WordPress dashboard', 'simplemap' ); ?></li>
 													<li><?php _e( 'Professional and timely response times to all your questions from the SimpleMap team', 'simplemap' ); ?></li>
 													<li><?php _e( 'A 10% discount for any custom functionality you request from the SimpleMap developers', 'simplemap' ); ?></li>
 													<li><?php _e( 'Advance access to new features integrated into the auto upgrade functionality of WordPress', 'simplemap' ); ?></li>
 												</ul>
 
-												<ul style='margin-left:25px;list-style-type:none'>
-													<li>
-														<a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'simplemap' ); ?></a>
-													</li>
-													<li><a target='_blank'
-													       href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'simplemap' ); ?></a>
-													</li>
-												</ul>
+												<p><a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'simplemap' ); ?></a> or <a target='_blank' href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'simplemap' ); ?></a></p>
+												
 											<?php else : ?>
 
 												<p class='howto'><?php printf( "Your premium support for <code>%s</code> was purchased on <code>%s</code> by <code>%s</code> (%s). It will remain valid for this URL until <code>%s</code>.", get_ftps_site( $simplemap_ps ), date( "F d, Y", get_ftps_purchase_date( $simplemap_ps ) ), get_ftps_name( $simplemap_ps ), get_ftps_email( $simplemap_ps ), date( "F d, Y", get_ftps_exp_date( $simplemap_ps ) ) ); ?></p>
@@ -428,13 +422,11 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																for="default_lat"><?php _e( 'Starting Location', 'simplemap' ); ?></label>
 														</td>
 														<td>
-															<label for="default_lat"
-															       style="display: inline-block; width: 60px;"><?php _e( 'Latitude:', 'simplemap' ); ?> </label>
+															<label class="sm-options-label" for="default_lat"><?php _e( 'Latitude:', 'simplemap' ); ?> </label>
 															<input type="text" name="default_lat" id="default_lat"
 															       size="13"
 															       value="<?php echo esc_attr( $default_lat ); ?>"/><br/>
-															<label for="default_lng"
-															       style="display: inline-block; width: 60px;"><?php _e( 'Longitude:', 'simplemap' ); ?> </label>
+															<label class="sm-options-label" for="default_lng"><?php _e( 'Longitude:', 'simplemap' ); ?> </label>
 															<input type="text" name="default_lng" id="default_lng"
 															       size="13"
 															       value="<?php echo esc_attr( $default_lng ); ?>"/>
@@ -525,7 +517,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																<em><?php _e( sprintf( '%sNo auto-load%s shows map without any locations.%s%sAuto-load search results%s displays map based on default values for search form.%s%sAuto-load all%s ignores default search form values and loads all locations.', '<strong>', '</strong>', '<br />', '<strong>', '</strong>', '<br />', '<strong>', '</strong>' ) ); ?></em>
 															</small>
 															<?php if ( $disabledmsg != '' ) {
-																echo '<br /><small style="color:red";><em>' . $disabledmsg . '</small></em>';
+																echo '<br /><small class="text-red";><em>' . $disabledmsg . '</small></em>';
 															} ?>
 
 															<!--<br /><label for="lock_default_location" id="lock_default_location_label"><input type="checkbox" name="lock_default_location" id="lock_default_location" value="1" <?php checked( $lock_default_location ); ?> /> <?php _e( 'Stick to default location set above', 'simplemap' ); ?></label>-->
@@ -649,7 +641,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																echo '<label for="taxonomies_' . $safe . '"><input type="checkbox" name="taxonomies[' . $taxonomy . '][active]" id="taxonomies_' . $safe . '" ' . checked( $active, true, false ) . ' /> ' . __( 'Enable ' . $label . ' taxonomies?', 'simplemap' ) . '</label>';
 																echo '<br />';
 																if ( $active && ! isset( $standard_taxonomies[ $taxonomy ] ) ) {
-																	echo '<div style="margin: 5px 0 5px 15px; padding: 5px; border: 1px solid #ccc;">';
+																	echo '<div>';
 																	echo '<label for="taxonomies_' . $safe . '_singular">' . __( 'Singular Form', 'simplemap' );
 																	echo ': <input type="text" name="taxonomies[' . $taxonomy . '][singular]" id="taxonomies_' . $safe . '_singular" value="' . esc_attr( $tax_info['singular'] ) . '" /></label>';
 																	echo '<br />';
@@ -728,7 +720,7 @@ if ( ! class_exists( 'SM_Options' ) ) {
 								</div>
 							</div>
 
-							<div class='postbox-container' style='width:49%;'>
+							<div class='postbox-container'>
 
 								<div id='side-sortables' class='meta-box-sortables ui-sortable'>
 
@@ -755,12 +747,10 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																for="map_width"><?php _e( 'Map Size', 'simplemap' ); ?></label>
 														</td>
 														<td>
-															<label for="map_width"
-															       style="display: inline-block; width: 60px;"><?php _e( 'Width:', 'simplemap' ); ?> </label>
+															<label class="sm-options-label" for="map_width"><?php _e( 'Width:', 'simplemap' ); ?> </label>
 															<input type="text" name="map_width" id="map_width" size="13"
 															       value="<?php echo esc_attr( $map_width ); ?>"/><br/>
-															<label for="map_height"
-															       style="display: inline-block; width: 60px;"><?php _e( 'Height:', 'simplemap' ); ?> </label>
+															<label class="sm-options-label" for="map_height"><?php _e( 'Height:', 'simplemap' ); ?> </label>
 															<input type="text" name="map_height" id="map_height"
 															       size="13"
 															       value="<?php echo esc_attr( $map_height ); ?>"/><br/>
@@ -771,71 +761,53 @@ if ( ! class_exists( 'SM_Options' ) ) {
 													</tr>
 
 													<tr valign="top">
-														<td><label
-																for="map_type"><?php _e( 'Default Map Type', 'simplemap' ); ?></label>
-														</td>
+														<td><label for="map_type"><?php _e( 'Default Map Type', 'simplemap' ); ?></label></td>
 														<td>
-															<div
-																class="radio-thumbnail<?php if ( 'ROADMAP' == $map_type ) {
+															<div class="radio-thumbnail<?php if ( 'ROADMAP' == $map_type ) {
 																	echo ' radio-thumbnail-current';
 																} ?>">
-																<label style="display: block;" for="map_type_normal">
-																	<img
-																		src="<?php echo SIMPLEMAP_URL; ?>/inc/images/map-type-normal.jpg"
-																		width="100" height="100"
-																		style="border: 1px solid #999;"/><br/><?php _e( 'Road map', 'simplemap' ); ?>
+																<label for="map_type_normal">
+																	<img src="<?php echo SIMPLEMAP_URL; ?>/inc/images/map-type-normal.jpg" width="100" height="100" />
 																	<br/>
-																	<input type="radio" style="border: none;"
-																	       name="map_type" id="map_type_normal"
-																	       value="ROADMAP" <?php checked( $map_type, 'ROADMAP' ); ?> />
+																	<?php _e( 'Road map', 'simplemap' ); ?>
+																	<br/>
+																	<input type="radio" name="map_type" id="map_type_normal" value="ROADMAP" <?php checked( $map_type, 'ROADMAP' ); ?> />
 																</label>
 															</div>
 
-															<div
-																class="radio-thumbnail<?php if ( 'SATELLITE' == $map_type ) {
+															<div class="radio-thumbnail<?php if ( 'SATELLITE' == $map_type ) {
 																	echo ' radio-thumbnail-current';
 																} ?>">
-																<label style="display: block;" for="map_type_satellite">
-																	<img
-																		src="<?php echo SIMPLEMAP_URL; ?>/inc/images/map-type-satellite.jpg"
-																		width="100" height="100"
-																		style="border: 1px solid #999;"/><br/><?php _e( 'Satellite map', 'simplemap' ); ?>
+																<label for="map_type_satellite">
+																	<img src="<?php echo SIMPLEMAP_URL; ?>/inc/images/map-type-satellite.jpg" width="100" height="100" />
 																	<br/>
-																	<input type="radio" style="border: none;"
-																	       name="map_type" id="map_type_satellite"
-																	       value="SATELLITE" <?php checked( $map_type, 'SATELLITE' ); ?> />
+																	<?php _e( 'Satellite map', 'simplemap' ); ?>
+																	<br/>
+																	<input type="radio" name="map_type" id="map_type_satellite" value="SATELLITE" <?php checked( $map_type, 'SATELLITE' ); ?> />
 																</label>
 															</div>
 
-															<div
-																class="radio-thumbnail<?php if ( 'HYBRID' == $map_type ) {
+															<div class="radio-thumbnail<?php if ( 'HYBRID' == $map_type ) {
 																	echo ' radio-thumbnail-current';
 																} ?>">
-																<label style="display: block;" for="map_type_hybrid">
-																	<img
-																		src="<?php echo SIMPLEMAP_URL; ?>/inc/images/map-type-hybrid.jpg"
-																		width="100" height="100"
-																		style="border: 1px solid #999;"/><br/><?php _e( 'Hybrid map', 'simplemap' ); ?>
+																<label for="map_type_hybrid">
+																	<img src="<?php echo SIMPLEMAP_URL; ?>/inc/images/map-type-hybrid.jpg" width="100" height="100" />
 																	<br/>
-																	<input type="radio" style="border: none;"
-																	       name="map_type" id="map_type_hybrid"
-																	       value="HYBRID" <?php checked( $map_type, 'HYBRID' ); ?> />
+																	<?php _e( 'Hybrid map', 'simplemap' ); ?>
+																	<br/>
+																	<input type="radio" name="map_type" id="map_type_hybrid" value="HYBRID" <?php checked( $map_type, 'HYBRID' ); ?> />
 																</label>
 															</div>
 
-															<div
-																class="radio-thumbnail<?php if ( 'TERRAIN' == $map_type ) {
+															<div class="radio-thumbnail<?php if ( 'TERRAIN' == $map_type ) {
 																	echo ' radio-thumbnail-current';
 																} ?>">
-																<label style="display: block;" for="map_type_terrain">
-																	<img
-																		src="<?php echo SIMPLEMAP_URL; ?>/inc/images/map-type-terrain.jpg"
-																		width="100" height="100"
-																		style="border: 1px solid #999;"/><br/><?php _e( 'Terrain map', 'simplemap' ); ?>
+																<label for="map_type_terrain">
+																	<img src="<?php echo SIMPLEMAP_URL; ?>/inc/images/map-type-terrain.jpg" width="100" height="100" />
 																	<br/>
-																	<input type="radio" style="border: none;"
-																	       name="map_type" id="map_type_terrain"
-																	       value="TERRAIN" <?php checked( $map_type, 'TERRAIN' ); ?> />
+																	<?php _e( 'Terrain map', 'simplemap' ); ?>
+																	<br/>
+																	<input type="radio" name="map_type" id="map_type_terrain" value="TERRAIN" <?php checked( $map_type, 'TERRAIN' ); ?> />
 																</label>
 															</div>
 														</td>
@@ -869,8 +841,8 @@ if ( ! class_exists( 'SM_Options' ) ) {
 																<em><?php printf( __( 'To add your own theme, upload your own CSS file to a new directory in your plugins folder called %s simplemap-styles%s.  To give it a name, use the following header in the top of your stylesheet:', 'simplemap' ), '</em><code>', '</code><em>' ); ?></em>
 															</small>
 															<br/>
-															<div style="margin-left: 20px;">
-																<code style="color: #060; background: none;">/*<br/>Theme
+															<div>
+																<code>/*<br/>Theme
 																	Name: THEME_NAME_HERE<br/>*/</code>
 															</div>
 
@@ -926,16 +898,11 @@ if ( ! class_exists( 'SM_Options' ) ) {
 										<h3><?php _e( 'Delete SimpleMap Data', 'simplemap' ); ?></h3>
 
 										<div class="inside">
-											<p class="sub"><span
-													style="color: red;"><?php _e( 'CAUTION! Uninstalling SimpleMap will completely delete all current locations, categories, tags and options. This is irreversible.', 'simplemap' ); ?></span>
+											<p class="sub"><span class="text-red"><?php _e( 'CAUTION! Uninstalling SimpleMap will completely delete all current locations, categories, tags and options. This is irreversible.', 'simplemap' ); ?></span>
 											</p>
-											<p style='text-align:center;'><a
-													onclick="javascript:return confirm('<?php _e( 'Last chance! Pressing OK will delete all SimpleMap locations. Your settings will not be deleted.' ); ?>')"
-													href="<?php echo wp_nonce_url( admin_url( 'edit.php?post_type=sm-location&page=simplemap&sm-action=delete-simplemap&locations-only=true' ), 'delete-simplemap' ); ?>"><?php _e( 'Clicking this link will remove all locations but preserve your settings.' ); ?></a>
+											<p class="aligncenter"><a onclick="javascript:return confirm('<?php _e( 'Last chance! Pressing OK will delete all SimpleMap locations. Your settings will not be deleted.' ); ?>')" href="<?php echo wp_nonce_url( admin_url( 'edit.php?post_type=sm-location&page=simplemap&sm-action=delete-simplemap&locations-only=true' ), 'delete-simplemap' ); ?>"><?php _e( 'Clicking this link will remove all locations but preserve your settings.' ); ?></a>
 											</p>
-											<p style='text-align:center;'><a
-													onclick="javascript:return confirm('<?php _e( 'Last chance! Pressing OK will delete all SimpleMap data.' ); ?>')"
-													href="<?php echo wp_nonce_url( admin_url( 'edit.php?post_type=sm-location&page=simplemap&sm-action=delete-simplemap' ), 'delete-simplemap' ); ?>"><?php _e( 'Clicking this link will remove all data from the database.' ); ?></a>
+											<p class="aligncenter"><a onclick="javascript:return confirm('<?php _e( 'Last chance! Pressing OK will delete all SimpleMap data.' ); ?>')" href="<?php echo wp_nonce_url( admin_url( 'edit.php?post_type=sm-location&page=simplemap&sm-action=delete-simplemap' ), 'delete-simplemap' ); ?>"><?php _e( 'Clicking this link will remove all data from the database.' ); ?></a>
 											</p>
 										</div>
 									</div>
@@ -950,12 +917,9 @@ if ( ! class_exists( 'SM_Options' ) ) {
 						</div> <!-- dashboard-widgets -->
 					</form>
 
-					<p style='float:right;margin-right:25px;'><a target="_blank"
-							href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=SimpleMap&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8'>Donate
-							via PayPal</a></p>
+					<p class="donate-text"><a target="_blank" href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=SimpleMap&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8'>Donate via PayPal</a></p>
 
-					<div class="clear">
-					</div>
+					<div class="clear"></div>
 				</div><!-- dashboard-widgets-wrap -->
 			</div> <!-- wrap -->
 			<?php

@@ -19,6 +19,14 @@ select option span.hidden {
 	background: #ffffe0 !important;
 }
 
+.aligncenter {
+	text-align: center;
+}
+
+.text-red {
+	color: red;
+}
+
 .button-red {
 	border-color: #900 !important;
 	font-weight: bold;
@@ -94,6 +102,10 @@ span#ala {
 	list-style-type: disc;
 }
 
+.postbox .inside #taxonomy-sm-category ul {
+	list-style-type: none;
+}
+
 .postbox .inside code {
 	font-size: 14px;
 }
@@ -110,6 +122,11 @@ form.inabox {
 
 form.inabox label {
 	font-weight: bold;
+}
+
+label.sm-options-label {
+    width: 70px;
+    display: inline-block;
 }
 
 .radio-thumbnail {
@@ -129,6 +146,14 @@ form.inabox label {
 	border-radius: 4px;
 }
 
+.radio-thumbnail label {
+	display: block;
+}
+
+.radio-thumbnail img {
+	border: 1px solid #999;
+}
+
 .radio-thumbnail-current {
 	margin: 0;
 	background-color: #ffffe0;
@@ -141,6 +166,11 @@ form.inabox label {
 
 table.server-tests {
 	border-collapse: collapse;
+}
+
+.donate-text {
+	float: right;
+	margin-right: 25px;
 }
 
 table.server-tests td {
