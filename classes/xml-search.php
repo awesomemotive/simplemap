@@ -227,6 +227,10 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 
 							// Get all taxes for this post
 							if ( $local_taxes = wp_get_object_terms( $value->ID, $taxonomy, array( 'fields' => 'names' ) ) ) {
+								if ( 'sm-day' === $taxonomy ) {
+									$a1 = usort( $local_taxes, array( 'Simple_Map', 'sort_taxonomy_days' ) );
+								}
+								
 								$local_tax_names = implode( ', ', $local_taxes );
 							}
 
@@ -242,7 +246,7 @@ if ( ! class_exists( 'SM_XML_Search' ) ) {
 				$this->print_json( $locations, $smtaxes );
 			}
 		}
-
+		
 		// Prints the JSON output
 		function print_json( $dataset, $smtaxes ) {
 			header( 'Status: 200 OK', false, 200 );

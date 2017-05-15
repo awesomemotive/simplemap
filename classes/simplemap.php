@@ -566,10 +566,19 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 			// Loop through all cats and create array of available cats.
 			if ( $all_taxes = get_terms( $taxonomy ) ) {
+				if ( 'sm-day' === $taxonomy ) {
+					usort( $all_taxes, array( 'Simple_Map', 'sort_taxonomy_days' ) );
 
-				foreach ( $all_taxes as $key => $value ) {
-					if ( '' == $taxes_avail[0] || in_array( $value->term_id, $taxes_avail ) ) {
-						$taxes_array[] = $value->term_id;
+					foreach ( $all_taxes as $key => $value ) {
+						if ( '' == $taxes_avail[0] || in_array( $value->term_id, $taxes_avail ) ) {
+							$taxes_array[] = $value->term_id;
+						}
+					}
+				} else {
+					foreach ( $all_taxes as $key => $value ) {
+						if ( '' == $taxes_avail[0] || in_array( $value->term_id, $taxes_avail ) ) {
+							$taxes_array[] = $value->term_id;
+						}
 					}
 				}
 			}
@@ -607,6 +616,42 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				}
 			}
 			return array( 'label' => $tax_label, 'input' => $tax_search );
+		}
+
+		/**
+		* Sort Taxonomy Days
+		*
+		* A callback function used to compare two weekday arrays with dynamic values.
+		*
+		* @since 2.6
+		* @access public
+		*
+		*
+		* @param array $term1 1st Term object.
+		* @param array $term2 2nd Term object
+		*
+		* @return int Day difference.
+		*/
+		static public function sort_taxonomy_days( $term1, $term2 ) {
+			// TODO Add setting to General Options to set the day of the week to start from.
+			// $weekdays[0] = array( 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' );
+			// $weekdays[1] = array( 'mon', 'tue', 'wed', 'thu', 'fri', 'sat','sun' );
+			$weekdays = array( 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' );
+			foreach ( $weekdays as $key => $value ) {
+				// Note: This could potentually be used with the time taxonomy as well
+				// $weekdays[ $key ] = date( 'N H:i', strtotime( $value ) );
+				$weekdays[ $key ] = date( 'N', strtotime( $value ) );
+			}
+
+			if ( isset( $term1->name ) ) {
+				$term1_time = date( 'N', strtotime( strtolower( $term1->name ) ) );
+				$term2_time = date( 'N', strtotime( strtolower( $term2->name ) ) );
+			} else {
+				$term1_time = date( 'N', strtotime( strtolower( $term1 ) ) );
+				$term2_time = date( 'N', strtotime( strtolower( $term2 ) ) );
+			}
+
+			return array_search( $term1_time, $weekdays ) - array_search( $term2_time, $weekdays );
 		}
 
 		/**
