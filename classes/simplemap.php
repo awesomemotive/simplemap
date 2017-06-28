@@ -115,7 +115,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				geocoder = new google.maps.Geocoder();
 
 				if ( !' . absint( $is_sm_search ) . ' && auto_locate == "ip" ) {
-					jQuery.getJSON( "http://freegeoip.net/json/?callback=?", function(location) {
+					jQuery.getJSON( "https://freegeoip.net/json/?callback=?", function(location) {
 						lat = location.latitude;
 						lng = location.longitude;
 
