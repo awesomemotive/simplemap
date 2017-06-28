@@ -1450,7 +1450,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 					//marker.openInfoWindowTabsHtml([new GInfoWindowTab(location_tab_text, html), new GInfoWindowTab(description_tab_text, html2)], {maxWidth: maxbubblewidth});
 					// tabs aren't possible with the Google Maps api v3
-					html += '<hr /><p>' + locationData.description + '</p>';
+					html += '<hr /><div class="bubble_content">' + locationData.description + '</div>';
 				}
 
 				html += '	</div>';
