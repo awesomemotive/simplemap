@@ -46,16 +46,10 @@ define( 'SIMPLEMAP_PATH', WP_PLUGIN_DIR . '/' . $simplemap_dir );
 define( 'SIMPLEMAP_URL', plugins_url() . '/' . $simplemap_dir );
 
 // Map HOST
-if ( ! defined( 'SIMPLEMAP_MAPS_JS_API' ) ) {
-	// TODO: Evaluate removing scheme check as scheme-less urls can be enqueued in 3.3 (WP #16560)
-	$scheme = 'http:';
-	if ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' ) {
-		$scheme = 'https:';
-	}
+$scheme = 'https:';//Google APIs no longer work via HTTP
 
-	define( 'SIMPLEMAP_MAPS_WS_API', $scheme . '//maps.googleapis.com/maps/api/' );
-	define( 'SIMPLEMAP_MAPS_JS_API', SIMPLEMAP_MAPS_WS_API . 'js?' );
-}
+define( 'SIMPLEMAP_MAPS_WS_API', $scheme . '//maps.googleapis.com/maps/api/' );
+define( 'SIMPLEMAP_MAPS_JS_API', SIMPLEMAP_MAPS_WS_API . 'js?' );
 
 #### INCLUDES ####
 
