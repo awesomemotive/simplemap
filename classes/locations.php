@@ -717,7 +717,7 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 			$updated_lng     = get_post_meta( $post, 'location_lng', true );
 
 			if ( $location_address != $updated_address || $location_city != $updated_city || $location_state != $updated_state || $location_zip != $updated_zip || $location_country != $updated_country || '' == $updated_lat || '' == $updated_lng ) {
-				$geocode_result = $simple_map->geocode_location( $updated_address, $updated_city, $updated_state, $updated_zip, $updated_country, '' );
+				$geocode_result = $simple_map->geocode_location( $updated_address, $updated_city, $updated_state, $updated_zip, $updated_country, $api_key );
 
 				if ( $geocode_result && isset( $geocode_result['status'] ) && $geocode_result['status'] == 'OK' ) {
 					if ( isset( $geocode_result['lat'] ) && isset( $geocode_result['lng'] ) ) {
