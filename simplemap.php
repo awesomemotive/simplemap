@@ -48,8 +48,12 @@ define( 'SIMPLEMAP_URL', plugins_url() . '/' . $simplemap_dir );
 // Map HOST
 $scheme = 'https:';//Google APIs no longer work via HTTP
 
-define( 'SIMPLEMAP_MAPS_WS_API', $scheme . '//maps.googleapis.com/maps/api/' );
-define( 'SIMPLEMAP_MAPS_JS_API', SIMPLEMAP_MAPS_WS_API . 'js?' );
+if ( ! defined( 'SIMPLEMAP_MAPS_WS_API' ) ) {
+    define( 'SIMPLEMAP_MAPS_WS_API', $scheme . '//maps.googleapis.com/maps/api/' );
+}
+if ( ! defined( 'SIMPLEMAP_MAPS_JS_API' ) ) {
+    define( 'SIMPLEMAP_MAPS_JS_API', SIMPLEMAP_MAPS_WS_API . 'js?' );
+}
 
 #### INCLUDES ####
 
