@@ -25,27 +25,26 @@ if ( ! class_exists( 'SM_Help' ) ) {
 				$simple_map->show_toolbar( $sm_page_title );
 				?>
 
-				<div><p><?php _e( 'Jump to a section:', 'simplemap' ); // XSS ok. ?> <a
-							href="#displaying_your_map"><?php _e( 'Displaying Your Map', 'simplemap' ); // XSS ok. ?></a> | <a
-							href="#general_options"><?php _e( 'General Options', 'simplemap' ); // XSS ok. ?></a> | <a
-							href="#adding_a_location"><?php _e( 'Adding a Location', 'simplemap' ); // XSS ok. ?></a></p></div>
+				<div><p><?php _e( 'Jump to a section:', 'simplemap' ); // XSS ok. ?> <a href="#displaying_your_map"><?php _e( 'Displaying Your Map', 'simplemap' ); // XSS ok. ?></a> | <a href="#general_options"><?php _e( 'General Options', 'simplemap' ); // XSS ok. ?></a> | <a href="#adding_a_location"><?php _e( 'Adding a Location', 'simplemap' ); // XSS ok. ?></a></p></div>
 
 				<div id="dashboard-widgets-wrap" class="clear">
 
 					<div id='dashboard-widgets' class='metabox-holder'>
 
-						<div class='postbox-container' style='width:49%;'>
+						<div class='postbox-container'>
 
 							<div id='normal-sortables' class='meta-box-sortables ui-sortable'>
 
 								<a name="premium_features"></a>
+								
 								<div class="postbox">
 
 									<h3><?php _e( 'Premium Features', 'simplemap' ); // XSS ok. ?></h3>
 
-									<div class="inside" style="padding: 0 10px 10px 10px;">
+									<div class="inside">
 
 										<div class="table">
+											
 											<table class="form-table">
 
 												<tr>
@@ -56,11 +55,13 @@ if ( ! class_exists( 'SM_Help' ) ) {
 												</tr>
 
 											</table>
+											
 										</div>
 
 										<div class="clear"></div>
 
 									</div> <!-- inside -->
+									
 								</div> <!-- postbox -->
 
 								<!-- =========================================
@@ -68,58 +69,54 @@ if ( ! class_exists( 'SM_Help' ) ) {
 								========================================== -->
 
 								<a name="displaying_your_map"></a>
+								
 								<div class="postbox">
 
 									<h3><?php _e( 'Displaying Your Map', 'simplemap' ); // XSS ok. ?></h3>
 
-									<div class="inside" style="padding: 0 10px 10px 10px;">
+									<div class="inside">
 
 										<div class="table">
+											
 											<table class="form-table">
 
 												<tr>
 													<td><?php _e( 'To show your map on any post or page, insert the shortcode in the body:', 'simplemap' ); // XSS ok. ?>
-														<code
-															style="font-size: 1.2em; background: #ffffe0;">[simplemap]</code>
+														<code>[simplemap]</code>
 													</td>
 												</tr>
 
 												<tr>
 													<td><?php _e( 'If you want only certain categories or tags to show on a map, insert shortcode like this, where the numbers are replaced with the ID numbers of your desired categories and tags:', 'simplemap' ); // XSS ok. ?>
-														<code style="font-size: 1.2em; background: #ffffe0;">[simplemap
-															categories=2,5,14 tags=3,6,15]</code></td>
+														<code>[simplemap categories=2,5,14 tags=3,6,15]</code>
+													</td>
 												</tr>
 
 												<tr>
 													<td><?php _e( 'If you want to hide the category or tag filters on the search form, insert shortcode like this:', 'simplemap' ); // XSS ok. ?>
-														<code style="font-size: 1.2em; background: #ffffe0;">[simplemap
-															show_categories_filter=false show_tags_filter=false]</code>
+														<code>[simplemap show_categories_filter=false show_tags_filter=false]</code>
 													</td>
 												</tr>
 
 												<tr>
 													<td><?php _e( 'If you want to hide the map, insert shortcode like this:', 'simplemap' ); // XSS ok. ?>
-														<code style="font-size: 1.2em; background: #ffffe0;">[simplemap
-															hide_map=true]</code></td>
+														<code>[simplemap hide_map=true]</code></td>
 												</tr>
 
 												<tr>
 													<td><?php _e( 'If you want to hide the list of results, insert shortcode like this:', 'simplemap' ); // XSS ok. ?>
-														<code style="font-size: 1.2em; background: #ffffe0;">[simplemap
-															hide_list=true]</code></td>
+														<code>[simplemap hide_list=true]</code></td>
 												</tr>
 
 												<tr>
 													<td><?php _e( 'If you want to override the default lat / lng for a specific map, insert shortcode like this:', 'simplemap' ); // XSS ok. ?>
-														<code style="font-size: 1.2em; background: #ffffe0;">[simplemap
-															default_lat='34.1346702' default_lng='-118.4389877']</code>
+														<code>[simplemap default_lat='34.1346702' default_lng='-118.4389877']</code>
 													</td>
 												</tr>
 
 												<tr>
 													<td><?php _e( 'You can combine tag attributes as needed:', 'simplemap' ); // XSS ok. ?>
-														<code style="font-size: 1.2em; background: #ffffe0;">[simplemap
-															categories=2,5,14 show_tags_filter=false]</code></td>
+														<code>[simplemap categories=2,5,14 show_tags_filter=false]</code></td>
 												</tr>
 
 												<tr>
@@ -131,11 +128,13 @@ if ( ! class_exists( 'SM_Help' ) ) {
 												</tr>
 
 											</table>
+											
 										</div>
 
 										<div class="clear"></div>
 
 									</div> <!-- inside -->
+									
 								</div> <!-- postbox -->
 
 								<!-- =========================================
@@ -143,13 +142,15 @@ if ( ! class_exists( 'SM_Help' ) ) {
 								========================================== -->
 
 								<a name="general_options"></a>
+								
 								<div class="postbox">
 
 									<h3><?php _e( 'General Options', 'simplemap' ); // XSS ok. ?></h3>
 
-									<div class="inside" style="padding: 0 10px 10px 10px;">
+									<div class="inside">
 
 										<div class="table">
+											
 											<table class="form-table">
 
 												<tr valign="top">
@@ -183,11 +184,13 @@ if ( ! class_exists( 'SM_Help' ) ) {
 												</tr>
 
 											</table>
+											
 										</div>
 
 										<div class="clear"></div>
 
 									</div> <!-- inside -->
+									
 								</div> <!-- postbox -->
 
 								<!-- =========================================
@@ -195,23 +198,25 @@ if ( ! class_exists( 'SM_Help' ) ) {
 								========================================== -->
 
 								<a name="adding_a_location"></a>
+								
 								<div class="postbox">
 
 									<h3><?php _e( 'Adding a Location', 'simplemap' ); // XSS ok. ?></h3>
 
-									<div class="inside" style="padding: 0 10px 10px 10px;">
+									<div class="inside">
 
 										<div class="table">
+											
 											<table class="form-table">
 
 												<tr>
 													<td>
 														<?php _e( 'To properly add a new location, you must enter one or both of the following:', 'simplemap' ); // XSS ok. ?>
 														<br/>
-														<span
-															style="padding-left: 20px;"><?php _e( '1. A full address', 'simplemap' ); // XSS ok. ?></span><br/>
-														<span
-															style="padding-left: 20px;"><?php _e( '2. A latitude and longitude', 'simplemap' ); // XSS ok. ?></span><br/>
+														<ol>
+															<li><?php _e( 'A full address', 'simplemap' ); // XSS ok. ?></li>
+															<li><?php _e( 'A latitude and longitude', 'simplemap' ); // XSS ok. ?></li>
+														</ol>
 														<?php _e( 'If you enter a latitude and longitude, then the address will not be geocoded, and your custom values will be left in place. Entering an address without latitude or longitude will result in the address being geocoded before it is submitted to the database.', 'simplemap' ); // XSS ok. ?>
 													</td>
 												</tr>
@@ -239,7 +244,7 @@ if ( ! class_exists( 'SM_Help' ) ) {
 
 						</div> <!-- postbox-container -->
 
-						<div class='postbox-container' style='width:49%;'>
+						<div class='postbox-container'>
 
 							<div id='side-sortables' class='meta-box-sortables ui-sortable'>
 
@@ -249,9 +254,9 @@ if ( ! class_exists( 'SM_Help' ) ) {
 
 								<div class="postbox">
 
-									<h3 style='color:#fff;text-shadow:0 1px 0 #000;background: #fff url( <?php echo SIMPLEMAP_URL; ?>/inc/images/blue-grad.png ) top left repeat-x;'><?php _e( 'Premium Support and Features', 'simplemap' ); // XSS ok. ?></h3>
+									<h3 class='blue-bg'><?php _e( 'Premium Support and Features', 'simplemap' ); // XSS ok. ?></h3>
 
-									<div class="inside" style='padding: 0 10px 10px;'>
+									<div class="inside">
 
 										<?php
 										// Check for premium support status
@@ -267,28 +272,20 @@ if ( ! class_exists( 'SM_Help' ) ) {
 												<?php _e( 'By signing up for SimpleMap premium support, you help to ensure future enhancements to this excellent project as well as the following benefits:', 'simplemap' ); // XSS ok. ?>
 											</p>
 
-											<ul style='margin-left:25px;list-style-type:disc'>
+											<ul>
 												<li><?php _e( 'Around the clock access to our extensive knowledge base and support forum from within your WordPress dashboard', 'simplemap' ); // XSS ok. ?></li>
 												<li><?php _e( 'Professional and timely response times to all your questions from the SimpleMap team', 'simplemap' ); // XSS ok. ?></li>
 												<li><?php _e( 'A 10% discount for any custom functionality you request from the SimpleMap developers', 'simplemap' ); // XSS ok. ?></li>
 												<li><?php _e( 'A 6-12 month advance access to new features integrated into the auto upgrade functionality of WordPress', 'simplemap' ); // XSS ok. ?></li>
 											</ul>
 
-											<ul style='margin-left:25px;list-style-type:none'>
-												<li>
-													<a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'simplemap' ); // XSS ok. ?></a>
-												</li>
-												<li><a target='_blank'
-												       href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'simplemap' ); // XSS ok. ?></a>
-												</li>
-											</ul>
+											<p><a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'simplemap' ); // XSS ok. ?></a> or <a target='_blank' href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'simplemap' ); // XSS ok. ?></a></p>
 										<?php else : ?>
 
 											<p class='howto'><?php printf( 'Your premium support for <code>%s</code> was purchased on <code>%s</code> by <code>%s</code> (%s). It will remain valid for this URL until <code>%s</code>.', get_ftps_site( $simplemap_ps ), date( 'F d, Y', get_ftps_purchase_date( $simplemap_ps ) ), get_ftps_name( $simplemap_ps ), get_ftps_email( $simplemap_ps ), date( 'F d, Y', get_ftps_exp_date( $simplemap_ps ) ) ); ?></p>
-											<p><a href='#'
-											      id='premium_help'><?php _e( 'Launch Premium Support widget', 'simplemap' ); // XSS ok. ?></a>
-												| <a target="blank"
-												     href="http://support.simplemap-plugin.com?sso=<?php echo get_ftps_sso_key( $simplemap_ps ); ?>"><?php _e( 'Visit Premium Support web site', 'simplemap' ); // XSS ok. ?></a>
+											<p>
+												<a href='#' id='premium_help'><?php _e( 'Launch Premium Support widget', 'simplemap' ); // XSS ok. ?></a>
+												| <a target="blank" href="http://support.simplemap-plugin.com?sso=<?php echo get_ftps_sso_key( $simplemap_ps ); ?>"><?php _e( 'Visit Premium Support web site', 'simplemap' ); // XSS ok. ?></a>
 											</p>
 											<script type="text/javascript" charset="utf-8">
 												Tender = {
@@ -297,25 +294,28 @@ if ( ! class_exists( 'SM_Help' ) ) {
 													widgetToggles: [document.getElementById('premium_help')]
 												}
 											</script>
-											<script src="https://simplemap.tenderapp.com/tender_widget.js"
-											        type="text/javascript"></script>
+											<script src="https://simplemap.tenderapp.com/tender_widget.js" type="text/javascript"></script>
 
 										<?php endif; ?>
 
 									</div> <!-- inside -->
+									
 								</div> <!-- postbox -->
 
 								<?php do_action( 'sm-help-side-sortables-bottom' ); ?>
 
 							</div> <!-- meta-box-sortables -->
+							
 						</div> <!-- postbox-container -->
 
 					</div> <!-- dashboard-widgets -->
 
-					<div class="clear">
-					</div>
+					<div class="clear"></div>
+					
 				</div><!-- dashboard-widgets-wrap -->
+				
 			</div> <!-- wrap -->
+			
 			<?php
 		}
 	}

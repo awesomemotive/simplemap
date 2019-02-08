@@ -1,13 +1,12 @@
 <?php
 /*
 Plugin Name: SimpleMap
-Version: 2.5
+Version: 2.6
 Plugin URI: http://simplemap-plugin.com/
 Author: Michael Torbert
-Author URI: http://fullthrottledevelopment.com/
+Author URI: http://semperplugins.com/
 Description: An easy-to-use international store locator plugin that uses Google Maps to display information directly on your WordPress site.
 Text Domain: simplemap
-Domain Path: /lang
 */
 
 global $wpdb;
@@ -15,7 +14,7 @@ global $wpdb;
 #### CONSTANTS ####
 
 // Plugin Version Number
-define( 'SIMPLEMAP_VERSION', '2.4.11.1' );
+define( 'SIMPLEMAP_VERSION', '2.6' );
 
 if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
 	define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
@@ -46,15 +45,13 @@ define( 'SIMPLEMAP_PATH', WP_PLUGIN_DIR . '/' . $simplemap_dir );
 define( 'SIMPLEMAP_URL', plugins_url() . '/' . $simplemap_dir );
 
 // Map HOST
-if ( ! defined( 'SIMPLEMAP_MAPS_JS_API' ) ) {
-	// TODO: Evaluate removing scheme check as scheme-less urls can be enqueued in 3.3 (WP #16560)
-	$scheme = 'http:';
-	if ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' ) {
-		$scheme = 'https:';
-	}
+$scheme = 'https:';//Google APIs no longer work via HTTP
 
-	define( 'SIMPLEMAP_MAPS_WS_API', $scheme . '//maps.googleapis.com/maps/api/' );
-	define( 'SIMPLEMAP_MAPS_JS_API', SIMPLEMAP_MAPS_WS_API . 'js?' );
+if ( ! defined( 'SIMPLEMAP_MAPS_WS_API' ) ) {
+    define( 'SIMPLEMAP_MAPS_WS_API', $scheme . '//maps.googleapis.com/maps/api/' );
+}
+if ( ! defined( 'SIMPLEMAP_MAPS_JS_API' ) ) {
+    define( 'SIMPLEMAP_MAPS_JS_API', SIMPLEMAP_MAPS_WS_API . 'js?' );
 }
 
 #### INCLUDES ####

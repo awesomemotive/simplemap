@@ -7,7 +7,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 	class Simple_Map {
 
 		var $plugin_url;
-		var $plugin_domain = 'SimpleMap';
+		var $plugin_domain = 'simplemap';
 
 		/**
 		 * Simple_Map constructor.
@@ -17,7 +17,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 		function __construct() {
 
 			$plugin_dir = basename( SIMPLEMAP_PATH );
-			load_plugin_textdomain( $this->plugin_domain, 'wp-content/plugins/' . $plugin_dir . '/lang', $plugin_dir . '/lang' );
+			load_plugin_textdomain( $this->plugin_domain, false, $plugin_dir . '/lang/' );
 
 			$this->plugin_url = SIMPLEMAP_URL;
 
@@ -25,10 +25,10 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			add_shortcode( 'simplemap', array( &$this, 'display_map' ) );
 
 			// Enqueue frontend scripts & styles into <head>.
-			add_action( 'template_redirect', array( &$this, 'enqueue_frontend_scripts_styles' ) );
+			add_action( 'wp_enqueue_scripts', array( &$this, 'enqueue_frontend_scripts_styles' ) );
 
 			// Enqueue backend scripts.
-			add_action( 'init', array( &$this, 'enqueue_backend_scripts_styles' ) );
+			add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_backend_scripts_styles' ) );
 
 			// Add hook for master js file.
 			add_action( 'template_redirect', array( &$this, 'google_map_js_script' ) );
@@ -95,7 +95,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 
 			$do_search_function = '
-				load_simplemap( lat, lng, aspid, ascid, asma, shortcode_zoom_level, map_type, shortcode_autoload );
+				load_simplemap( lat, lng, aspid, ascid, asma, shortcode_zoom_level, map_type, shortcode_autoload, shortcode_scrollwheel, shortcode_draggable );
 				//searchLocations( ' . absint( $is_sm_search ) . ' );
 			';
 
@@ -108,12 +108,14 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 				var shortcode_zoom_level = "' . esc_js( $zoom_level ) . '";
 				var map_type = "' . esc_js( $map_type ) . '";
 				var shortcode_autoload = "' . esc_js( $autoload ) . '";
+				var shortcode_scrollwheel = "' . esc_js( $scrollwheel ) . '";
+				var shortcode_draggable = "' . esc_js( $draggable ) . '";
 				var auto_locate = "' . esc_js( $options['auto_locate'] ) . '";
 				var sm_autolocate_complete = false;
 				geocoder = new google.maps.Geocoder();
 
 				if ( !' . absint( $is_sm_search ) . ' && auto_locate == "ip" ) {
-					jQuery.getJSON( "http://freegeoip.net/json/?callback=?", function(location) {
+					jQuery.getJSON( "https://freegeoip.net/json/?callback=?", function(location) {
 						lat = location.latitude;
 						lng = location.longitude;
 
@@ -220,6 +222,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			$method    = apply_filters( 'sm-location-search-method', 'post', $post->ID );
 
 			// Form Field Values.
+			$name_value    = get_query_var( 'location_search_name' );
 			$address_value = get_query_var( 'location_search_address' );
 			$city_value    = isset( $_REQUEST['location_search_city'] ) ? $_REQUEST['location_search_city'] : '';
 			$state_value   = isset( $_REQUEST['location_search_state'] ) ? $_REQUEST['location_search_state'] : '';
@@ -230,6 +233,10 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			$is_sm_search  = isset( $_REQUEST['location_is_search_results'] ) ? 1 : 0;
 
 			// Normal Field inputs.
+			$ffi['name']   = array(
+				'label' => apply_filters( 'sm-search-label-name', __( 'Place: ', 'simplemap' ), $post ),
+				'input' => '<input type="text" id="location_search_name_field" name="location_search_name" value="' . esc_attr( $name_value ) . '" />',
+			);
 			$ffi['street']   = array(
 				'label' => apply_filters( 'sm-search-label-street', __( 'Street: ', 'simplemap' ), $post ),
 				'input' => '<input type="text" id="location_search_address_field" name="location_search_address" value="' . esc_attr( $address_value ) . '" />',
@@ -279,12 +286,11 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			$location_search = '<div id="map_search" >';
 			$location_search .= '<a id="map_top"></a>';
 			$location_search .= '<form ' . $on_submit . ' name="location_search_form" id="location_search_form" action="' . $action . '" method="' . $method . '">';
-
-			$location_search .= '<table class="location_search"' . $hidesearch . '>';
+			$location_search .= '<div class="location_search"' . $hidesearch . '>';
 
 			$location_search .= apply_filters( 'sm-location-search-table-top', '', $post );
 
-			$location_search .= '<tr><td colspan="' . $search_form_cols . '" class="location_search_title">' . apply_filters( 'sm-location-search-title', $search_title, $post->ID ) . '</td></tr>';
+			$location_search .= '<div><div class="location_search_title">' . apply_filters( 'sm-location-search-title', $search_title, $post->ID ) . '</div></div>';
 
 			// Loop through field inputs and print table.
 			$search_form_tr  = 0;
@@ -312,7 +318,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 					case 'labeltd_' :
 						$field_label = true;
-						$field_br    = "</td>\n\t\t<td>";
+						$field_br    = "</div>\n\t\t<div>";
 						$field_value = substr( $field_labelvalue, 8 );
 						break;
 
@@ -345,13 +351,13 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 				// Print open TR if on column 1.
 				if ( 1 === $search_field_td ) {
-					$search_form_tr_data = "\n\t<tr id='location_search_" . esc_attr( $search_form_tr ) . "_tr' class='location_search_row'>";
+					$search_form_tr_data = "\n\t<div id='location_search_" . esc_attr( $search_form_tr ) . "_tr' class='location_search_row'>";
 					$search_form_tr ++;
 				}
 
 				// Print field for this position.
 				if ( 'span' == $field_value ) {
-					if ( $tr_data_array = explode( '<td ', $search_form_tr_data ) ) {
+					if ( $tr_data_array = explode( '<div ', $search_form_tr_data ) ) {
 						$target_td = end( $tr_data_array );
 
 						end( $tr_data_array );
@@ -364,13 +370,13 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 							$tr_data_array[ $key ] = substr_replace( $target_td, $numcells + 1, 9, 1 );
 						}
 
-						$search_form_tr_data = implode( '<td ', $tr_data_array );
+						$search_form_tr_data = implode( '<div ', $tr_data_array );
 					}
 				} else {
 					// The extra column needs to be counted independent of whether the field_value isset so that we don't lose count.
-					if ( "</td>\n\t\t<td>" == $field_br ) {
+					if ( "</div>\n\t\t<div>" == $field_br ) {
 						$search_field_td ++;
-						$field_br = "</td>\n\t\t<td id='location_search_" . esc_attr( substr( $field_labelvalue, 8 ) ) . "_fields'>";
+						$field_br = "</div>\n\t\t<div id='location_search_" . esc_attr( substr( $field_labelvalue, 8 ) ) . "_fields'>";
 					}
 
 					if ( isset( $ffi[ $field_value ] ) && 'empty' != $field_value && 'span' != $field_value ) {
@@ -380,7 +386,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 						}
 
 						$taxonomy_class = ( isset( $options['taxonomies'][ $field_value ] ) ? 'location_search_taxonomy_cell' : '' );
-						$search_form_tr_data .= "\n\t\t<td class='location_search_" . esc_attr( $class_value ) . "_cell $taxonomy_class location_search_cell'>";
+						$search_form_tr_data .= "\n\t\t<div class='location_search_" . esc_attr( $class_value ) . "_cell $taxonomy_class location_search_cell'>";
 
 						if ( $field_label ) {
 							if ( isset( $ffi[ $field_value ]['label'] ) ) {
@@ -388,15 +394,15 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 							}
 							$search_form_tr_data .= $field_br;
 						}
-						$search_form_tr_data .= isset( $ffi[ $field_value ]['input'] ) ? $ffi[ $field_value ]['input'] . '</td>' : '</td>';
+						$search_form_tr_data .= isset( $ffi[ $field_value ]['input'] ) ? $ffi[ $field_value ]['input'] . '</div>' : '</div>';
 					} else {
-						$search_form_tr_data .= "\n\t\t<td class='location_search_empty_cell location_search_cell'></td>";
+						$search_form_tr_data .= "\n\t\t<div class='location_search_empty_cell location_search_cell'></div>";
 					}
 				}
 
 				// Print close TR if on column 3 or higher (for safety).
 				if ( $search_form_cols <= $search_field_td ) {
-					$search_form_tr_data .= "\n\t</tr>";
+					$search_form_tr_data .= "\n\t</div>";
 					$search_field_td = 0;
 
 					// Only keep the rows that contain an actionable item.
@@ -416,8 +422,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 			$location_search .= apply_filters( 'sm-location-search-before-submit', '', $post );
 
-			$location_search .= '</table>';
-
+			$location_search .= '</div>';
 			// Add hidden fields.
 			if ( ! empty( $hidden_fields ) ) {
 				$location_search .= implode( ' ', $hidden_fields );
@@ -726,6 +731,8 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			var default_lng            = <?php echo esc_js( $options['default_lng'] ); ?>;
 			var default_radius            = <?php echo esc_js( $options['default_radius'] ); ?>;
 			var zoom_level                = '<?php echo esc_js( $options['zoom_level'] ); ?>';
+			var scrollwheel            = '<?php echo esc_js( $options['scrollwheel'] ); ?>';
+			var draggable              = '<?php echo esc_js( $options['draggable'] ); ?>';
 			var map_width                = '<?php echo esc_js( $options['map_width'] ); ?>';
 			var map_height                = '<?php echo esc_js( $options['map_height'] ); ?>';
 			var special_text            = '<?php echo esc_js( $options['special_text'] ); ?>';
@@ -780,16 +787,13 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			}
 
 			//function load_simplemap( lat, lng, aspid, ascid, asma ) {
-			function load_simplemap( lat, lng, aspid, ascid, asma, shortcode_zoom_level, map_type, shortcode_autoload ) {
+			function load_simplemap( lat, lng, aspid, ascid, asma, shortcode_zoom_level, map_type, shortcode_autoload, shortcode_scrollwheel, shortcode_draggable ) {
 
-			zoom_level = shortcode_zoom_level;
-			autoload = shortcode_autoload;
+			zoom_level  = shortcode_zoom_level;
+			autoload    = shortcode_autoload;
+			scrollwheel = shortcode_scrollwheel;
+			draggable   = shortcode_draggable;
 			<?php
-			if ( '' == $options['api_key'] ) {
-				?>
-				jQuery( "#simplemap" ).html( "<p style='padding:10px;'><?php printf( __( 'You must enter an API Key in <a href=\"%s\">General Settings</a> before your maps will work.', 'simplemap' ), admin_url( 'admin.php?page=simplemap' ) ); ?></p>" );
-			<?php
-			}
 
 			do_action( 'sm-load-simplemap-js-top' );
 			?>
@@ -806,6 +810,8 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			var myOptions = {
 			zoom: parseInt(zoom_level),
 			center: latlng,
+			scrollwheel: scrollwheel,
+			draggable: draggable,
 			mapTypeId: google.maps.MapTypeId[map_type]
 			};
 			map = new google.maps.Map( document.getElementById( "simplemap" ), myOptions );
@@ -922,16 +928,22 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			}
 
 			function searchLocations( is_search ) {
+            clearInfoWindows();
 			// Init searchData
 			var searchData = {};
 			searchData.taxes = {};
 
 			// Set defaults for search form fields
+			searchData.name    = '';
 			searchData.address    = '';
 			searchData.city    = '';
 			searchData.state    = '';
 			searchData.zip        = '';
 			searchData.country    = '';
+
+			if ( null != document.getElementById('location_search_name_field') ) {
+			searchData.name = document.getElementById('location_search_name_field').value;
+			}
 
 			if ( null != document.getElementById('location_search_address_field') ) {
 			searchData.address = document.getElementById('location_search_address_field').value;
@@ -1130,7 +1142,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 			}
 			?>
 
-			var searchUrl = siteurl + '/?sm-xml-search=1&<?php echo $wpmlquery;  ?>lat=' + searchData.center.lat() + '&lng=' + searchData.center.lng() + '&radius=' + searchData.radius + '&namequery=' + searchData.homeAddress + '&query_type=' + searchData.query_type  + '&limit=' + searchData.limit + <?php echo $js_tax_string; ?>'&address=' + searchData.address + '&city=' + searchData.city + '&state=' + searchData.state + '&zip=' + searchData.zip + '&pid=<?php echo esc_js( absint( $_GET['smpid'] ) ); ?>';
+			var searchUrl = siteurl + '/?sm-xml-search=1&<?php echo $wpmlquery;  ?>lat=' + searchData.center.lat() + '&lng=' + searchData.center.lng() + '&radius=' + searchData.radius + '&namequery=' + searchData.homeAddress + '&query_type=' + searchData.query_type  + '&limit=' + searchData.limit + <?php echo $js_tax_string; ?>'&locname=' + searchData.name + '&address=' + searchData.address + '&city=' + searchData.city + '&state=' + searchData.state + '&zip=' + searchData.zip + '&pid=<?php echo esc_js( absint( $_GET['smpid'] ) ); ?>';
 
 			<?php if ( apply_filters( 'sm-use-updating-image', true ) ) : ?>
 				// Display Updating Message and hide search results
@@ -1438,7 +1450,7 @@ if ( ! class_exists( 'Simple_Map' ) ) {
 
 					//marker.openInfoWindowTabsHtml([new GInfoWindowTab(location_tab_text, html), new GInfoWindowTab(description_tab_text, html2)], {maxWidth: maxbubblewidth});
 					// tabs aren't possible with the Google Maps api v3
-					html += '<hr /><p>' + locationData.description + '</p>';
+					html += '<hr /><div class="bubble_content">' + locationData.description + '</div>';
 				}
 
 				html += '	</div>';
@@ -1646,7 +1658,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			$base_url = SIMPLEMAP_MAPS_WS_API . 'geocode/json?region=' . substr( $options['default_domain'], strrpos( $options['default_domain'], '.' ) + 1 );
 
 			// Add query.
-			$request_url = $base_url . '&address=' . $to_geocode;
+			$request_url = $base_url . '&key=' . $key  . '&address=' . $to_geocode;
 
 			$response = wp_remote_get( $request_url );
 
@@ -1769,6 +1781,8 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					'default_lat'           => '44.968684',
 					'default_lng'           => '-93.215561',
 					'zoom_level'            => '10',
+					'scrollwheel'           => 1,
+					'draggable'             => 1,
 					'default_radius'        => '10',
 					'map_type'              => 'ROADMAP',
 					'special_text'          => '',
@@ -1799,22 +1813,6 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					),
 				);
 
-				$valid_map_type_map = array(
-					'ROADMAP'         => 'ROADMAP',
-					'SATELLITE'       => 'SATELLITE',
-					'HYBRID'          => 'HYBRID',
-					'TERRAIN'         => 'TERRAIN',
-					'G_NORMAL_MAP'    => 'ROADMAP',
-					'G_SATELLITE_MAP' => 'SATELLITE',
-					'G_HYBRID_MAP'    => 'HYBRID',
-					'G_PHYSICAL_MAP'  => 'TERRAIN',
-				);
-
-				if ( empty( $valid_map_type_map[ $options['map_type'] ] ) ) {
-					$options['map_type'] = $default['map_type'];
-				} else {
-					$options['map_type'] = $valid_map_type_map[ $options['map_type'] ];
-				}
 			}
 
 			$options += $default;
@@ -2296,7 +2294,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 						   title="<?php _e( 'Go to our website', 'simplemap' ); ?>">SimpleMap <?php _e( 'Home Page', 'simplemap' ); ?></a>
 					</td>
 					<td class="sm-toolbar-item">
-						<a href="<?php echo admin_url( 'admin.php?page=simplemap-help' ); ?>"
+						<a href="<?php echo admin_url( 'edit.php?post_type=sm-location&page=simplemap-help' ); ?>"
 						   title="<?php _e( 'Premium Support', 'simplemap' ); ?>"><?php _e( 'Premium Support', 'simplemap' ); ?></a>
 					</td>
 					<td class="sm-toolbar-item">
@@ -2308,8 +2306,6 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			</table>
 
 			<?php
-			if ( !isset( $options['api_key'] ) || $options['api_key'] == '' )
-				echo '<div class="error"><p>' . __( 'You must enter an API key for your domain.', 'simplemap' ).' <a href="' . admin_url( 'admin.php?page=simplemap' ) . '">' . __( 'Enter a key on the General Options page.', 'simplemap' ) . '</a></p></div>';
 		}
 
 		/**
@@ -2384,6 +2380,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 		 */
 		function register_query_vars( $vars ) {
 
+			$vars[] = 'location_search_name';
 			$vars[] = 'location_search_address';
 			$vars[] = 'location_search_city';
 			$vars[] = 'location_search_state';
@@ -2523,6 +2520,40 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 				$atts['autoload'] = $options['autoload'];
 			}
 
+			// Allow scroll wheel on a map
+			if ( '' == $atts['scrollwheel'] ) {
+
+				// Use default value.
+				$atts['scrollwheel'] = $options['scrollwheel'];
+
+			} else {
+
+				// Use shortcode.
+				if ( 0 == $atts['scrollwheel'] ) {
+					$atts['scrollwheel'] = 0;
+				} else {
+					$atts['scrollwheel'] = 1;
+				}
+
+			}
+
+			// Allow map dragging
+			if ( '' == $atts['draggable'] ) {
+
+				// Use default value.
+				$atts['draggable'] = $options['draggable'];
+
+			} else {
+
+				// Use shortcode.
+				if ( 0 == $atts['draggable'] ) {
+					$atts['draggable'] = 0;
+				} else {
+					$atts['draggable'] = 1;
+				}
+
+			}
+
 			// Return final array.
 			return $atts;
 		}
@@ -2553,7 +2584,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					'search_title'         => __( 'Find Locations Near:', 'simplemap' ),
 					'search_form_type'     => 'table',
 					'search_form_cols'     => 3,
-					'search_fields'        => 'labelbr_street||labelbr_city||labelbr_state||labelbr_zip||empty||empty||labeltd_distance||empty' . implode( '', $tax_search_fields ) . '||submit||empty||empty',
+					'search_fields'        => 'labelbr_name||labelbr_street||labelbr_city||labelbr_state||labelbr_zip||empty||empty||labeltd_distance||empty' . implode( '', $tax_search_fields ) . '||submit||empty||empty',
 					'taxonomy_field_type'  => 'checkboxes',
 					'hide_search'          => '',
 					'hide_map'             => 0,
@@ -2570,6 +2601,8 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 					'limit'                => '',
 					'autoload'             => '',
 					'zoom_level'           => '',
+					'scrollwheel'          => '',
+					'draggable'            => '',
 					'map_type'             => '',
 					'powered_by'           => '',
 					'sm_day'               => '',

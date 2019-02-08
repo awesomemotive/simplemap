@@ -68,8 +68,26 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 					foreach ( $taxonomies as $tax ) {
 						$term_value = '';
-						if ( $terms = wp_get_object_terms( $location->ID, $tax, array( 'fields' => 'names' ) ) ) {
-							$term_value = implode( ',', $terms );
+						if ( $terms = wp_get_object_terms( $location->ID, $tax ) ) {
+                            $term_array = array();
+                            foreach ( $terms as $term ) {
+                                $parent_tree    = array();
+                                $child          = $term;
+                                while ( ! empty( $child->parent ) ) {
+                                    $parent     = get_term_by( 'id', $child->parent, $tax );
+                                    if ( $parent ) {
+                                        $parent_tree[]  = $parent->name;
+                                        $child      = $parent;
+                                    }
+                                }
+                                $prepend            = '';
+                                if ( $parent_tree ) {
+                                    $parent_tree    = array_reverse( $parent_tree );
+                                    $prepend        = implode( ' | ', $parent_tree ) . ' | ';
+                                }
+                                $term_array[]   = $prepend . $term->name;
+                            }
+							$term_value = implode( ',', $term_array );
 						}
 						$location_data[ "tax_$tax" ] = esc_attr( $term_value );
 					}
@@ -279,7 +297,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 		<div id="dashboard-widgets" class="metabox-holder">
 
-			<div class="postbox-container">
+			<div class="postbox-container half-width">
 
 				<div id="normal-sortables" class="meta-box-sortables ui-sortable">
 
@@ -292,7 +310,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 				echo '</h3>
 
-						<div class="inside" style="padding: 0 10px 10px 10px;">';
+						<div class="inside">';
 
 
 				// Include CSV library.
@@ -304,7 +322,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 					$csv->auto( $file_location );
 
 					if ( isset( $csv->data ) ) {
-						echo '<ol style="list-style-type:decimal">';
+						echo '<ol>';
 
 
 						/**
@@ -355,7 +373,11 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 							// Use the information the user gave me via select boxes to map columns to correct attributes.
 							foreach ( $columns as $key => $column ) {
 								if ( isset( $location[ $column ] ) ) {
-									$to_insert[ $key ] = trim( $location[ $column ] );
+									if ( 'description' === $key ) {
+										$to_insert[ $key ] = trim( html_entity_decode( $location[ $column ] ) );
+									} else {
+										$to_insert[ $key ] = trim( $location[ $column ] );
+									}
 								} else {
 									$to_insert[ $key ] = '';
 								}
@@ -382,7 +404,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 								// Maybe geo encode.
 								if ( empty( $to_insert['lat'] ) || empty( $to_insert['lng'] ) ) {
-									if ( $geo = $simple_map->geocode_location( $to_insert['address'], $to_insert['city'], $to_insert['state'], $to_insert['zip'], $to_insert['country'], '' ) ) {
+									if ( $geo = $simple_map->geocode_location( $to_insert['address'], $to_insert['city'], $to_insert['state'], $to_insert['zip'], $to_insert['country'], $options['api_key'] ) ) {
 										$geocoded = __( 'geocoded and ', 'SimpleMap' );
 
 										if ( isset( $geo['lat'] ) ) {
@@ -465,11 +487,38 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 													continue;
 												}
 
+                                                // check if it is parent | child type of entry
+                                                $args           = array();
+                                                $parent_tree    = array_map( 'trim', explode( '|', $name ) );
+                                                if ( count( $parent_tree ) > 1 ) {
+                                                    // pop the last element as this will be handled outside the if
+                                                    $name       = array_pop( $parent_tree );
+                                                    $parent_id  = 0;
+                                                    foreach ( $parent_tree as $parent ) {
+                                                        $args       = array(
+                                                            'parent'    => $parent_id,
+                                                        );
+                                                        // create the parent if not already created and store it for future use
+                                                        if ( $term_obj = get_term_by( 'name', $parent, $taxonomy ) ) {
+                                                            $parent_id = $term_obj->term_id;
+                                                        } else {
+                                                            $term_array = wp_insert_term( $parent, $taxonomy, $args );
+                                                            if ( is_wp_error( $term_array ) ) {
+                                                                continue;
+                                                            }
+                                                            $parent_id  = $term_array['term_id'];
+                                                        }
+                                                    }
+                                                    $args       = array(
+                                                        'parent'    => $parent_id,
+                                                    );
+                                                }
+
 												// Grab or create and grab the category ID.
 												if ( $term_obj = get_term_by( 'name', $name, $taxonomy ) ) {
 													$term_id = $term_obj->term_id;
 												} else {
-													$term_array = wp_insert_term( $name, $taxonomy );
+													$term_array = wp_insert_term( $name, $taxonomy, $args );
 													if ( is_wp_error( $term_array ) ) {
 														continue;
 													}
@@ -561,7 +610,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 		<div id="dashboard-widgets" class="metabox-holder">
 
-			<div class="postbox-container">
+			<div class="postbox-container full-width">
 
 				<div id="normal-sortables" class="meta-box-sortables ui-sortable">
 
@@ -574,12 +623,12 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 			echo '</h3>
 
-						<div class="inside sm-scroll" style="padding: 0 10px 10px 10px;">
+						<div class="inside sm-scroll">
 
 							<p class="howto">';
 
 
-			printf( __( 'The first step is to confirm that we importing the data correctly. %sPlease match the following sample data%s from your CSV to the correct data type by selecting an attributes form the downdown boxes.', 'SimpleMap' ), '<strong><span style="color:red;">', '</span></strong>' );
+			printf( __( 'The first step is to confirm that we importing the data correctly. %sPlease match the following sample data%s from your CSV to the correct data type by selecting an attributes form the downdown boxes.', 'SimpleMap' ), '<strong>', '</strong>' );
 
 			echo '</p>';
 
@@ -742,7 +791,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 			<div id="dashboard-widgets" class="metabox-holder">
 
-				<div class="postbox-container" style="width:49%">
+				<div class="postbox-container half-width">
 
 					<div id="normal-sortables" class="meta-box-sortables ui-sortable">
 
@@ -755,7 +804,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 				echo '</h3>
 
-							<div class="inside" style="padding: 0 10px 10px 10px;">
+							<div class="inside">
 
 								<h4>';
 
@@ -767,7 +816,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 				echo '</p>
 
 <p>
-	<em style="color: #777; font: italic 1.1em Georgia;">';
+	<em>';
 
 				_e( 'Name, Address, Address Line 2, City, State/Province, ZIP/Postal Code, Country, Phone, Fax, URL, Category, Tags, Days, Times, Description, Special (1 or 0), Latitude, Longitude', 'SimpleMap' );
 				echo '</em></p><p>';
@@ -780,7 +829,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 				echo '</h4><p>';
 				_e( 'If you have more than 100 records to import, it is best to do one of the following:', 'SimpleMap' );
 				echo '</p>
-<ul style="list-style-type: disc; margin-left: 3em;">
+<ul>
 	<li>';
 				_e( 'Geocode your own data before importing it' );
 				echo '</li><li>';
@@ -800,12 +849,10 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 				echo '"/>
 	<input type="hidden" name="sm-action" value="import-csv"/>
 
-	<p style="margin-top: 0;"><label
-			for="simplemap-csv-upload">';
+	<p><label for="simplemap-csv-upload">';
 				_e( 'File to import (maximum size 2MB):', 'SimpleMap' );
 				echo '</label><input
 			type="file"
-			style="padding-left: 10px; border: none; font-size: 0.9em;"
 			id="simplemap-csv-upload" name="simplemap-csv-upload"/>
 		<br/>';
 
@@ -827,13 +874,13 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 				echo '</form>
 
-<p style="color: #777; font: italic 1.1em Georgia;">';
+<p>';
 				_e( 'Importing a file may take several seconds; please be patient.', 'SimpleMap' );
 				echo '</p><div class="clear"></div></div></div>';
 
 				echo '<div class="postbox"><h3>';
 				_e( 'Export To File', 'SimpleMap' );
-				echo '</h3><div class="inside" style="padding: 10px;">
+				echo '</h3><div class="inside">
 
 		<form name="export_form" method="post" action="">';
 				wp_nonce_field( 'sm_export_csv', 'sm_export_csv_nonce' );
@@ -851,7 +898,7 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 </div> ';
 
 				?>
-				<div class='postbox-container' style='width:49%;'>
+				<div class='postbox-container half-width'>
 
 				<div id='side-sortables' class='meta-box-sortables ui-sortable'>
 
@@ -861,9 +908,9 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 				<div class="postbox">
 
-					<h3 style='color:#fff;text-shadow:0 1px 0 #000;background: #fff url( <?php echo SIMPLEMAP_URL; ?>/inc/images/blue-grad.png ) top left repeat-x;'><?php _e( 'Premium Support and Features', 'SimpleMap' ); ?></h3>
+					<h3 class='blue-bg'><?php _e( 'Premium Support and Features', 'SimpleMap' ); ?></h3>
 
-					<div class="inside" style='padding: 0 10px 10px;'>
+					<div class="inside">
 
 						<?php
 						// Check for premium support status.
@@ -879,21 +926,14 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 								<?php _e( 'By signing up for SimpleMap premium support, you help to ensure future enhancements to this excellent project as well as the following benefits:', 'SimpleMap' ); ?>
 							</p>
 
-							<ul style='margin-left:25px;list-style-type:disc'>
+							<ul>
 								<li><?php _e( 'Around the clock access to our extensive knowledge base and support forum from within your WordPress dashboard', 'SimpleMap' ); ?></li>
 								<li><?php _e( 'Professional and timely response times to all your questions from the SimpleMap team', 'SimpleMap' ); ?></li>
 								<li><?php _e( 'A 10% discount for any custom functionality you request from the SimpleMap developers', 'SimpleMap' ); ?></li>
 								<li><?php _e( 'A 6-12 month advance access to new features integrated into the auto upgrade functionality of WordPress', 'SimpleMap' ); ?></li>
 							</ul>
 
-							<ul style='margin-left:25px;list-style-type:none'>
-								<li>
-									<a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'SimpleMap' ); ?></a>
-								</li>
-								<li><a target='_blank'
-								       href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'SimpleMap' ); ?></a>
-								</li>
-							</ul>
+							<p><a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'SimpleMap' ); ?></a> or <a target='_blank' href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'SimpleMap' ); ?></a></p>
 						<?php else : ?>
 
 							<p class='howto'><?php printf( 'Your premium support for <code>%s</code> was purchased on <code>%s</code> by <code>%s</code> (%s). It will remain valid for this URL until <code>%s</code>.', get_ftps_site( $simplemap_ps ), date( 'F d, Y', get_ftps_purchase_date( $simplemap_ps ) ), get_ftps_name( $simplemap_ps ), get_ftps_email( $simplemap_ps ), date( 'F d, Y', get_ftps_exp_date( $simplemap_ps ) ) ); ?></p>
@@ -923,10 +963,10 @@ if ( ! class_exists( 'SM_Import_Export' ) ) {
 
 						<h3><?php _e( 'Legacy Data', 'SimpleMap' ); ?></h3>
 
-						<div class="inside" style="padding: 10px;">
+						<div class="inside">
 							<p class='howto'><?php _e( 'It appears that you have location data stored in legacy SimpleMap tables that existed prior to version 2.0. What would you like to do with that data?', 'SimpleMap' ); ?></p>
 
-							<ul style="list-style-type: disc; margin-left: 3em;">
+							<ul>
 								<li>
 									<a href='<?php echo admin_url( 'admin.php?page=simplemap-import-export&amp;sm-action=export-legacy-csv' ); ?>'><?php _e( 'Export legacy data as a CSV file', 'SimpleMap' ); ?></a>
 								</li>

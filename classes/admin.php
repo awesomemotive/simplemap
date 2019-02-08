@@ -13,6 +13,35 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 		public function __construct() {
 			add_action( 'admin_head', array( &$this, 'load_admin_scripts' ) );
 			add_action( 'admin_menu', array( &$this, 'add_addl_menus' ), 20 );
+			add_action( 'admin_notices', array( $this, 'admin_notices' ) );
+		}
+
+		/**
+		 * Adds admin notices.
+		 *
+		 * @since 2.5.1
+		 */
+		function admin_notices() {
+
+			global $simple_map;
+			$options = $simple_map->get_options();
+
+			if ( empty( $options['api_key'] ) ) {
+				?>
+                <div class="error">
+                    <p>
+						<?php echo __( 'You must enter an API key for your domain.',
+								'simplemap' ) .
+						           ' <a href="' .
+						           admin_url( 'edit.php?post_type=sm-location&page=simplemap' ) .
+						           '">'
+						           . __( 'Enter a key on the General Options page.',
+								'simplemap' )
+						           . '</a>'; ?></p>
+                </div>
+				<?php
+			}
+
 		}
 
 		/**
@@ -48,15 +77,15 @@ if ( ! class_exists( 'SM_Admin' ) ) {
 				) );
         }
 
-		/**
-		 * TODO: Currently this loads on toplevel_page_simplemap... but that could change once we redo the menus.
-		 */
 		public function load_admin_scripts() {
 			// Print admin scripts.
 			global $current_screen;
 
 			// General options page.
 			if ( 'toplevel_page_simplemap' === $current_screen->id ) :
+				/**
+				 * TODO: Currently this loads on toplevel_page_simplemap... but that could change once we redo the menus.
+				 */
 				?>
 				<script type="text/javascript">
 					jQuery(document).ready(function ($) {

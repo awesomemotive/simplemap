@@ -263,13 +263,64 @@ div.result div.result_phone span.result_fax {
 	display: block;
 }
 
+div.location_search {
+	display: table;
+	width: 100%;
+}
+/* HEADER */
+div.location_search div:first-child div {
+	display: table-header-group;
+}
+/* ROW */
+div.location_search > div {
+	display: table-row;
+}
+/* COL */
+div.location_search div > div {
+	display: table-cell;
+	padding: 0% 0% 1% 1%;
+}
+
+div.location_search > div div:first-child {
+	padding-left: 0px;
+}
+/* 1 cols */
+div.location_search > div div:first-child:nth-last-child(1), 
+div.location_search > div div:first-child:nth-last-child(1) ~ div {
+	width: 100%;
+}
+/* 2 cols */
+div.location_search > div div:first-child:nth-last-child(2), 
+div.location_search > div div:first-child:nth-last-child(2) ~ div {
+	width: 49%;
+}
+/* 3 cols */
+div.location_search > div div:first-child:nth-last-child(3), 
+div.location_search > div div:first-child:nth-last-child(3) ~ div {
+	width: 32%;
+}
+/* 4 cols */
+div.location_search > div div:first-child:nth-last-child(4), 
+div.location_search > div div:first-child:nth-last-child(4) ~ div {
+	width: 24%;
+}
+/* 5 cols */
+div.location_search > div div:first-child:nth-last-child(5), 
+div.location_search > div div:first-child:nth-last-child(5) ~ div {
+	width: 19%;
+}
+/* 6 cols */
+div.location_search > div div:first-child:nth-last-child(6), 
+div.location_search > div div:first-child:nth-last-child(6) ~ div {
+	width: 15%;
+}
+
 /*** Responsive styles ***/
 @media screen and (max-width: 800px) {
-	table.location_search th,
-	table.location_search td {
-		width: 100%;
-		display: inline-block;
-		padding: 0;
+	div.location_search div > div {
+		float: left;
+		padding-left: 0%;
+		width: 100%!important;
 	}
 	div.result div.result_address {
 		width: 100%;
@@ -301,10 +352,10 @@ div.result div.result_phone span.result_fax {
 	}
 }
 @media screen and (max-width: 480px) {
-	table.location_search td#location_search_sm-category_fields label,
-	table.location_search td#location_search_sm-tag_fields label,
-	table.location_search td#location_search_sm-day_fields label,
-	table.location_search td#location_search_sm-time_fields label {
+	div.location_search div#location_search_sm-category_fields label,
+	div.location_search div#location_search_sm-tag_fields label,
+	div.location_search div#location_search_sm-day_fields label,
+	div.location_search div#location_search_sm-time_fields label {
 		display: block;
 		float: none;
 	}

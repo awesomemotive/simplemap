@@ -1,21 +1,22 @@
 === SimpleMap Store Locator ===
 
-Contributors: hallsofmontezuma, fullthrottledevelopment
+Contributors: hallsofmontezuma, fullthrottledevelopment, wpsmort, arnaudbroes
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=SimpleMap&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8
-Tags: map, maps, store locator, database, locations, stores, Google maps, locator
+Tags: map, maps, store locator, database, local seo, locations, stores, Google maps, locator
 Requires at least: 3.3
-Tested up to: 4.7
-Stable tag: 2.5
+Tested up to: 5
+Stable tag: 2.6
 
-Easy to use Store Locator plugin (supports international stores) using Google Maps
+Easy to use Store Locator / Local SEO plugin (supports international stores) using Google Maps
 
 == Description ==
 
-SimpleMap is a *powerful* and *easy-to-use* international store locator plugin. It has an intuitive interface and is completely customizable. Its search features make it easy for your users to find your locations quickly.
+SimpleMap Local SEO is a *powerful* and *easy-to-use* international store locator plugin. It has an intuitive interface and is completely customizable. Its search features make it easy for your users to find your locations quickly.
 
 Key features include:
 
 * Manage locations from any country supported by Google Maps
+* Awesome SEO optimizations for your business
 * Manage an unlimited number of locations
 * Put a Google Map on any page or post that gives instant results to users
 * Users can enter a street address, city, state, or zip to search the database
@@ -29,15 +30,6 @@ Key features include:
 See the screenshots for examples of the plugin in action.
 
 With SimpleMap, you can easily put a store locator on your WordPress site in seconds. Its intuitive interface makes it the easiest plugin of its kind to use, and the clean design means you'll have a classy store locator that fits in perfectly with any WordPress theme.
-
-== Installation ==
-
-1. Visit 'Plugins > Add New'
-2. Search for 'SimpleMap'
-3. Go to the 'Plugins' page in the menu and activate the plugin.
-4. Get a free [Google Maps API key](https://code.google.com/apis/console)
-5. Type `[simplemap]` into any Post or Page you want SimpleMap to be displayed in.
-6. Enter some locations in the database and start enjoying the plugin!
 
 == Screenshots ==
 

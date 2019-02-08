@@ -44,24 +44,33 @@ class SM_Search_Widget extends WP_Widget {
 
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'] );
 
+		// Ensures Variables are always Defined
+		$instance = $this->set_instance( $instance );
+		/*
+		 * Most of these variables could be reduced, and use the instance
+		 * array instead.
+		 *
+		 * Same with $this->form method.
+		 */
 		// Search Form Options.
-		$show_address  = $instance['show_address'] ? 1 : 0;
-		$show_city     = $instance['show_city'] ? 1 : 0;
-		$show_state    = $instance['show_state'] ? 1 : 0;
-		$show_zip      = $instance['show_zip'] ? 1 : 0;
-		$show_distance = $instance['show_distance'] ? 1 : 0;
+		$show_name      = $instance['show_name'];
+		$show_address   = $instance['show_address'];
+		$show_city      = $instance['show_city'];
+		$show_state     = $instance['show_state'];
+		$show_zip       = $instance['show_zip'];
+		$show_distance  = $instance['show_distance'];
 
-		$default_lat    = $instance['default_lat'] ?: 0;
-		$default_lng    = $instance['default_lng'] ?: 0;
-		$simplemap_page = $instance['simplemap_page'] ?: 2;
+		$default_lat    = $instance['default_lat'];
+		$default_lng    = $instance['default_lng'];
+		$simplemap_page = $instance['simplemap_page'];
 
 		// Set taxonomies to available equivalents.
 		$show  = array();
 		$terms = array();
 		foreach ( $options['taxonomies'] as $taxonomy => $tax_info ) {
 			$key                = strtolower( $tax_info['plural'] );
-			$show[ $taxonomy ]  = $instance[ 'show_' . $key ] ? 1 : 0;
-			$terms[ $taxonomy ] = $instance[ $key ] ?: '';
+			$show[ $taxonomy ]  = ! empty( $instance[ 'show_' . $key ] ) ? 1 : 0;
+			$terms[ $taxonomy ] = ! empty( $instance[ $key ] ) ? $instance[ $key ] : '';
 		}
 
 		$available = $terms;
@@ -73,6 +82,7 @@ class SM_Search_Widget extends WP_Widget {
 		}
 
 		// Form Field Values.
+		$name_value    = isset( $_REQUEST['location_search_name'] ) ? $_REQUEST['location_search_name'] : '';
 		$address_value = isset( $_REQUEST['location_search_address'] ) ? $_REQUEST['location_search_address'] : '';
 		$city_value    = isset( $_REQUEST['location_search_city'] ) ? $_REQUEST['location_search_city'] : '';
 		$state_value   = isset( $_REQUEST['location_search_state'] ) ? $_REQUEST['location_search_state'] : '';
@@ -95,6 +105,9 @@ class SM_Search_Widget extends WP_Widget {
 
 		$location_search .= apply_filters( 'sm-location-search-widget-table-top', '' );
 
+		if ( $show_name ) {
+			$location_search .= '<tr><td class="location_search_widget_name_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-name', __( 'Place', 'simplemap' ) ) . ':<br /><input type="text" id="location_search_widget_name_field" name="location_search_name" /></td></tr>';
+		}
 		if ( $show_address ) {
 			$location_search .= '<tr><td class="location_search_widget_address_cell location_search_widget_cell">' . apply_filters( 'sm-search-label-street', __( 'Street', 'simplemap' ) ) . ':<br /><input type="text" id="location_search_widget_address_field" name="location_search_address" /></td></tr>';
 		}
@@ -120,13 +133,13 @@ class SM_Search_Widget extends WP_Widget {
 
 		foreach ( $options['taxonomies'] as $taxonomy => $tax_info ) {
 			// Place available values in array.
-			$available = explode( ',', $available[ $taxonomy ] );
+			$available_terms = explode( ',', $available[ $taxonomy ] );
 			$valid     = array();
 
 			// Loop through all days and create array of available days.
 			if ( $all_terms = get_terms( $taxonomy ) ) {
 				foreach ( $all_terms as $key => $value ) {
-					if ( '' === $available[0] || in_array( $value->term_id, $available ) ) {
+					if ( '' === $available_terms[0] || in_array( $value->term_id, $available_terms ) ) {
 						$valid[] = $value->term_id;
 					}
 				}
@@ -199,25 +212,8 @@ class SM_Search_Widget extends WP_Widget {
 	 * @return array
 	 */
 	public function update( $new_instance, $old_instance ) {
-		$instance = $old_instance;
-
-		$instance['title']          = strip_tags( $new_instance['title'] );
-		$instance['show_address']   = $new_instance['show_address'] ? 1 : 0;
-		$instance['show_city']      = $new_instance['show_city'] ? 1 : 0;
-		$instance['show_state']     = $new_instance['show_state'] ? 1 : 0;
-		$instance['show_zip']       = $new_instance['show_zip'] ? 1 : 0;
-		$instance['show_distance']  = $new_instance['show_distance'] ? 1 : 0;
-		$instance['default_lat']    = $new_instance['default_lat'] ?: 0;
-		$instance['default_lng']    = $new_instance['default_lng'] ?: 0;
-		$instance['simplemap_page'] = $new_instance['simplemap_page'] ?: 2;
-
-		global $simple_map;
-		$options = $simple_map->get_options();
-		foreach ( $options['taxonomies'] as $taxonomy => $tax_info ) {
-			$key                        = strtolower( $tax_info['plural'] );
-			$instance[ 'show_' . $key ] = $new_instance[ 'show_' . $key ] ? 1 : 0;
-			$instance[ $key ]           = $new_instance[ $key ] ?: '';
-		}
+		$instance = $this->set_instance( $old_instance );
+		$instance = $this->set_instance( $new_instance, $instance );
 
 		return $instance;
 	}
@@ -230,17 +226,18 @@ class SM_Search_Widget extends WP_Widget {
 	 * @return string|void
 	 */
 	public function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
+		$instance = $this->set_instance( $instance );
 
 		$title          = esc_attr( $instance['title'] );
-		$show_address   = isset( $instance['show_address'] ) ? (bool) $instance['show_address'] : false;
-		$show_city      = isset( $instance['show_city'] ) ? (bool) $instance['show_city'] : false;
-		$show_state     = isset( $instance['show_state'] ) ? (bool) $instance['show_state'] : false;
-		$show_zip       = isset( $instance['show_zip'] ) ? (bool) $instance['show_zip'] : false;
-		$show_distance  = isset( $instance['show_distance'] ) ? (bool) $instance['show_distance'] : false;
-		$default_lat    = isset( $instance['default_lat'] ) ? esc_attr( $instance['default_lat'] ) : 0;
-		$default_lng    = isset( $instance['default_lng'] ) ? esc_attr( $instance['default_lng'] ) : 0;
-		$simplemap_page = isset( $instance['simplemap_page'] ) ? esc_attr( $instance['simplemap_page'] ) : '';
+		$show_name      = $instance['show_name'];
+		$show_address   = $instance['show_address'];
+		$show_city      = $instance['show_city'];
+		$show_state     = $instance['show_state'];
+		$show_zip       = $instance['show_zip'];
+		$show_distance  = $instance['show_distance'];
+		$default_lat    = ! empty( $instance['default_lat'] ) ? esc_attr( $instance['default_lat'] ) : 0;
+		$default_lng    = ! empty( $instance['default_lng'] ) ? esc_attr( $instance['default_lng'] ) : 0;
+		$simplemap_page = $instance['simplemap_page'];
 		?>
 
 		<p><label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php _e( 'Title:' ); ?></label>
@@ -248,7 +245,12 @@ class SM_Search_Widget extends WP_Widget {
 			       name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>"/>
 		</p>
 
-		<p><input type="checkbox" class="checkbox" id="<?php echo esc_attr(  $this->get_field_id( 'show_address' ) ); ?>"
+		<p><input type="checkbox" class="checkbox" id="<?php echo esc_attr(  $this->get_field_id( 'show_name' ) ); ?>"
+		          name="<?php echo esc_attr( $this->get_field_name( 'show_name' ) ); ?>"<?php checked( $show_name ); ?> />
+			<label
+				for="<?php echo esc_attr( $this->get_field_id( 'show_name' ) ); ?>"><?php _e( 'Show Place', 'simplemap' ); ?></label><br/>
+
+			<input type="checkbox" class="checkbox" id="<?php echo esc_attr(  $this->get_field_id( 'show_address' ) ); ?>"
 		          name="<?php echo esc_attr( $this->get_field_name( 'show_address' ) ); ?>"<?php checked( $show_address ); ?> />
 			<label
 				for="<?php echo esc_attr( $this->get_field_id( 'show_address' ) ); ?>"><?php _e( 'Show Address', 'simplemap' ); ?></label><br/>
@@ -312,6 +314,83 @@ class SM_Search_Widget extends WP_Widget {
 			       value="<?php echo $simplemap_page; ?>"/></p>
 
 		<?php
+	}
+
+	/**
+	 * Set Widget Instance
+	 *
+	 * Defines the current instance array with either default values or old
+	 * values to overwrite with.
+	 *
+	 * @since 2.6
+	 * @access private
+	 *
+	 * @global object $simple_map
+	 *
+	 * @param array $instance Current instance array; which can be empty.
+	 * @param array $old_instance Optional. Old instance settings to overwrite. Default: array().
+	 *
+	 * @return array Defined instance.
+	 */
+	private function set_instance( $instance, $old_instance = array() ) {
+		$default = array(
+			'title'             => '',
+			'show_name'         => false,
+			'show_address'      => false,
+			'show_city'         => false,
+			'show_state'        => false,
+			'show_zip'          => false,
+			'show_distance'     => false,
+			'default_lat'       => 0,
+			'default_lng'       => 0,
+			'simplemap_page'    => 2,
+		);
+
+		$new_instance = array();
+		if ( ! empty( $old_instance ) ) {
+			$new_instance = $old_instance;
+		}
+
+		foreach ( $default as $key => $default_value ) {
+			if ( ! empty( $instance[ $key ] ) ) {
+				switch ( $key ) {
+					case 'title':
+						$new_instance[ $key ] = strip_tags( $instance[ $key ] );
+						break;
+					case 'default_lat':
+						$new_instance[ $key ] = (string) $instance[ $key ];
+						break;
+					case 'default_lng':
+						$new_instance[ $key ] = (string) $instance[ $key ];
+						break;
+					case 'simplemap_page':
+						$new_instance[ $key ] = absint( $instance[ $key ] );
+						break;
+					default:
+						$new_instance[ $key ] = true;
+				}
+			} else {
+				$new_instance[ $key ] = $default_value;
+			}
+		}
+
+		global $simple_map;
+		$options = $simple_map->get_options();
+		// Taxonomies
+		foreach ( $options['taxonomies'] as $taxonomy => $tax_info ) {
+			$key                                = strtolower( $tax_info['plural'] );
+			$new_instance[ 'show_' . $key ]     = 0;
+			$new_instance[ $key ]               = '';
+
+			if ( ! empty( $instance[ 'show_' . $key ] ) ) {
+				$new_instance[ 'show_' . $key ] = 1;
+				if ( ! empty( $instance[ $key ] ) ) {
+					$new_instance[ $key ] = $instance[ $key ];
+				}
+			}
+		}
+
+		return $new_instance;
 	}
 }
 
