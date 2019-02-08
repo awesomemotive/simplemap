@@ -1,13 +1,12 @@
 <?php
 /*
 Plugin Name: SimpleMap
-Version: 2.5.1
+Version: 2.6
 Plugin URI: http://simplemap-plugin.com/
 Author: Michael Torbert
-Author URI: http://fullthrottledevelopment.com/
+Author URI: http://semperplugins.com/
 Description: An easy-to-use international store locator plugin that uses Google Maps to display information directly on your WordPress site.
 Text Domain: simplemap
-Domain Path: /lang/
 */
 
 global $wpdb;
@@ -15,7 +14,7 @@ global $wpdb;
 #### CONSTANTS ####
 
 // Plugin Version Number
-define( 'SIMPLEMAP_VERSION', '2.5.1' );
+define( 'SIMPLEMAP_VERSION', '2.6' );
 
 if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
 	define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
