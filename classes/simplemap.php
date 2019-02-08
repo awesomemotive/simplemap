@@ -1658,7 +1658,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 			$base_url = SIMPLEMAP_MAPS_WS_API . 'geocode/json?region=' . substr( $options['default_domain'], strrpos( $options['default_domain'], '.' ) + 1 );
 
 			// Add query.
-			$request_url = $base_url . '&address=' . $to_geocode;
+			$request_url = $base_url . '&key=' . $key  . '&address=' . $to_geocode;
 
 			$response = wp_remote_get( $request_url );
 
