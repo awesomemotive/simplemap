@@ -406,7 +406,7 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 			$drag_drop_zoom = ( $drag_drop_lat == '40.730885' ) ? 2 : 17;
 
 			header( 'Content-type: application/x-javascript' );
-
+ 
 			?>
 			var map;
 			var geocoder;
