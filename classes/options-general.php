@@ -892,8 +892,6 @@ if ( ! class_exists( 'SM_Options' ) ) {
 						</div> <!-- dashboard-widgets -->
 					</form>
 
-					<p class="donate-text"><a target="_blank" href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=SimpleMap&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8'>Donate via PayPal</a></p>
-
 					<div class="clear"></div>
 				</div><!-- dashboard-widgets-wrap -->
 			</div> <!-- wrap -->
