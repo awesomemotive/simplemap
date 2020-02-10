@@ -171,7 +171,7 @@ if ( ! class_exists( 'FT_Premium_Support_Client' ) ) {
 		function maybe_trigger_renewal_nag() {
 			// Has support expired?
 			if ( ! empty( $this->support_expired ) && ! is_object( $this->support_expired ) ) {
-				add_action( 'admin_notices', array( $this, 'support_expired' ) );
+				//add_action( 'admin_notices', array( $this, 'support_expired' ) );
 
 				return;
 			}
@@ -180,7 +180,7 @@ if ( ! class_exists( 'FT_Premium_Support_Client' ) ) {
 				$onemonthout = $this->ps_status->exp_date - 2628000;
 				// If we are within a month of expiration date
 				if ( $onemonthout <= strtotime( 'now' ) ) {
-					add_action( 'admin_notices', array( $this, 'renew_soon' ) );
+					//add_action( 'admin_notices', array( $this, 'renew_soon' ) );
 				}
 			}
 		}
