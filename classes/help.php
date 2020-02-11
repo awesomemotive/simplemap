@@ -35,35 +35,6 @@ if ( ! class_exists( 'SM_Help' ) ) {
 
 							<div id='normal-sortables' class='meta-box-sortables ui-sortable'>
 
-								<a name="premium_features"></a>
-								
-								<div class="postbox">
-
-									<h3><?php _e( 'Premium Features', 'simplemap' ); // XSS ok. ?></h3>
-
-									<div class="inside">
-
-										<div class="table">
-											
-											<table class="form-table">
-
-												<tr>
-													<td><?php _e( 'Custom category markers can now be used. Login to Premium support and look for the KB article for instructions.', 'simplemap' ); // XSS ok. ?></td>
-												</tr>
-												<tr>
-													<td><?php _e( 'We now have a search widget. Login to Premium support and look for the KB article for instructions.', 'simplemap' ); // XSS ok. ?></td>
-												</tr>
-
-											</table>
-											
-										</div>
-
-										<div class="clear"></div>
-
-									</div> <!-- inside -->
-									
-								</div> <!-- postbox -->
-
 								<!-- =========================================
 								==============================================
 								========================================== -->
