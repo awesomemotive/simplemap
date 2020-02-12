@@ -4,7 +4,7 @@ Contributors: hallsofmontezuma, fullthrottledevelopment, wpsmort, arnaudbroes
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=SimpleMap&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8
 Tags: map, maps, store locator, database, local seo, locations, stores, Google maps, locator
 Requires at least: 3.3
-Tested up to: 5.0
+Tested up to: 5.3.2
 Stable tag: 2.6.1
 
 Easy to use Store Locator / Local SEO plugin (supports international stores) using Google Maps
