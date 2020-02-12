@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtor
 Tags: map, maps, store locator, database, local seo, locations, stores, Google maps, locator
 Requires at least: 3.3
 Tested up to: 5.0
-Stable tag: 2.6
+Stable tag: 2.6.1
 
 Easy to use Store Locator / Local SEO plugin (supports international stores) using Google Maps
 
