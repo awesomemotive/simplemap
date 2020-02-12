@@ -136,10 +136,6 @@ if ( ! class_exists( 'SM_Locations' ) ) {
 
 	// Add call back for meta box.
 	function location_meta_cb() {
-		add_meta_box( 'sm-location-premium-support', __( 'Premium Support', 'simplemap' ), array(
-			&$this,
-			'premium_support',
-		), 'sm-location', 'side', 'high' );
 		add_meta_box( 'sm-geo-location', __( 'Geographic Location', 'simplemap' ), array(
 			&$this,
 			'geo_location',

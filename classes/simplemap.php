@@ -2297,11 +2297,6 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 						<a href="<?php echo admin_url( 'edit.php?post_type=sm-location&page=simplemap-help' ); ?>"
 						   title="<?php _e( 'Premium Support', 'simplemap' ); ?>"><?php _e( 'Premium Support', 'simplemap' ); ?></a>
 					</td>
-					<td class="sm-toolbar-item">
-						<a target="_blank" title="<?php _e( 'Donate', 'simplemap' ); ?>"href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=SimpleMap&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8">
-							<img src="<?php echo SIMPLEMAP_URL; ?>/inc/images/donate.jpg" alt="<?php _e( 'Donate with Paypal', 'simplemap' ); ?>"/>
-						</a>
-					</td>
 				</tr>
 			</table>
 

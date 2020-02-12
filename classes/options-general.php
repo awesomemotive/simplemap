@@ -218,40 +218,15 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 											if ( ! url_has_ftps_for_item( $simplemap_ps ) ) : ?>
 
-												<h4><?php printf( __( '<strong>SimpleMap Premium Support Benefits - $30/year/domain</strong>', 'simplemap' ), esc_attr( site_url() ) ); ?></h4>
-												<p>
-													<?php //printf( __( 'SimpleMap now offers a premium support package for the low cost of %s per year per domain.', 'simplemap' ), '$30.00 USD' ); ?>
-												</p>
-												<p>
-													<?php _e( '<em>By signing up for SimpleMap premium support, you help to ensure future enhancements to this excellent project as well as the following benefits:</em>', 'simplemap' ); ?>
-												</p>
-
-												<ul>
-													<li><?php _e( 'Around the clock access to our extensive knowledge base and support forum from within your WordPress dashboard', 'simplemap' ); ?></li>
-													<li><?php _e( 'Professional and timely response times to all your questions from the SimpleMap team', 'simplemap' ); ?></li>
-													<li><?php _e( 'A 10% discount for any custom functionality you request from the SimpleMap developers', 'simplemap' ); ?></li>
-													<li><?php _e( 'Advance access to new features integrated into the auto upgrade functionality of WordPress', 'simplemap' ); ?></li>
-												</ul>
-
-												<p><a target='_blank' href='<?php echo get_ftps_paypal_button( $simplemap_ps ); ?>'><?php _e( 'Signup Now', 'simplemap' ); ?></a> or <a target='_blank' href='<?php echo get_ftps_learn_more_link( $simplemap_ps ); ?>'><?php _e( 'Learn More', 'simplemap' ); ?></a></p>
+												<p>Premium support is no longer available for SimpleMap.</p>
 												
 											<?php else : ?>
-
-												<p class='howto'><?php printf( "Your premium support for <code>%s</code> was purchased on <code>%s</code> by <code>%s</code> (%s). It will remain valid for this URL until <code>%s</code>.", get_ftps_site( $simplemap_ps ), date( "F d, Y", get_ftps_purchase_date( $simplemap_ps ) ), get_ftps_name( $simplemap_ps ), get_ftps_email( $simplemap_ps ), date( "F d, Y", get_ftps_exp_date( $simplemap_ps ) ) ); ?></p>
-												<p><a href='#'
-												      id='premium_help'><?php _e( 'Launch Premium Support widget', 'simplemap' ); ?></a>
-													| <a target="blank"
-													     href="http://support.simplemap-plugin.com?sso=<?php echo get_ftps_sso_key( $simplemap_ps ); ?>"><?php _e( 'Visit Premium Support web site', 'simplemap' ); ?></a>
+																								
+												<p class='howto'><?php printf( "Premium support is no longer available for SimpleMap. You will continue to receive support until your current subscription expires on <code>%s</code>.", date( "F d, Y", get_ftps_exp_date( $simplemap_ps ) ) ); ?></p>
+											
+												<p><a target="blank"
+													     href="https://simplemap-plugin.com/contact/"><?php _e( 'Visit Premium Support web site', 'simplemap' ); ?></a>
 												</p>
-												<script type="text/javascript" charset="utf-8">
-													Tender = {
-														hideToggle: true,
-														sso: "<?php echo get_ftps_sso_key( $simplemap_ps ); ?>",
-														widgetToggles: [document.getElementById('premium_help')]
-													}
-												</script>
-												<script src="https://simplemap.tenderapp.com/tender_widget.js"
-												        type="text/javascript"></script>
 
 											<?php endif; ?>
 
@@ -916,8 +891,6 @@ if ( ! class_exists( 'SM_Options' ) ) {
 
 						</div> <!-- dashboard-widgets -->
 					</form>
-
-					<p class="donate-text"><a target="_blank" href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=SimpleMap&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8'>Donate via PayPal</a></p>
 
 					<div class="clear"></div>
 				</div><!-- dashboard-widgets-wrap -->
